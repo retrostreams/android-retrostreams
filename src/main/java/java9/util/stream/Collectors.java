@@ -52,7 +52,6 @@ import java9.util.concurrent.ConcurrentMaps;
 import java9.util.function.BiConsumer;
 import java9.util.function.BiFunction;
 import java9.util.function.BinaryOperator;
-import java9.util.function.BinaryOperators;
 import java9.util.function.Consumer;
 import java9.util.function.Function;
 import java9.util.function.Functions;
@@ -688,7 +687,7 @@ public final class Collectors {
      */
     public static <T> Collector<T, ?, Optional<T>>
     minBy(Comparator<? super T> comparator) {
-        return reducing(BinaryOperators.minBy(comparator));
+        return reducing(BinaryOperator.minBy(comparator));
     }
 
     /**
@@ -707,7 +706,7 @@ public final class Collectors {
      */
     public static <T> Collector<T, ?, Optional<T>>
     maxBy(Comparator<? super T> comparator) {
-        return reducing(BinaryOperators.maxBy(comparator));
+        return reducing(BinaryOperator.maxBy(comparator));
     }
 
     /**

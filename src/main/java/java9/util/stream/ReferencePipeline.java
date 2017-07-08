@@ -34,7 +34,6 @@ import java9.util.Spliterators;
 import java9.util.function.BiConsumer;
 import java9.util.function.BiFunction;
 import java9.util.function.BinaryOperator;
-import java9.util.function.BinaryOperators;
 import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
 import java9.util.function.Function;
@@ -553,12 +552,12 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
     @Override
     public final Optional<P_OUT> max(Comparator<? super P_OUT> comparator) {
-        return reduce(BinaryOperators.maxBy(comparator));
+        return reduce(BinaryOperator.maxBy(comparator));
     }
 
     @Override
     public final Optional<P_OUT> min(Comparator<? super P_OUT> comparator) {
-        return reduce(BinaryOperators.minBy(comparator));
+        return reduce(BinaryOperator.minBy(comparator));
 
     }
 
