@@ -24,7 +24,7 @@ final class RefConsumer {
         return (DoubleConsumer) action::accept;
     }
 
-	private RefConsumer() {
-		// no instances
-	}
+    private RefConsumer() {
+        // no instances
+    }
 }
