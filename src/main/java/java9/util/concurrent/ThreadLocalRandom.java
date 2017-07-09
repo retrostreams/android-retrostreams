@@ -823,11 +823,6 @@ public class ThreadLocalRandom extends Random {
             return false;
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
-        }
-
         public void forEachRemaining(LongConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -839,11 +834,6 @@ public class ThreadLocalRandom extends Random {
                     consumer.accept(rng.internalNextLong(o, b));
                 } while (++i < f);
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
         }
     }
 

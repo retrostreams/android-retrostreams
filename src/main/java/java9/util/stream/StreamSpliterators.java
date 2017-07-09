@@ -510,11 +510,6 @@ class StreamSpliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
-        }
-
-        @Override
         public void forEachRemaining(final LongConsumer consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
@@ -554,11 +549,6 @@ class StreamSpliterators {
             else {
                 do { } while (tryAdvance(consumer));
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
         }
     }
 
@@ -1046,16 +1036,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Long> action) {
-                return Spliterators.OfLong.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Long> action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
-
-            @Override
             protected Spliterator.OfLong makeSpliterator(Spliterator.OfLong s,
                                                          long sliceOrigin, long sliceFence,
                                                          long origin, long fence) {
@@ -1397,16 +1377,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Long> action) {
-                return Spliterators.OfLong.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Long> action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
-
-            @Override
             protected void acceptConsumed(LongConsumer action) {
                 action.accept(tmpValue);
             }
@@ -1649,21 +1619,6 @@ class StreamSpliterators {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfLong(estimate = estimate >>> 1, s);
-            }
-
-            @Override
-            public void forEachRemaining(LongConsumer action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Long> action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Long> action) {
-                return Spliterators.OfLong.tryAdvance(this, action);
             }
         }
 

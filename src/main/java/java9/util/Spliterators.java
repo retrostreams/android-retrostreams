@@ -102,99 +102,6 @@ public final class Spliterators {
     private Spliterators() {}
 
     /**
-     * Static default implementations for the Java 8 default methods of {@link Spliterator.OfLong}
-     */
-    public static final class OfLong {
-        /**
-         * Performs the given action for each remaining element of the passed Spliterator,
-         * sequentially in the current thread, until all elements have been processed or
-         * the action throws an exception.  If the {@code this_} Spliterator is {@link Spliterator#ORDERED},
-         * actions are performed in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * The default implementation repeatedly invokes {@link #tryAdvance}
-         * until it returns {@code false}.  It should be overridden whenever
-         * possible.
-         *
-         * @param this_ the Spliterator whose remaing elements should be processed
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static void forEachRemaining(Spliterator.OfLong this_, LongConsumer action) {
-            do { } while (this_.tryAdvance(action));
-        }
-
-        /**
-         * If a remaining element exists, performs the given action on it,
-         * returning {@code true}; else returns {@code false}.  If the {@code this_}
-         * Spliterator is {@link Spliterator#ORDERED} the action is performed on the
-         * next element in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * If the action is an instance of {@code LongConsumer} then it is cast
-         * to {@code LongConsumer} and passed to
-         * {@link Spliterator.OfLong#tryAdvance(java9.util.function.LongConsumer)}; otherwise
-         * the action is adapted to an instance of {@code LongConsumer}, by
-         * boxing the argument of {@code LongConsumer}, and then passed to
-         * {@link Spliterator.OfLong#tryAdvance(java9.util.function.LongConsumer)}.
-         *
-         * @param this_ the Spliterator to use
-         * @param action The action to execute
-         * @return {@code false} if no remaining elements existed
-         * upon entry to this method, else {@code true}.
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static boolean tryAdvance(Spliterator.OfLong this_, Consumer<? super Long> action) {
-            if (action instanceof LongConsumer) {
-                return this_.tryAdvance((LongConsumer) action);
-            }
-            else {
-                return this_.tryAdvance(toLongConsumer(action));
-            }
-        }
-
-        private static LongConsumer toLongConsumer(Consumer<? super Long> action) {
-            return (LongConsumer) action::accept;
-        }
-
-        /**
-         * Performs the given action for each remaining element, sequentially in
-         * the current thread, until all elements have been processed or the action
-         * throws an exception.  If the {@code this_} Spliterator is {@link Spliterator#ORDERED}, actions
-         * are performed in encounter order.  Exceptions thrown by the action
-         * are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * If the action is an instance of {@code LongConsumer} then it is cast
-         * to {@code LongConsumer} and passed to
-         * {@link Spliterator.OfLong#forEachRemaining(java9.util.function.LongConsumer)}; otherwise
-         * the action is adapted to an instance of {@code LongConsumer}, by
-         * boxing the argument of {@code LongConsumer}, and then passed to
-         * {@link Spliterator.OfLong#forEachRemaining(java9.util.function.LongConsumer)}.
-         *
-         * @param this_ the Spliterator to use
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static void forEachRemaining(Spliterator.OfLong this_, Consumer<? super Long> action) {
-            if (action instanceof LongConsumer) {
-                this_.forEachRemaining((LongConsumer) action);
-            }
-            else {
-                this_.forEachRemaining(toLongConsumer(action));
-            }
-        }
-
-        private OfLong() {
-        }
-    }
-
-    /**
      * Static default implementations for the Java 8 default methods of {@link Spliterator.OfDouble}
      */
     public static final class OfDouble {
@@ -1379,16 +1286,6 @@ public final class Spliterators {
                 extends EmptySpliterator<Long, Spliterator.OfLong, LongConsumer>
                 implements Spliterator.OfLong {
             OfLong() { }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Long> action) {
-                return Spliterators.OfLong.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Long> action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
         }
 
         private static final class OfDouble
@@ -1638,11 +1535,6 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
-        }
-
-        @Override
         public boolean tryAdvance(LongConsumer action) {
             Objects.requireNonNull(action);
             if (index >= 0 && index < fence) {
@@ -1650,11 +1542,6 @@ public final class Spliterators {
                 return true;
             }
             return false;
-        }
-
-        @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
         }
 
         @Override
@@ -2203,22 +2090,6 @@ public final class Spliterators {
         public void forEachRemaining(LongConsumer action) {
             do { } while (tryAdvance(action));
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
-        }
     }
 
     /**
@@ -2706,11 +2577,6 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
-        }
-
-        @Override
         public boolean tryAdvance(LongConsumer action) {
             Objects.requireNonNull(action);
             if (it.hasNext()) {
@@ -2718,11 +2584,6 @@ public final class Spliterators {
                 return true;
             }
             return false;
-        }
-
-        @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
         }
 
         @Override

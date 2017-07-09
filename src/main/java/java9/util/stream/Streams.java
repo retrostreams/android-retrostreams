@@ -217,11 +217,6 @@ final class Streams {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
-        }
-
-        @Override
         public void forEachRemaining(LongConsumer consumer) {
             Objects.requireNonNull(consumer);
 
@@ -237,11 +232,6 @@ final class Streams {
                 // Last element of closed range
                 consumer.accept(i);
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
         }
 
         @Override
@@ -611,11 +601,6 @@ final class Streams {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
-        }
-
-        @Override
         public void forEachRemaining(LongConsumer action) {
             Objects.requireNonNull(action);
 
@@ -623,11 +608,6 @@ final class Streams {
                 action.accept(first);
                 count = -1;
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
         }
     }
 

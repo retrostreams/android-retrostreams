@@ -937,22 +937,6 @@ public final class SplittableRandom {
                 } while (++i < f);
             }
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean tryAdvance(Consumer<? super Long> action) {
-            return Spliterators.OfLong.tryAdvance(this, action);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void forEachRemaining(Consumer<? super Long> action) {
-            Spliterators.OfLong.forEachRemaining(this, action);
-        }
     }
 
     /**

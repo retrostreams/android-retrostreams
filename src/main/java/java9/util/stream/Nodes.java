@@ -1690,16 +1690,6 @@ final class Nodes {
             OfLong(Node.OfLong cur) {
                 super(cur);
             }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Long> action) {
-                return Spliterators.OfLong.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Long> action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
         }
 
         private static final class OfDouble

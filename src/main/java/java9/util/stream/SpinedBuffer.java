@@ -919,16 +919,6 @@ class SpinedBuffer<E>
                 Spliterator.OfLong arraySpliterator(long[] array, int offset, int len) {
                     return java9.util.J8Arrays.spliterator(array, offset, offset+len);
                 }
-
-                @Override
-                public boolean tryAdvance(Consumer<? super Long> action) {
-                    return Spliterators.OfLong.tryAdvance(this, action);
-                }
-
-                @Override
-                public void forEachRemaining(Consumer<? super Long> action) {
-                    Spliterators.OfLong.forEachRemaining(this, action);
-                }
             }
             return new Splitr(0, spineIndex, 0, elementIndex);
         }

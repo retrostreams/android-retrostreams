@@ -956,21 +956,6 @@ final class WhileOps {
                 return new Dropping(s, this);
             }
 
-            @Override
-            public void forEachRemaining(LongConsumer action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Long> action) {
-                return Spliterators.OfLong.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Long> action) {
-                Spliterators.OfLong.forEachRemaining(this, action);
-            }
-
             static final class Taking extends UnorderedWhileSpliterator.OfLong {
                 Taking(Spliterator.OfLong s, boolean noSplitting, LongPredicate p) {
                     super(s, noSplitting, p);
