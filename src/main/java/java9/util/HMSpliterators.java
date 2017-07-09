@@ -135,11 +135,6 @@ final class HMSpliterators {
             return (fence < 0 || est == map.size() ? Spliterator.SIZED : 0)
                     | Spliterator.DISTINCT;
         }
-
-        @Override
-        public Comparator<? super K> getComparator() {
-            return Spliterators.getComparator(this);
-        }
     }
 
     private static final class ValueSpliterator<K, V> extends
@@ -214,11 +209,6 @@ final class HMSpliterators {
         @Override
         public int characteristics() {
             return (fence < 0 || est == map.size() ? Spliterator.SIZED : 0);
-        }
-
-        @Override
-        public Comparator<? super V> getComparator() {
-            return Spliterators.getComparator(this);
         }
     }
 
@@ -295,11 +285,6 @@ final class HMSpliterators {
         public int characteristics() {
             return (fence < 0 || est == map.size() ? Spliterator.SIZED : 0)
                     | Spliterator.DISTINCT;
-        }
-
-        @Override
-        public Comparator<? super Entry<K, V>> getComparator() {
-            return Spliterators.getComparator(this);
         }
     }
 

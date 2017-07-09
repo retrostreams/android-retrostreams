@@ -1629,11 +1629,6 @@ final class Nodes {
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
             }
-
-            @Override
-            public Comparator<? super T> getComparator() {
-                return Spliterators.getComparator(this);
-            }
         }
 
         private abstract static class OfPrimitive<T, T_CONS, T_ARR,
@@ -1697,11 +1692,6 @@ final class Nodes {
             @Override
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
-            public Comparator<? super T> getComparator() {
-                return Spliterators.getComparator(this);
             }
         }
 

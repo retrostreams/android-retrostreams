@@ -337,11 +337,6 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public Comparator<? super E> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super E> consumer) {
                 Objects.requireNonNull(consumer);
 
@@ -835,11 +830,6 @@ class SpinedBuffer<E>
                 }
 
                 @Override
-                public Comparator<? super Integer> getComparator() {
-                    return Spliterators.getComparator(this);
-                }
-
-                @Override
                 public boolean tryAdvance(Consumer<? super Integer> action) {
                     return Spliterators.OfInt.tryAdvance(this, action);
                 }
@@ -972,11 +962,6 @@ class SpinedBuffer<E>
                 }
 
                 @Override
-                public Comparator<? super Long> getComparator() {
-                    return Spliterators.getComparator(this);
-                }
-
-                @Override
                 public boolean tryAdvance(Consumer<? super Long> action) {
                     return Spliterators.OfLong.tryAdvance(this, action);
                 }
@@ -1106,11 +1091,6 @@ class SpinedBuffer<E>
                 @Override
                 public boolean hasCharacteristics(int characteristics) {
                     return Spliterators.hasCharacteristics(this, characteristics);
-                }
-
-                @Override
-                public Comparator<? super Double> getComparator() {
-                    return Spliterators.getComparator(this);
                 }
 
                 @Override

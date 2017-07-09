@@ -769,11 +769,6 @@ public class ThreadLocalRandom extends Random {
             return Spliterators.hasCharacteristics(this, characteristics);
         }
 
-        @Override
-        public Comparator<? super Integer> getComparator() {
-            return Spliterators.getComparator(this);
-        }
-
         public boolean tryAdvance(IntConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -848,11 +843,6 @@ public class ThreadLocalRandom extends Random {
             return Spliterators.hasCharacteristics(this, characteristics);
         }
 
-        @Override
-        public Comparator<? super Long> getComparator() {
-            return Spliterators.getComparator(this);
-        }
-
         public boolean tryAdvance(LongConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -925,11 +915,6 @@ public class ThreadLocalRandom extends Random {
         @Override
         public boolean hasCharacteristics(int characteristics) {
             return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
-        public Comparator<? super Double> getComparator() {
-            return Spliterators.getComparator(this);
         }
 
         public boolean tryAdvance(DoubleConsumer consumer) {

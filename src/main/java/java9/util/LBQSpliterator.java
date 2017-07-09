@@ -76,11 +76,6 @@ final class LBQSpliterator<E> implements Spliterator<E> {
     }
 
     @Override
-    public Comparator<? super E> getComparator() {
-        return Spliterators.getComparator(this);
-    }
-
-    @Override
     public long getExactSizeIfKnown() {
         return Spliterators.getExactSizeIfKnown(this);
     }

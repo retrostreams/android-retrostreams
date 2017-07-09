@@ -904,14 +904,6 @@ public final class SplittableRandom {
          * {@inheritDoc}
          */
         @Override
-        public Comparator<? super Integer> getComparator() {
-            return Spliterators.getComparator(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean tryAdvance(Consumer<? super Integer> action) {
             return Spliterators.OfInt.tryAdvance(this, action);
         }
@@ -999,14 +991,6 @@ public final class SplittableRandom {
          * {@inheritDoc}
          */
         @Override
-        public Comparator<? super Long> getComparator() {
-            return Spliterators.getComparator(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean tryAdvance(Consumer<? super Long> action) {
             return Spliterators.OfLong.tryAdvance(this, action);
         }
@@ -1088,14 +1072,6 @@ public final class SplittableRandom {
         @Override
         public boolean hasCharacteristics(int characteristics) {
             return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Comparator<? super Double> getComparator() {
-            return Spliterators.getComparator(this);
         }
 
         /**

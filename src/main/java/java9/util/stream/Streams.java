@@ -364,11 +364,6 @@ final class Streams {
         }
 
         @Override
-        public Comparator<? super T> getComparator() {
-            return Spliterators.getComparator(this);
-        }
-
-        @Override
         public int characteristics() {
             return Spliterator.SIZED | Spliterator.SUBSIZED |
                    Spliterator.ORDERED | Spliterator.IMMUTABLE;

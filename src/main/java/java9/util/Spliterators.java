@@ -157,26 +157,6 @@ public final class Spliterators {
     }
 
     /**
-     * If the Spliterator's source is {@link Spliterator#SORTED} by a {@link Comparator},
-     * returns that {@code Comparator}. If the source is {@code SORTED} in
-     * {@linkplain Comparable natural order}, returns {@code null}.  Otherwise,
-     * if the source is not {@code SORTED}, throws {@link IllegalStateException}.
-     *
-     * <p><b>Implementation Requirements:</b><br>
-     * The default implementation always throws {@link IllegalStateException}.
-     *
-     * @param <T> the type of elements returned by the passed Spliterator
-     * @param this_ the Spliterator for which a Comparator is requested
-     * @return a Comparator, or {@code null} if the elements are sorted in the
-     * natural order.
-     * @throws IllegalStateException if the spliterator does not report
-     *         a characteristic of {@code SORTED}.
-     */
-    public static <T> Comparator<? super T> getComparator(Spliterator<T> this_) {
-        throw new IllegalStateException();
-    }
-
-    /**
      * Static default implementations for the Java 8 default method of {@link Spliterator.OfPrimitive}
      */
     public static final class OfPrimitive {
@@ -1582,11 +1562,6 @@ public final class Spliterators {
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
             }
-
-            @Override
-            public Comparator<? super T> getComparator() {
-                return Spliterators.getComparator(this);
-            }
         }
 
         private static final class OfInt
@@ -1602,11 +1577,6 @@ public final class Spliterators {
             @Override
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
-            public Comparator<? super Integer> getComparator() {
-                return Spliterators.getComparator(this);
             }
 
             @Override
@@ -1636,11 +1606,6 @@ public final class Spliterators {
             }
 
             @Override
-            public Comparator<? super Long> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1664,11 +1629,6 @@ public final class Spliterators {
             @Override
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
-            public Comparator<? super Double> getComparator() {
-                return Spliterators.getComparator(this);
             }
 
             @Override

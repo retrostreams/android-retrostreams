@@ -975,11 +975,6 @@ class StreamSpliterators {
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
             }
-
-            @Override
-            public Comparator<? super T> getComparator() {
-                return Spliterators.getComparator(this);
-            }
         }
 
         static abstract class OfPrimitive<T,
@@ -1067,11 +1062,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public Comparator<? super Integer> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
             }
@@ -1116,11 +1106,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public Comparator<? super Long> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1162,11 +1147,6 @@ class StreamSpliterators {
             @Override
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
-            public Comparator<? super Double> getComparator() {
-                return Spliterators.getComparator(this);
             }
 
             @Override
@@ -1365,11 +1345,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public Comparator<? super T> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             protected Spliterator<T> makeSpliterator(Spliterator<T> s) {
                 return new UnorderedSliceSpliterator.OfRef<>(s, this);
             }
@@ -1477,11 +1452,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public Comparator<? super Integer> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
             }
@@ -1537,11 +1507,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public Comparator<? super Long> getComparator() {
-                return Spliterators.getComparator(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1594,11 +1559,6 @@ class StreamSpliterators {
             @Override
             public boolean hasCharacteristics(int characteristics) {
                 return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
-            public Comparator<? super Double> getComparator() {
-                return Spliterators.getComparator(this);
             }
 
             @Override
@@ -1756,11 +1716,6 @@ class StreamSpliterators {
         @Override
         public boolean hasCharacteristics(int characteristics) {
             return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
-        public Comparator<? super T> getComparator() {
-            return Spliterators.getComparator(this);
         }
 
         static final class OfRef<T> extends InfiniteSupplyingSpliterator<T> {

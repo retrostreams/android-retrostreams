@@ -104,11 +104,6 @@ final class LinkedListSpliterator<T> implements Spliterator<T> {
     }
 
     @Override
-    public Comparator<? super T> getComparator() {
-        return Spliterators.getComparator(this);
-    }
-
-    @Override
     public long getExactSizeIfKnown() {
         return Spliterators.getExactSizeIfKnown(this);
     }
