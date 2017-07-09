@@ -319,10 +319,6 @@ final class HMSpliterators {
 
         public abstract int characteristics();
 
-        public final long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown((Spliterator<?>) this);
-        }
-
         public final long estimateSize() {
             getFence(); // force init
             return (long) est;

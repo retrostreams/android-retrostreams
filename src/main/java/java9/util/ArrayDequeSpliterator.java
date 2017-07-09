@@ -128,11 +128,6 @@ final class ArrayDequeSpliterator<E> implements Spliterator<E> {
             | Spliterator.SUBSIZED;
     }
 
-    @Override
-    public long getExactSizeIfKnown() {
-        return Spliterators.getExactSizeIfKnown(this);
-    }
-
     private static <T> int getTail(ArrayDeque<T> deq) {
         return U.getInt(deq, TAIL_OFF);
     }

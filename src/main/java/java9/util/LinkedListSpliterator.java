@@ -104,11 +104,6 @@ final class LinkedListSpliterator<T> implements Spliterator<T> {
     }
 
     @Override
-    public long getExactSizeIfKnown() {
-        return Spliterators.getExactSizeIfKnown(this);
-    }
-
-    @Override
     public boolean tryAdvance(Consumer<? super T> action) {
         Objects.requireNonNull(action);
         Object eol = endOfList;

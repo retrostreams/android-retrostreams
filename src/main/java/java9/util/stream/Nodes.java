@@ -1619,11 +1619,6 @@ final class Nodes {
                 else
                     while(tryAdvance(consumer)) { }
             }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
         }
 
         private abstract static class OfPrimitive<T, T_CONS, T_ARR,
@@ -1677,11 +1672,6 @@ final class Nodes {
                 }
                 else
                     while(tryAdvance(consumer)) { }
-            }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
             }
         }
 

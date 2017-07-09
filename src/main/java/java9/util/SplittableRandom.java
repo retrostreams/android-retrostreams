@@ -888,14 +888,6 @@ public final class SplittableRandom {
          * {@inheritDoc}
          */
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean tryAdvance(Consumer<? super Integer> action) {
             return Spliterators.OfInt.tryAdvance(this, action);
         }
@@ -967,14 +959,6 @@ public final class SplittableRandom {
          * {@inheritDoc}
          */
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean tryAdvance(Consumer<? super Long> action) {
             return Spliterators.OfLong.tryAdvance(this, action);
         }
@@ -1040,14 +1024,6 @@ public final class SplittableRandom {
                     consumer.accept(r.internalNextDouble(o, b));
                 } while (++i < f);
             }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         /**

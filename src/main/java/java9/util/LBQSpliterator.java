@@ -76,11 +76,6 @@ final class LBQSpliterator<E> implements Spliterator<E> {
     }
 
     @Override
-    public long getExactSizeIfKnown() {
-        return Spliterators.getExactSizeIfKnown(this);
-    }
-
-    @Override
     public boolean tryAdvance(Consumer<? super E> action) {
         Objects.requireNonNull(action);
         if (!exhausted) {

@@ -759,11 +759,6 @@ public class ThreadLocalRandom extends Random {
                     Spliterator.NONNULL | Spliterator.IMMUTABLE);
         }
 
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
         public boolean tryAdvance(IntConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -828,11 +823,6 @@ public class ThreadLocalRandom extends Random {
                     Spliterator.NONNULL | Spliterator.IMMUTABLE);
         }
 
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
         public boolean tryAdvance(LongConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -895,11 +885,6 @@ public class ThreadLocalRandom extends Random {
         public int characteristics() {
             return (Spliterator.SIZED | Spliterator.SUBSIZED |
                     Spliterator.NONNULL | Spliterator.IMMUTABLE);
-        }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         public boolean tryAdvance(DoubleConsumer consumer) {

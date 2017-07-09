@@ -123,11 +123,6 @@ final class RASpliterator<E> implements Spliterator<E> {
         return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
     }
 
-    @Override
-    public long getExactSizeIfKnown() {
-        return Spliterators.getExactSizeIfKnown(this);
-    }
-
     private static void checkAbsListModCount(AbstractList<?> alist, int expectedModCount) {
         if (alist != null && getModCount(alist) != expectedModCount) {
             throw new ConcurrentModificationException();

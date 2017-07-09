@@ -116,11 +116,6 @@ final class VectorSpliterator<E> implements Spliterator<E> {
         return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
     }
 
-    @Override
-    public long getExactSizeIfKnown() {
-        return Spliterators.getExactSizeIfKnown(this);
-    }
-
     private static <T> int getSize(Vector<T> lst) {
         return U.getInt(lst, SIZE_OFF);
     }

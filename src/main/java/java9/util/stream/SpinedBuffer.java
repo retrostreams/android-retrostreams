@@ -327,11 +327,6 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super E> consumer) {
                 Objects.requireNonNull(consumer);
 
@@ -815,11 +810,6 @@ class SpinedBuffer<E>
                 }
 
                 @Override
-                public long getExactSizeIfKnown() {
-                    return Spliterators.getExactSizeIfKnown(this);
-                }
-
-                @Override
                 public boolean tryAdvance(Consumer<? super Integer> action) {
                     return Spliterators.OfInt.tryAdvance(this, action);
                 }
@@ -942,11 +932,6 @@ class SpinedBuffer<E>
                 }
 
                 @Override
-                public long getExactSizeIfKnown() {
-                    return Spliterators.getExactSizeIfKnown(this);
-                }
-
-                @Override
                 public boolean tryAdvance(Consumer<? super Long> action) {
                     return Spliterators.OfLong.tryAdvance(this, action);
                 }
@@ -1066,11 +1051,6 @@ class SpinedBuffer<E>
                 @Override
                 Spliterator.OfDouble arraySpliterator(double[] array, int offset, int len) {
                     return java9.util.J8Arrays.spliterator(array, offset, offset+len);
-                }
-
-                @Override
-                public long getExactSizeIfKnown() {
-                    return Spliterators.getExactSizeIfKnown(this);
                 }
 
                 @Override

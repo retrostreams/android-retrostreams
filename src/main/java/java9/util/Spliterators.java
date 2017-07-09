@@ -122,22 +122,6 @@ public final class Spliterators {
     }
 
     /**
-     * Convenience method that returns {@link Spliterator#estimateSize()} if the
-     * {@code this_} Spliterator is {@link Spliterator#SIZED}, else {@code -1}.
-     * <p><b>Implementation Requirements:</b><br>
-     * The default implementation returns the result of {@code estimateSize()}
-     * if the Spliterator reports a characteristic of {@code Spliterator#SIZED}, and
-     * {@code -1} otherwise.
-     *
-     * @param <T> the type of elements returned by the passed Spliterator
-     * @param this_ the Spliterator whose exact size should be queried
-     * @return the exact size, if known, else {@code -1}.
-     */
-    public static <T> long getExactSizeIfKnown(Spliterator<T> this_) {
-        return (this_.characteristics() & Spliterator.SIZED) == 0 ? -1L : this_.estimateSize();
-    }
-
-    /**
      * Static default implementations for the Java 8 default method of {@link Spliterator.OfPrimitive}
      */
     public static final class OfPrimitive {
@@ -1533,22 +1517,12 @@ public final class Spliterators {
                 extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>>
                 implements Spliterator<T> {
             OfRef() { }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
         }
 
         private static final class OfInt
                 extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer>
                 implements Spliterator.OfInt {
             OfInt() { }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
 
             @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
@@ -1567,11 +1541,6 @@ public final class Spliterators {
             OfLong() { }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1586,11 +1555,6 @@ public final class Spliterators {
                 extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer>
                 implements Spliterator.OfDouble {
             OfDouble() { }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
 
             @Override
             public boolean tryAdvance(Consumer<? super Double> action) {
@@ -1648,11 +1612,6 @@ public final class Spliterators {
             this.index = origin;
             this.fence = fence;
             this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
-        }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         @Override
@@ -1786,11 +1745,6 @@ public final class Spliterators {
         }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
         public Comparator<? super Integer> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED))
                 return null;
@@ -1882,11 +1836,6 @@ public final class Spliterators {
         }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
         public Comparator<? super Long> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED))
                 return null;
@@ -1975,11 +1924,6 @@ public final class Spliterators {
         @Override
         public int characteristics() {
             return characteristics;
-        }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         @Override
@@ -2773,11 +2717,6 @@ public final class Spliterators {
         public int characteristics() { return characteristics; }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
         public Comparator<? super T> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED)) {
                 return null;
@@ -2875,11 +2814,6 @@ public final class Spliterators {
 
         @Override
         public int characteristics() { return characteristics; }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
 
         @Override
         public Comparator<? super Integer> getComparator() {
@@ -2996,11 +2930,6 @@ public final class Spliterators {
         public int characteristics() { return characteristics; }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
         public Comparator<? super Long> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED)) {
                 return null;
@@ -3103,11 +3032,6 @@ public final class Spliterators {
 
         @Override
         public int characteristics() { return characteristics; }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
 
         @Override
         public Comparator<? super Double> getComparator() {

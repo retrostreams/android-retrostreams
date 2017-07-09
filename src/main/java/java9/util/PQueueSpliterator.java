@@ -118,11 +118,6 @@ final class PQueueSpliterator<E> implements Spliterator<E> {
         return Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL;
     }
 
-    @Override
-    public long getExactSizeIfKnown() {
-        return Spliterators.getExactSizeIfKnown(this);
-    }
-
     private static <T> int getSize(PriorityQueue<T> pq) {
         return U.getInt(pq, SIZE_OFF);
     }

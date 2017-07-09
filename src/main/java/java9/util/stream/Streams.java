@@ -134,11 +134,6 @@ final class Streams {
         }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
         public Comparator<? super Integer> getComparator() {
             return null;
         }
@@ -272,11 +267,6 @@ final class Streams {
         }
 
         @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
         public Comparator<? super Long> getComparator() {
             return null;
         }
@@ -341,11 +331,6 @@ final class Streams {
         @Override
         public long estimateSize() {
             return -count - 1;
-        }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         @Override
@@ -858,11 +843,6 @@ final class Streams {
             OfRef(Spliterator<T> aSpliterator, Spliterator<T> bSpliterator) {
                 super(aSpliterator, bSpliterator);
             }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
         }
 
         private abstract static class OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
@@ -892,11 +872,6 @@ final class Streams {
                 if (beforeSplit)
                     aSpliterator.forEachRemaining(action);
                 bSpliterator.forEachRemaining(action);
-            }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
             }
         }
 

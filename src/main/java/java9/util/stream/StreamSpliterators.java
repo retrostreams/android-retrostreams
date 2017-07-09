@@ -955,11 +955,6 @@ class StreamSpliterators {
                     }
                 }
             }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
         }
 
         static abstract class OfPrimitive<T,
@@ -1037,11 +1032,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
             }
@@ -1076,11 +1066,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1112,11 +1097,6 @@ class StreamSpliterators {
             OfDouble(Spliterator.OfDouble s,
                      long sliceOrigin, long sliceFence, long origin, long fence) {
                 super(s, sliceOrigin, sliceFence, origin, fence);
-            }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
             }
 
             @Override
@@ -1305,11 +1285,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             protected Spliterator<T> makeSpliterator(Spliterator<T> s) {
                 return new UnorderedSliceSpliterator.OfRef<>(s, this);
             }
@@ -1407,11 +1382,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
             }
@@ -1457,11 +1427,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1504,11 +1469,6 @@ class StreamSpliterators {
             @Override
             public void accept(double value) {
                 tmpValue = value;
-            }
-
-            @Override
-            public long getExactSizeIfKnown() {
-                return Spliterators.getExactSizeIfKnown(this);
             }
 
             @Override
@@ -1564,11 +1524,6 @@ class StreamSpliterators {
         private DistinctSpliterator(Spliterator<T> s, ConcurrentMap<T, Boolean> seen) {
             this.s = s;
             this.seen = seen;
-        }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         @Override
@@ -1651,11 +1606,6 @@ class StreamSpliterators {
         @Override
         public int characteristics() {
             return IMMUTABLE;
-        }
-
-        @Override
-        public long getExactSizeIfKnown() {
-            return Spliterators.getExactSizeIfKnown(this);
         }
 
         static final class OfRef<T> extends InfiniteSupplyingSpliterator<T> {
