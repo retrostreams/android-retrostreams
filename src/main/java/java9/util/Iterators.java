@@ -28,9 +28,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import java9.util.function.Consumer;
-import java9.util.function.DoubleConsumer;
-import java9.util.function.IntConsumer;
-import java9.util.function.LongConsumer;
 
 /**
  * A place for static default implementations of the new Java 8
@@ -72,102 +69,6 @@ public final class Iterators {
         while (it.hasNext()) {
             action.accept(it.next());
         }
-    }
-
-    /**
-     * Performs the given action for each remaining element until all elements
-     * have been processed or the action throws an exception.  Actions are
-     * performed in the order of iteration.
-     * Exceptions thrown by the action are relayed to the caller.
-     *
-     * <p>
-     * The behavior of an iterator is unspecified if the action modifies the underlying
-     * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-     * methodor other mutator methods of {@code Iterator} subtypes), unless an overriding
-     * class has specified a concurrent modification policy.
-     * <p>
-     * Subsequent behavior of an iterator is unspecified if the action throws an
-     * exception.
-     *
-     * <p>The implementation behaves as if:
-     * <pre>{@code
-     *     while (it.hasNext())
-     *       action.accept(it.next());
-     * }</pre>
-     * 
-     * @param it the {@code Iterator} whose remaining elements should be processed
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified iterator is null
-     * @throws NullPointerException if the specified action is null
-     * @since 1.8
-     */
-    public static void forEachRemaining(PrimitiveIterator.OfInt it, IntConsumer action) {
-        Objects.requireNonNull(it);
-        it.forEachRemaining(action);
-    }
-
-    /**
-     * Performs the given action for each remaining element until all elements
-     * have been processed or the action throws an exception.  Actions are
-     * performed in the order of iteration.
-     * Exceptions thrown by the action are relayed to the caller.
-     *
-     * <p>
-     * The behavior of an iterator is unspecified if the action modifies the underlying
-     * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-     * method or other mutator methods of {@code Iterator} subtypes), unless an overriding
-     * class has specified a concurrent modification policy.
-     * <p>
-     * Subsequent behavior of an iterator is unspecified if the action throws an
-     * exception.
-     *
-     * <p>The implementation behaves as if:
-     * <pre>{@code
-     *     while (it.hasNext())
-     *       action.accept(it.next());
-     * }</pre>
-     * 
-     * @param it the {@code Iterator} whose remaining elements should be processed
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified iterator is null
-     * @throws NullPointerException if the specified action is null
-     * @since 1.8
-     */
-    public static void forEachRemaining(PrimitiveIterator.OfLong it, LongConsumer action) {
-        Objects.requireNonNull(it);
-        it.forEachRemaining(action);
-    }
-
-    /**
-     * Performs the given action for each remaining element until all elements
-     * have been processed or the action throws an exception.  Actions are
-     * performed in the order of iteration.
-     * Exceptions thrown by the action are relayed to the caller.
-     *
-     * <p>
-     * The behavior of an iterator is unspecified if the action modifies the underlying
-     * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-     * method or other mutator methods of {@code Iterator} subtypes), unless an overriding
-     * class has specified a concurrent modification policy.
-     * <p>
-     * Subsequent behavior of an iterator is unspecified if the action throws an
-     * exception.
-     *
-     * <p>The implementation behaves as if:
-     * <pre>{@code
-     *     while (it.hasNext())
-     *       action.accept(it.next());
-     * }</pre>
-     * 
-     * @param it the {@code Iterator} whose remaining elements should be processed
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified iterator is null
-     * @throws NullPointerException if the specified action is null
-     * @since 1.8
-     */
-    public static void forEachRemaining(PrimitiveIterator.OfDouble it, DoubleConsumer action) {
-        Objects.requireNonNull(it);
-        it.forEachRemaining(action);
     }
 
     /**

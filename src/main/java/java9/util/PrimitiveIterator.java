@@ -43,9 +43,9 @@ import java9.util.function.LongConsumer;
  * boxing may offset any advantages gained when using the primitive
  * specializations.  To avoid boxing, the corresponding primitive-based methods
  * should be used.  For example, {@link PrimitiveIterator.OfInt#nextInt()} and
- * {@link Iterators#forEachRemaining(PrimitiveIterator.OfInt, IntConsumer)}
+ * {@link PrimitiveIterator.OfInt#forEachRemaining(IntConsumer)}
  * should be used in preference to {@link PrimitiveIterator.OfInt#next()} and
- * {@link Iterators#forEachRemaining(Iterator, java9.util.function.Consumer)}.
+ * {@link PrimitiveIterator.OfInt#forEachRemaining(java9.util.function.Consumer)}.
  *
  * <p>Iteration of primitive values using boxing-based methods
  * {@link Iterator#next next()} and
@@ -153,6 +153,9 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * otherwise the action is adapted to an instance of
          * {@code IntConsumer}, by boxing the argument of {@code IntConsumer},
          * and then passed to {@link #forEachRemaining}.
+	     *
+	     * @param action The action to be performed for each element
+	     * @throws NullPointerException if the specified action is null
          */
         default void forEachRemaining(Consumer<? super Integer> action) {
             if (action instanceof IntConsumer) {
@@ -234,6 +237,9 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * otherwise the action is adapted to an instance of
          * {@code LongConsumer}, by boxing the argument of {@code LongConsumer},
          * and then passed to {@link #forEachRemaining}.
+	     *
+	     * @param action The action to be performed for each element
+	     * @throws NullPointerException if the specified action is null
          */
         default void forEachRemaining(Consumer<? super Long> action) {
             if (action instanceof LongConsumer) {
@@ -316,6 +322,9 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * an instance of {@code DoubleConsumer}, by boxing the argument of
          * {@code DoubleConsumer}, and then passed to
          * {@link #forEachRemaining}.
+	     *
+	     * @param action The action to be performed for each element
+	     * @throws NullPointerException if the specified action is null
          */
         default void forEachRemaining(Consumer<? super Double> action) {
             if (action instanceof DoubleConsumer) {
