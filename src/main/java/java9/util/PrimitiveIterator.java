@@ -123,7 +123,11 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * @param action The action to be performed for each element
          * @throws NullPointerException if the specified action is null
          */
-        void forEachRemaining(IntConsumer action);
+        default void forEachRemaining(IntConsumer action) {
+            Objects.requireNonNull(action);
+            while (hasNext())
+                action.accept(nextInt());
+        }
 
         /**
          * {@inheritDoc}
@@ -132,7 +136,9 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * {@link #nextInt()}, and returns that boxed result.
          */
         @Override
-        Integer next();
+        default Integer next() {
+            return nextInt();
+        }
     }
 
     /**
@@ -174,7 +180,11 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * @param action The action to be performed for each element
          * @throws NullPointerException if the specified action is null
          */
-        void forEachRemaining(LongConsumer action);
+        default void forEachRemaining(LongConsumer action) {
+            Objects.requireNonNull(action);
+            while (hasNext())
+                action.accept(nextLong());
+        }
 
         /**
          * {@inheritDoc}
@@ -183,7 +193,9 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * {@link #nextLong()}, and returns that boxed result.
          */
         @Override
-        Long next();
+        default Long next() {
+            return nextLong();
+        }
     }
 
     /**
@@ -225,7 +237,11 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * @param action The action to be performed for each element
          * @throws NullPointerException if the specified action is null
          */
-        void forEachRemaining(DoubleConsumer action);
+        default void forEachRemaining(DoubleConsumer action) {
+            Objects.requireNonNull(action);
+            while (hasNext())
+                action.accept(nextDouble());
+        }
 
         /**
          * {@inheritDoc}
@@ -234,6 +250,8 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * {@link #nextDouble()}, and returns that boxed result.
          */
         @Override
-        Double next();
+        default Double next() {
+            return nextDouble();
+        }
     }
 }

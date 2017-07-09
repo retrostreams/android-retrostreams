@@ -103,10 +103,7 @@ public final class Iterators {
      */
     public static void forEachRemaining(PrimitiveIterator.OfInt it, IntConsumer action) {
         Objects.requireNonNull(it);
-        Objects.requireNonNull(action);
-        while (it.hasNext()) {
-            action.accept(it.nextInt());
-        }
+        it.forEachRemaining(action);
     }
 
     /**
@@ -138,10 +135,7 @@ public final class Iterators {
      */
     public static void forEachRemaining(PrimitiveIterator.OfLong it, LongConsumer action) {
         Objects.requireNonNull(it);
-        Objects.requireNonNull(action);
-        while (it.hasNext()) {
-            action.accept(it.nextLong());
-        }
+        it.forEachRemaining(action);
     }
 
     /**
@@ -173,10 +167,7 @@ public final class Iterators {
      */
     public static void forEachRemaining(PrimitiveIterator.OfDouble it, DoubleConsumer action) {
         Objects.requireNonNull(it);
-        Objects.requireNonNull(action);
-        while (it.hasNext()) {
-            action.accept(it.nextDouble());
-        }
+        it.forEachRemaining(action);
     }
 
     /**
