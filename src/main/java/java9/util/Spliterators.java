@@ -102,43 +102,6 @@ public final class Spliterators {
     private Spliterators() {}
 
     /**
-     * Static default implementations for the Java 8 default method of {@link Spliterator.OfPrimitive}
-     */
-    public static final class OfPrimitive {
-        /**
-         * Performs the given action for each remaining element, sequentially in
-         * the current thread, until all elements have been processed or the
-         * action throws an exception.  If the {@code this_} Spliterator is
-         * {@link Spliterator#ORDERED}, actions are performed in encounter order.
-         * Exceptions thrown by the action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * The default implementation repeatedly invokes
-         * {@link Spliterator.OfPrimitive#tryAdvance} until it returns {@code false}.
-         * It should be overridden whenever possible.
-         *
-         * @param <T> the type of elements returned by this Spliterator. The type
-         *            must be a wrapper type for a primitive type, such as Integer
-         *            for the primitive int type.
-         * @param <T_CONS> the type of primitive consumer. The type must be a primitive
-         *            specialization of Consumer for T, such as IntConsumer for Integer.
-         * @param <T_SPLITR> the type of primitive Spliterator. The type must be a
-         *            primitive specialization of Spliterator for T, such as
-         *            {@link Spliterator.OfInt} for Integer.
-         * @param this_ the Spliterator whose remaining elements should be processed
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static <T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>> void forEachRemaining(Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> this_, T_CONS action) {
-            do { } while (this_.tryAdvance(action));
-        }
-
-        private OfPrimitive() {
-        }
-    }
-
-    /**
      * Static default implementations for the Java 8 default methods of {@link Spliterator.OfInt}
      */
     public static final class OfInt {
