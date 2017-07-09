@@ -54,7 +54,6 @@ import java9.util.function.BiFunction;
 import java9.util.function.BinaryOperator;
 import java9.util.function.Consumer;
 import java9.util.function.Function;
-import java9.util.function.Functions;
 import java9.util.function.Predicate;
 import java9.util.function.Supplier;
 import java9.util.function.ToDoubleFunction;
@@ -648,7 +647,7 @@ public final class Collectors {
         return new CollectorImpl<>(downstream.supplier(),
                                    downstream.accumulator(),
                                    downstream.combiner(),
-                                   Functions.andThen(downstream.finisher(), (finisher)),
+                                   downstream.finisher().andThen(finisher),
                                    characteristics);
     }
 
@@ -1453,7 +1452,7 @@ public final class Collectors {
      * <p><b>API Note:</b><br>
      * It is common for either the key or the value to be the input elements.
      * In this case, the utility method
-     * {@link java9.util.function.Functions#identity()} may be helpful.
+     * {@link java9.util.function.Function#identity()} may be helpful.
      * For example, the following produces a {@code Map} mapping
      * students to their grade point average:
      * <pre>{@code
@@ -1626,7 +1625,7 @@ public final class Collectors {
      * <p><b>API Note:</b><br>
      * It is common for either the key or the value to be the input elements.
      * In this case, the utility method
-     * {@link java9.util.function.Functions#identity()} may be helpful.
+     * {@link java9.util.function.Function#identity()} may be helpful.
      * For example, the following produces a {@code ConcurrentMap} mapping
      * students to their grade point average:
      * <pre>{@code
