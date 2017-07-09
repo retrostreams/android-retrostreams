@@ -1433,16 +1433,6 @@ public final class Spliterators {
             }
 
             @Override
-            public Integer next() {
-                return nextInt();
-            }
-
-            @Override
-            public void forEachRemaining(IntConsumer action) {
-                Iterators.forEachRemaining(this, action);
-            }
-
-            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
@@ -1493,16 +1483,6 @@ public final class Spliterators {
             }
 
             @Override
-            public Long next() {
-                return nextLong();
-            }
-
-            @Override
-            public void forEachRemaining(LongConsumer action) {
-                Iterators.forEachRemaining(this, action);
-            }
-
-            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
@@ -1550,16 +1530,6 @@ public final class Spliterators {
                     valueReady = false;
                     return nextElement;
                 }
-            }
-
-            @Override
-            public Double next() {
-                return nextDouble();
-            }
-
-            @Override
-            public void forEachRemaining(DoubleConsumer action) {
-                Iterators.forEachRemaining(this, action);
             }
 
             @Override
