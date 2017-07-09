@@ -2959,7 +2959,7 @@ public final class Spliterators {
 
         @Override
         public void forEachRemaining(IntConsumer action) {
-            Iterators.forEachRemaining(it, Objects.requireNonNull(action));
+            it.forEachRemaining(Objects.requireNonNull(action));
         }
 
         @Override
@@ -3073,7 +3073,7 @@ public final class Spliterators {
 
         @Override
         public void forEachRemaining(LongConsumer action) {
-            Iterators.forEachRemaining(it, Objects.requireNonNull(action));
+            it.forEachRemaining(Objects.requireNonNull(action));
         }
 
         @Override
@@ -3187,7 +3187,7 @@ public final class Spliterators {
 
         @Override
         public void forEachRemaining(DoubleConsumer action) {
-            Iterators.forEachRemaining(it, Objects.requireNonNull(action));
+            it.forEachRemaining(Objects.requireNonNull(action));
         }
 
         @Override
