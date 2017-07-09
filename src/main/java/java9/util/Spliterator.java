@@ -314,6 +314,24 @@ public interface Spliterator<T> {
     boolean tryAdvance(Consumer<? super T> action);
 
     /**
+     * Performs the given action for each remaining element, sequentially in
+     * the current thread, until all elements have been processed or the action
+     * throws an exception.  If this Spliterator is {@link #ORDERED}, actions
+     * are performed in encounter order.  Exceptions thrown by the action
+     * are relayed to the caller.
+     *
+     * <p><b>Implementation Requirements:</b><br>
+     * The default implementation repeatedly invokes {@link #tryAdvance} until
+     * it returns {@code false}.  It should be overridden whenever possible.
+     *
+     * @param action The action
+     * @throws NullPointerException if the specified action is null
+     */
+    default void forEachRemaining(Consumer<? super T> action) {
+        do { } while (tryAdvance(action));
+    }
+
+    /**
      * If this spliterator can be partitioned, returns a Spliterator
      * covering elements, that will, upon return from this method, not
      * be covered by this Spliterator.
@@ -382,6 +400,20 @@ public interface Spliterator<T> {
     long estimateSize();
 
     /**
+     * Convenience method that returns {@link #estimateSize()} if this
+     * Spliterator is {@link #SIZED}, else {@code -1}.
+     * <p><b>Implementation Requirements:</b><br>
+     * The default implementation returns the result of {@code estimateSize()}
+     * if the Spliterator reports a characteristic of {@code SIZED}, and
+     * {@code -1} otherwise.
+     *
+     * @return the exact size, if known, else {@code -1}.
+     */
+    default long getExactSizeIfKnown() {
+        return (characteristics() & SIZED) == 0 ? -1L : estimateSize();
+    }
+
+    /**
      * Returns a set of characteristics of this Spliterator and its
      * elements. The result is represented as ORed values from {@link
      * #ORDERED}, {@link #DISTINCT}, {@link #SORTED}, {@link #SIZED},
@@ -405,34 +437,6 @@ public interface Spliterator<T> {
     int characteristics();
 
     /**
-     * Performs the given action for each remaining element, sequentially in
-     * the current thread, until all elements have been processed or the action
-     * throws an exception.  If this Spliterator is {@link #ORDERED}, actions
-     * are performed in encounter order.  Exceptions thrown by the action
-     * are relayed to the caller.
-     *
-     * <p><b>Implementation Requirements:</b><br>
-     * The default implementation repeatedly invokes {@link #tryAdvance} until
-     * it returns {@code false}.  It should be overridden whenever possible.
-     *
-     * @param action The action
-     * @throws NullPointerException if the specified action is null
-     */
-    void forEachRemaining(Consumer<? super T> action);
-
-    /**
-     * Convenience method that returns {@link #estimateSize()} if this
-     * Spliterator is {@link #SIZED}, else {@code -1}.
-     * <p><b>Implementation Requirements:</b><br>
-     * The default implementation returns the result of {@code estimateSize()}
-     * if the Spliterator reports a characteristic of {@code SIZED}, and
-     * {@code -1} otherwise.
-     *
-     * @return the exact size, if known, else {@code -1}.
-     */
-    long getExactSizeIfKnown();
-
-    /**
      * Returns {@code true} if this Spliterator's {@link
      * #characteristics} contain all of the given characteristics.
      *
@@ -444,7 +448,9 @@ public interface Spliterator<T> {
      * @return {@code true} if all the specified characteristics are present,
      * else {@code false}
      */
-    boolean hasCharacteristics(int characteristics);
+    default boolean hasCharacteristics(int characteristics) {
+        return (characteristics() & characteristics) == characteristics;
+    }
 
     /**
      * If this Spliterator's source is {@link #SORTED} by a {@link Comparator},
@@ -460,7 +466,9 @@ public interface Spliterator<T> {
      * @throws IllegalStateException if the spliterator does not report
      *         a characteristic of {@code SORTED}.
      */
-    Comparator<? super T> getComparator();
+    default Comparator<? super T> getComparator() {
+        throw new IllegalStateException();
+    }
 
     /**
      * Characteristic value signifying that an encounter order is defined for
@@ -638,7 +646,9 @@ public interface Spliterator<T> {
          * @param action The action
          * @throws NullPointerException if the specified action is null
          */
-        void forEachRemaining(T_CONS action);
+        default void forEachRemaining(T_CONS action) {
+            do { } while (tryAdvance(action));
+        }
     }
 
     /**
@@ -654,7 +664,9 @@ public interface Spliterator<T> {
         boolean tryAdvance(IntConsumer action);
 
         @Override
-        void forEachRemaining(IntConsumer action);
+        default void forEachRemaining(IntConsumer action) {
+            do { } while (tryAdvance(action));
+        }
 
         /**
          * {@inheritDoc}
@@ -667,7 +679,14 @@ public interface Spliterator<T> {
          * {@link #tryAdvance(java9.util.function.IntConsumer)}.
          */
         @Override
-        boolean tryAdvance(Consumer<? super Integer> action);
+        default boolean tryAdvance(Consumer<? super Integer> action) {
+            if (action instanceof IntConsumer) {
+                return tryAdvance((IntConsumer) action);
+            }
+            else {
+                return tryAdvance((IntConsumer) action::accept);
+            }
+        }
 
         /**
          * {@inheritDoc}
@@ -680,7 +699,14 @@ public interface Spliterator<T> {
          * {@link #forEachRemaining(java9.util.function.IntConsumer)}.
          */
         @Override
-        void forEachRemaining(Consumer<? super Integer> action);
+        default void forEachRemaining(Consumer<? super Integer> action) {
+            if (action instanceof IntConsumer) {
+                forEachRemaining((IntConsumer) action);
+            }
+            else {
+                forEachRemaining((IntConsumer) action::accept);
+            }
+        }
     }
 
     /**
@@ -696,7 +722,9 @@ public interface Spliterator<T> {
         boolean tryAdvance(LongConsumer action);
 
         @Override
-        void forEachRemaining(LongConsumer action);
+        default void forEachRemaining(LongConsumer action) {
+            do { } while (tryAdvance(action));
+        }
 
         /**
          * {@inheritDoc}
@@ -709,7 +737,14 @@ public interface Spliterator<T> {
          * {@link #tryAdvance(java9.util.function.LongConsumer)}.
          */
         @Override
-        boolean tryAdvance(Consumer<? super Long> action);
+        default boolean tryAdvance(Consumer<? super Long> action) {
+            if (action instanceof LongConsumer) {
+                return tryAdvance((LongConsumer) action);
+            }
+            else {
+                return tryAdvance((LongConsumer) action::accept);
+            }
+        }
 
         /**
          * {@inheritDoc}
@@ -722,7 +757,14 @@ public interface Spliterator<T> {
          * {@link #forEachRemaining(java9.util.function.LongConsumer)}.
          */
         @Override
-        void forEachRemaining(Consumer<? super Long> action);
+        default void forEachRemaining(Consumer<? super Long> action) {
+            if (action instanceof LongConsumer) {
+                forEachRemaining((LongConsumer) action);
+            }
+            else {
+                forEachRemaining((LongConsumer) action::accept);
+            }
+        }
     }
 
     /**
@@ -738,7 +780,9 @@ public interface Spliterator<T> {
         boolean tryAdvance(DoubleConsumer action);
 
         @Override
-        void forEachRemaining(DoubleConsumer action);
+        default void forEachRemaining(DoubleConsumer action) {
+            do { } while (tryAdvance(action));
+        }
 
         /**
          * {@inheritDoc}
@@ -751,7 +795,14 @@ public interface Spliterator<T> {
          * {@link #tryAdvance(java9.util.function.DoubleConsumer)}.
          */
         @Override
-        boolean tryAdvance(Consumer<? super Double> action);
+        default boolean tryAdvance(Consumer<? super Double> action) {
+            if (action instanceof DoubleConsumer) {
+                return tryAdvance((DoubleConsumer) action);
+            }
+            else {
+                return tryAdvance((DoubleConsumer) action::accept);
+            }
+        }
 
         /**
          * {@inheritDoc}
@@ -765,6 +816,13 @@ public interface Spliterator<T> {
          * {@link #forEachRemaining(java9.util.function.DoubleConsumer)}.
          */
         @Override
-        void forEachRemaining(Consumer<? super Double> action);
+        default void forEachRemaining(Consumer<? super Double> action) {
+            if (action instanceof DoubleConsumer) {
+                forEachRemaining((DoubleConsumer) action);
+            }
+            else {
+                forEachRemaining((DoubleConsumer) action::accept);
+            }
+        }
     }
 }
