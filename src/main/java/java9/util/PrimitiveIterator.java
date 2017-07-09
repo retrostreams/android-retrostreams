@@ -27,6 +27,7 @@ package java9.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
 import java9.util.function.IntConsumer;
 import java9.util.function.LongConsumer;
@@ -139,6 +140,30 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         default Integer next() {
             return nextInt();
         }
+
+        /**
+         * Performs the given action for each remaining element until all elements
+         * have been processed or the action throws an exception.  Actions are
+         * performed in the order of iteration, if that order is specified.
+         * Exceptions thrown by the action are relayed to the caller.
+         *
+         * <p><b>Implementation Requirements:</b><br>
+         * If the action is an instance of {@code IntConsumer} then it is cast
+         * to {@code IntConsumer} and passed to {@link #forEachRemaining};
+         * otherwise the action is adapted to an instance of
+         * {@code IntConsumer}, by boxing the argument of {@code IntConsumer},
+         * and then passed to {@link #forEachRemaining}.
+         */
+        default void forEachRemaining(Consumer<? super Integer> action) {
+            if (action instanceof IntConsumer) {
+                forEachRemaining((IntConsumer) action);
+            }
+            else {
+                // The method reference action::accept is never null
+                Objects.requireNonNull(action);
+                forEachRemaining((IntConsumer) action::accept);
+            }
+        }
     }
 
     /**
@@ -196,6 +221,30 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         default Long next() {
             return nextLong();
         }
+
+        /**
+         * Performs the given action for each remaining element until all elements
+         * have been processed or the action throws an exception.  Actions are
+         * performed in the order of iteration, if that order is specified.
+         * Exceptions thrown by the action are relayed to the caller.
+         * 
+         * <p><b>Implementation Requirements:</b><br>
+         * If the action is an instance of {@code LongConsumer} then it is cast
+         * to {@code LongConsumer} and passed to {@link #forEachRemaining};
+         * otherwise the action is adapted to an instance of
+         * {@code LongConsumer}, by boxing the argument of {@code LongConsumer},
+         * and then passed to {@link #forEachRemaining}.
+         */
+        default void forEachRemaining(Consumer<? super Long> action) {
+            if (action instanceof LongConsumer) {
+                forEachRemaining((LongConsumer) action);
+            }
+            else {
+                // The method reference action::accept is never null
+                Objects.requireNonNull(action);
+                forEachRemaining((LongConsumer) action::accept);
+            }
+        }
     }
 
     /**
@@ -252,6 +301,31 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         @Override
         default Double next() {
             return nextDouble();
+        }
+
+        /**
+         * Performs the given action for each remaining element until all elements
+         * have been processed or the action throws an exception.  Actions are
+         * performed in the order of iteration, if that order is specified.
+         * Exceptions thrown by the action are relayed to the caller.
+         *
+         * <p><b>Implementation Requirements:</b><br>
+         * If the action is an instance of {@code DoubleConsumer} then it is
+         * cast to {@code DoubleConsumer} and passed to
+         * {@link #forEachRemaining}; otherwise the action is adapted to
+         * an instance of {@code DoubleConsumer}, by boxing the argument of
+         * {@code DoubleConsumer}, and then passed to
+         * {@link #forEachRemaining}.
+         */
+        default void forEachRemaining(Consumer<? super Double> action) {
+            if (action instanceof DoubleConsumer) {
+                forEachRemaining((DoubleConsumer) action);
+            }
+            else {
+                // The method reference action::accept is never null
+                Objects.requireNonNull(action);
+                forEachRemaining((DoubleConsumer) action::accept);
+            }
         }
     }
 }
