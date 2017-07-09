@@ -684,7 +684,7 @@ public interface Spliterator<T> {
                 return tryAdvance((IntConsumer) action);
             }
             else {
-                return tryAdvance((IntConsumer) action::accept);
+                return tryAdvance(toIntConsumer(action));
             }
         }
 
@@ -704,8 +704,12 @@ public interface Spliterator<T> {
                 forEachRemaining((IntConsumer) action);
             }
             else {
-                forEachRemaining((IntConsumer) action::accept);
+                forEachRemaining(toIntConsumer(action));
             }
+        }
+
+        public static IntConsumer toIntConsumer(Consumer<? super Integer> action) {
+            return (IntConsumer) action::accept;
         }
     }
 
@@ -742,7 +746,7 @@ public interface Spliterator<T> {
                 return tryAdvance((LongConsumer) action);
             }
             else {
-                return tryAdvance((LongConsumer) action::accept);
+                return tryAdvance(toLongConsumer(action));
             }
         }
 
@@ -762,8 +766,12 @@ public interface Spliterator<T> {
                 forEachRemaining((LongConsumer) action);
             }
             else {
-                forEachRemaining((LongConsumer) action::accept);
+                forEachRemaining(toLongConsumer(action));
             }
+        }
+
+        public static LongConsumer toLongConsumer(Consumer<? super Long> action) {
+            return (LongConsumer) action::accept;
         }
     }
 
@@ -800,7 +808,7 @@ public interface Spliterator<T> {
                 return tryAdvance((DoubleConsumer) action);
             }
             else {
-                return tryAdvance((DoubleConsumer) action::accept);
+                return tryAdvance(toDoubleConsumer(action));
             }
         }
 
@@ -821,8 +829,12 @@ public interface Spliterator<T> {
                 forEachRemaining((DoubleConsumer) action);
             }
             else {
-                forEachRemaining((DoubleConsumer) action::accept);
+                forEachRemaining(toDoubleConsumer(action));
             }
+        }
+
+        public static DoubleConsumer toDoubleConsumer(Consumer<? super Double> action) {
+            return (DoubleConsumer) action::accept;
         }
     }
 }
