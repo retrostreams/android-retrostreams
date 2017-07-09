@@ -1699,16 +1699,6 @@ final class Nodes {
             OfDouble(Node.OfDouble cur) {
                 super(cur);
             }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Double> action) {
-                return Spliterators.OfDouble.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Double> action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
-            }
         }
     }
 

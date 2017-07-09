@@ -31,7 +31,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import java9.util.Objects;
 import java9.util.Spliterator;
-import java9.util.Spliterators;
 import java9.util.concurrent.ForkJoinPool;
 import java9.util.function.BooleanSupplier;
 import java9.util.function.Consumer;
@@ -625,11 +624,6 @@ class StreamSpliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
-        }
-
-        @Override
         public void forEachRemaining(final DoubleConsumer consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
@@ -669,11 +663,6 @@ class StreamSpliterators {
             else {
                 do { } while (tryAdvance(consumer));
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
         }
     }
 
@@ -1060,16 +1049,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Double> action) {
-                return Spliterators.OfDouble.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Double> action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
-            }
-
-            @Override
             protected Spliterator.OfDouble makeSpliterator(Spliterator.OfDouble s,
                                                            long sliceOrigin, long sliceFence,
                                                            long origin, long fence) {
@@ -1412,16 +1391,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Double> action) {
-                return Spliterators.OfDouble.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Double> action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
-            }
-
-            @Override
             protected void acceptConsumed(DoubleConsumer action) {
                 action.accept(tmpValue);
             }
@@ -1640,25 +1609,10 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Double> action) {
-                return Spliterators.OfDouble.tryAdvance(this, action);
-            }
-
-            @Override
             public Spliterator.OfDouble trySplit() {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfDouble(estimate = estimate >>> 1, s);
-            }
-
-            @Override
-            public void forEachRemaining(DoubleConsumer action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Double> action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
             }
         }
     }

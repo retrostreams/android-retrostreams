@@ -28,7 +28,6 @@ import java.util.Comparator;
 
 import java9.util.Objects;
 import java9.util.Spliterator;
-import java9.util.Spliterators;
 import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
 import java9.util.function.IntConsumer;
@@ -698,11 +697,6 @@ final class Streams {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
-        }
-
-        @Override
         public void forEachRemaining(DoubleConsumer action) {
             Objects.requireNonNull(action);
 
@@ -710,11 +704,6 @@ final class Streams {
                 action.accept(first);
                 count = -1;
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
         }
     }
 

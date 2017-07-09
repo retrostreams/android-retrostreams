@@ -29,7 +29,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import java9.util.Objects;
 import java9.util.Spliterator;
-import java9.util.Spliterators;
 import java9.util.concurrent.CountedCompleter;
 import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
@@ -1054,21 +1053,6 @@ final class WhileOps {
             public void accept(double t) {
                 count = (count + 1) & CANCEL_CHECK_COUNT;
                 this.t = t;
-            }
-
-            @Override
-            public void forEachRemaining(DoubleConsumer action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
-            }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Double> action) {
-                return Spliterators.OfDouble.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Double> action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
             }
 
             static final class Taking extends UnorderedWhileSpliterator.OfDouble {

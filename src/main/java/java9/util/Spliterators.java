@@ -101,100 +101,6 @@ public final class Spliterators {
     // Suppresses default constructor, ensuring non-instantiability.
     private Spliterators() {}
 
-    /**
-     * Static default implementations for the Java 8 default methods of {@link Spliterator.OfDouble}
-     */
-    public static final class OfDouble {
-        /**
-         * Performs the given action for each remaining element of the passed Spliterator,
-         * sequentially in the current thread, until all elements have been processed or
-         * the action throws an exception.  If the {@code this_} Spliterator is {@link Spliterator#ORDERED},
-         * actions are performed in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * The default implementation repeatedly invokes {@link #tryAdvance}
-         * until it returns {@code false}.  It should be overridden whenever
-         * possible.
-         *
-         * @param this_ the Spliterator whose remaining elements should be processed
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static void forEachRemaining(Spliterator.OfDouble this_, DoubleConsumer action) {
-            do { } while (this_.tryAdvance(action));
-        }
-
-        /**
-         * If a remaining element exists, performs the given action on it,
-         * returning {@code true}; else returns {@code false}.  If the {@code this_}
-         * Spliterator is {@link Spliterator#ORDERED} the action is performed on the
-         * next element in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * If the action is an instance of {@code DoubleConsumer} then it is
-         * cast to {@code DoubleConsumer} and passed to
-         * {@link Spliterator.OfDouble#tryAdvance(java9.util.function.DoubleConsumer)}; otherwise
-         * the action is adapted to an instance of {@code DoubleConsumer}, by
-         * boxing the argument of {@code DoubleConsumer}, and then passed to
-         * {@link Spliterator.OfDouble#tryAdvance(java9.util.function.DoubleConsumer)}.
-         *
-         * @param this_ the Spliterator to use
-         * @param action The action to execute
-         * @return {@code false} if no remaining elements existed
-         * upon entry to this method, else {@code true}.
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static boolean tryAdvance(Spliterator.OfDouble this_, Consumer<? super Double> action) {
-            if (action instanceof DoubleConsumer) {
-                return this_.tryAdvance((DoubleConsumer) action);
-            }
-            else {
-                return this_.tryAdvance(toDoubleConsumer(action));
-            }
-        }
-
-        private static DoubleConsumer toDoubleConsumer(Consumer<? super Double> action) {
-            return (DoubleConsumer) action::accept;
-        }
-
-        /**
-         * Performs the given action for each remaining element, sequentially in
-         * the current thread, until all elements have been processed or the action
-         * throws an exception.  If the {@code this_} Spliterator is {@link Spliterator#ORDERED}, actions
-         * are performed in encounter order.  Exceptions thrown by the action
-         * are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * If the action is an instance of {@code DoubleConsumer} then it is
-         * cast to {@code DoubleConsumer} and passed to
-         * {@link Spliterator.OfDouble#forEachRemaining(java9.util.function.DoubleConsumer)};
-         * otherwise the action is adapted to an instance of
-         * {@code DoubleConsumer}, by boxing the argument of
-         * {@code DoubleConsumer}, and then passed to
-         * {@link Spliterator.OfDouble#forEachRemaining(java9.util.function.DoubleConsumer)}.
-         *
-         * @param this_ the Spliterator to use
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static void forEachRemaining(Spliterator.OfDouble this_, Consumer<? super Double> action) {
-            if (action instanceof DoubleConsumer) {
-                this_.forEachRemaining((DoubleConsumer) action);
-            }
-            else {
-                this_.forEachRemaining(toDoubleConsumer(action));
-            }
-        }
-
-        private OfDouble() {
-        }
-    }
-
     // Empty spliterators
 
     /**
@@ -1292,16 +1198,6 @@ public final class Spliterators {
                 extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer>
                 implements Spliterator.OfDouble {
             OfDouble() { }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Double> action) {
-                return Spliterators.OfDouble.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Double> action) {
-                Spliterators.OfDouble.forEachRemaining(this, action);
-            }
         }
     }
 
@@ -1616,11 +1512,6 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
-        }
-
-        @Override
         public boolean tryAdvance(DoubleConsumer action) {
             Objects.requireNonNull(action);
             if (index >= 0 && index < fence) {
@@ -1628,11 +1519,6 @@ public final class Spliterators {
                 return true;
             }
             return false;
-        }
-
-        @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
         }
 
         @Override
@@ -2232,22 +2118,6 @@ public final class Spliterators {
         public void forEachRemaining(DoubleConsumer action) {
             do { } while (tryAdvance(action));
         }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
-        }
     }
 
     // Iterator-based Spliterators
@@ -2671,11 +2541,6 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
-        }
-
-        @Override
         public boolean tryAdvance(DoubleConsumer action) {
             Objects.requireNonNull(action);
             if (it.hasNext()) {
@@ -2683,11 +2548,6 @@ public final class Spliterators {
                 return true;
             }
             return false;
-        }
-
-        @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
         }
 
         @Override

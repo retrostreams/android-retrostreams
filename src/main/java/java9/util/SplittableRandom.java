@@ -28,7 +28,6 @@ import java.security.PrivilegedAction;
 import java.util.concurrent.atomic.AtomicLong;
 
 import java9.util.Objects;
-import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
 import java9.util.function.IntConsumer;
 import java9.util.function.LongConsumer;
@@ -991,22 +990,6 @@ public final class SplittableRandom {
                     consumer.accept(r.internalNextDouble(o, b));
                 } while (++i < f);
             }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
         }
     }
 }

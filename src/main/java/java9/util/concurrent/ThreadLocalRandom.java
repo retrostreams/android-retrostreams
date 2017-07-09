@@ -10,8 +10,6 @@ import java.util.Random;
 
 import java9.util.Objects;
 import java9.util.Spliterator;
-import java9.util.Spliterators;
-import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
 import java9.util.function.IntConsumer;
 import java9.util.function.LongConsumer;
@@ -877,11 +875,6 @@ public class ThreadLocalRandom extends Random {
             return false;
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super Double> action) {
-            return Spliterators.OfDouble.tryAdvance(this, action);
-        }
-
         public void forEachRemaining(DoubleConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -893,11 +886,6 @@ public class ThreadLocalRandom extends Random {
                     consumer.accept(rng.internalNextDouble(o, b));
                 } while (++i < f);
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Double> action) {
-            Spliterators.OfDouble.forEachRemaining(this, action);
         }
     }
 
