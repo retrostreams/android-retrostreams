@@ -26,7 +26,6 @@ package java9.util.stream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -807,16 +806,6 @@ class SpinedBuffer<E>
                 @Override
                 Spliterator.OfInt arraySpliterator(int[] array, int offset, int len) {
                     return java9.util.J8Arrays.spliterator(array, offset, offset+len);
-                }
-
-                @Override
-                public boolean tryAdvance(Consumer<? super Integer> action) {
-                    return Spliterators.OfInt.tryAdvance(this, action);
-                }
-
-                @Override
-                public void forEachRemaining(Consumer<? super Integer> action) {
-                    Spliterators.OfInt.forEachRemaining(this, action);
                 }
             }
             return new Splitr(0, spineIndex, 0, elementIndex);

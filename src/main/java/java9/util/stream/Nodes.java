@@ -27,7 +27,6 @@ package java9.util.stream;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Deque;
 
 import java9.util.Objects;
@@ -1681,16 +1680,6 @@ final class Nodes {
 
             OfInt(Node.OfInt cur) {
                 super(cur);
-            }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Integer> action) {
-                return Spliterators.OfInt.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Integer> action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
             }
         }
 

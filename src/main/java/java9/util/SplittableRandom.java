@@ -25,7 +25,6 @@
 package java9.util;
 
 import java.security.PrivilegedAction;
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLong;
 
 import java9.util.Objects;
@@ -882,22 +881,6 @@ public final class SplittableRandom {
                     consumer.accept(r.internalNextInt(o, b));
                 } while (++i < f);
             }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
-            return Spliterators.OfInt.tryAdvance(this, action);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void forEachRemaining(Consumer<? super Integer> action) {
-            Spliterators.OfInt.forEachRemaining(this, action);
         }
     }
 

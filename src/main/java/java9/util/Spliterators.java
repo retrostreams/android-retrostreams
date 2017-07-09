@@ -102,99 +102,6 @@ public final class Spliterators {
     private Spliterators() {}
 
     /**
-     * Static default implementations for the Java 8 default methods of {@link Spliterator.OfInt}
-     */
-    public static final class OfInt {
-        /**
-         * Performs the given action for each remaining element of the passed Spliterator,
-         * sequentially in the current thread, until all elements have been processed or
-         * the action throws an exception.  If the {@code this_} Spliterator is {@link Spliterator#ORDERED},
-         * actions are performed in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * The default implementation repeatedly invokes {@link #tryAdvance}
-         * until it returns {@code false}.  It should be overridden whenever
-         * possible.
-         *
-         * @param this_ the Spliterator whose remaining elements should be processed
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static void forEachRemaining(Spliterator.OfInt this_, IntConsumer action) {
-            do { } while (this_.tryAdvance(action));
-        }
-
-        /**
-         * If a remaining element exists, performs the given action on it,
-         * returning {@code true}; else returns {@code false}.  If the {@code this_}
-         * Spliterator is {@link Spliterator#ORDERED} the action is performed on the
-         * next element in encounter order.  Exceptions thrown by the
-         * action are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * If the action is an instance of {@code IntConsumer} then it is cast
-         * to {@code IntConsumer} and passed to
-         * {@link Spliterator.OfInt#tryAdvance(java9.util.function.IntConsumer)}; otherwise
-         * the action is adapted to an instance of {@code IntConsumer}, by
-         * boxing the argument of {@code IntConsumer}, and then passed to
-         * {@link Spliterator.OfInt#tryAdvance(java9.util.function.IntConsumer)}.
-         *
-         * @param this_ the Spliterator to use
-         * @param action The action to execute
-         * @return {@code false} if no remaining elements existed
-         * upon entry to this method, else {@code true}.
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static boolean tryAdvance(Spliterator.OfInt this_, Consumer<? super Integer> action) {
-            if (action instanceof IntConsumer) {
-                return this_.tryAdvance((IntConsumer) action);
-            }
-            else {
-               return this_.tryAdvance(toIntConsumer(action));
-            }
-        }
-
-        private static IntConsumer toIntConsumer(Consumer<? super Integer> action) {
-            return (IntConsumer) action::accept;
-        }
-
-        /**
-         * Performs the given action for each remaining element, sequentially in
-         * the current thread, until all elements have been processed or the action
-         * throws an exception.  If the {@code this_} Spliterator is {@link Spliterator#ORDERED}, actions
-         * are performed in encounter order.  Exceptions thrown by the action
-         * are relayed to the caller.
-         *
-         * <p><b>Implementation Requirements:</b><br>
-         * If the action is an instance of {@code IntConsumer} then it is cast
-         * to {@code IntConsumer} and passed to
-         * {@link Spliterator.OfInt#forEachRemaining(java9.util.function.IntConsumer)}; otherwise
-         * the action is adapted to an instance of {@code IntConsumer}, by
-         * boxing the argument of {@code IntConsumer}, and then passed to
-         * {@link Spliterator.OfInt#forEachRemaining(java9.util.function.IntConsumer)}.
-         *
-         * @param this_ the Spliterator to use
-         * @param action The action to execute
-         * @throws NullPointerException if the specified {@code this_} Spliterator is null
-         * @throws NullPointerException if the specified action is null
-         */
-        public static void forEachRemaining(Spliterator.OfInt this_, Consumer<? super Integer> action) {
-            if (action instanceof IntConsumer) {
-                this_.forEachRemaining((IntConsumer) action);
-            }
-            else {
-                this_.forEachRemaining(toIntConsumer(action));
-            }
-        }
-
-        private OfInt() {
-        }
-    }
-
-    /**
      * Static default implementations for the Java 8 default methods of {@link Spliterator.OfLong}
      */
     public static final class OfLong {
@@ -1466,16 +1373,6 @@ public final class Spliterators {
                 extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer>
                 implements Spliterator.OfInt {
             OfInt() { }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Integer> action) {
-                return Spliterators.OfInt.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Integer> action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
-            }
         }
 
         private static final class OfLong
@@ -1667,16 +1564,6 @@ public final class Spliterators {
                 return true;
             }
             return false;
-        }
-
-        @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
-            return Spliterators.OfInt.tryAdvance(this, action);
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Integer> action) {
-            Spliterators.OfInt.forEachRemaining(this, action);
         }
 
         @Override
@@ -2173,22 +2060,6 @@ public final class Spliterators {
         @Override
         public void forEachRemaining(IntConsumer action) {
             do { } while (tryAdvance(action));
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void forEachRemaining(Consumer<? super Integer> action) {
-            Spliterators.OfInt.forEachRemaining(this, action);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
-            return Spliterators.OfInt.tryAdvance(this, action);
         }
     }
 
@@ -2764,16 +2635,6 @@ public final class Spliterators {
                 return null;
             }
             throw new IllegalStateException();
-        }
-
-        @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
-            return Spliterators.OfInt.tryAdvance(this, action);
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Integer> action) {
-            Spliterators.OfInt.forEachRemaining(this, action);
         }
     }
 

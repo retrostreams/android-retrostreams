@@ -846,16 +846,6 @@ final class WhileOps {
                 this.t = t;
             }
 
-            @Override
-            public void forEachRemaining(IntConsumer action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
-            }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Integer> action) {
-                return Spliterators.OfInt.tryAdvance(this, action);
-            }
-
             static final class Taking extends UnorderedWhileSpliterator.OfInt {
                 Taking(Spliterator.OfInt s, boolean noSplitting, IntPredicate p) {
                     super(s, noSplitting, p);

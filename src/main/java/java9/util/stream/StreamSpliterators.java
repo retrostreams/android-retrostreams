@@ -395,11 +395,6 @@ class StreamSpliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
-            return Spliterators.OfInt.tryAdvance(this, action);
-        }
-
-        @Override
         public void forEachRemaining(final IntConsumer consumer) {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
@@ -439,11 +434,6 @@ class StreamSpliterators {
             else {
                 do { } while (tryAdvance(consumer));
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Integer> action) {
-            Spliterators.OfInt.forEachRemaining(this, action);
         }
     }
 
@@ -1032,16 +1022,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Integer> action) {
-                return Spliterators.OfInt.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Integer> action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
-            }
-
-            @Override
             protected Spliterator.OfInt makeSpliterator(Spliterator.OfInt s,
                                                         long sliceOrigin, long sliceFence,
                                                         long origin, long fence) {
@@ -1382,16 +1362,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super Integer> action) {
-                return Spliterators.OfInt.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Integer> action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
-            }
-
-            @Override
             protected void acceptConsumed(IntConsumer action) {
                 action.accept(tmpValue);
             }
@@ -1654,21 +1624,6 @@ class StreamSpliterators {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfInt(estimate = estimate >>> 1, s);
-            }
-
-            @Override
-            public void forEachRemaining(IntConsumer action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Integer> action) {
-                Spliterators.OfInt.forEachRemaining(this, action);
-            }
-
-            @Override
-            public boolean tryAdvance(Consumer<? super Integer> action) {
-                return Spliterators.OfInt.tryAdvance(this, action);
             }
         }
 

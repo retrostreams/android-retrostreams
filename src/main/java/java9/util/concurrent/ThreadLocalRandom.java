@@ -6,7 +6,6 @@
 package java9.util.concurrent;
 
 import java.io.ObjectStreamField;
-import java.util.Comparator;
 import java.util.Random;
 
 import java9.util.Objects;
@@ -770,11 +769,6 @@ public class ThreadLocalRandom extends Random {
             return false;
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super Integer> action) {
-            return Spliterators.OfInt.tryAdvance(this, action);
-        }
-
         public void forEachRemaining(IntConsumer consumer) {
             Objects.requireNonNull(consumer);
             long i = index, f = fence;
@@ -786,11 +780,6 @@ public class ThreadLocalRandom extends Random {
                     consumer.accept(rng.internalNextInt(o, b));
                 } while (++i < f);
             }
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super Integer> action) {
-            Spliterators.OfInt.forEachRemaining(this, action);
         }
     }
 
