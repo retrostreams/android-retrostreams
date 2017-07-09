@@ -740,12 +740,7 @@ final class WhileOps {
                 count = (count + 1) & CANCEL_CHECK_COUNT;
                 this.t = t;
             }
-
-            @Override
-            public void forEachRemaining(Consumer<? super T> action) {
-                Spliterators.forEachRemaining(this, action);
-            }
-            
+           
             static final class Taking<T> extends OfRef<T> {
                 Taking(Spliterator<T> s, boolean noSplitting, Predicate<? super T> p) {
                     super(s, noSplitting, p);
@@ -859,11 +854,6 @@ final class WhileOps {
             @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
-            }
-
-            @Override
-            public void forEachRemaining(Consumer<? super Integer> action) {
-                Spliterators.forEachRemaining(this, action);
             }
 
             static final class Taking extends UnorderedWhileSpliterator.OfInt {

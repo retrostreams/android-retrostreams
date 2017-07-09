@@ -102,26 +102,6 @@ public final class Spliterators {
     private Spliterators() {}
 
     /**
-     * Performs the given action for each remaining element, sequentially in
-     * the current thread, until all elements have been processed or the action
-     * throws an exception.  If the {@code this_} Spliterator is
-     * {@link Spliterator#ORDERED}, actions are performed in encounter order.
-     * Exceptions thrown by the action are relayed to the caller.
-     *
-     * <p><b>Implementation Requirements:</b><br>
-     * The default implementation repeatedly invokes {@link Spliterator#tryAdvance} until
-     * it returns {@code false}.  It should be overridden whenever possible.
-     *
-     * @param <T> the type of elements returned by the passed Spliterator
-     * @param this_ the Spliterator whose remaining elements should be processed
-     * @param action The action
-     * @throws NullPointerException if the specified action is null
-     */
-    public static <T> void forEachRemaining(Spliterator<T> this_, Consumer<? super T> action) {
-        do { } while (this_.tryAdvance(action));
-    }
-
-    /**
      * Static default implementations for the Java 8 default method of {@link Spliterator.OfPrimitive}
      */
     public static final class OfPrimitive {

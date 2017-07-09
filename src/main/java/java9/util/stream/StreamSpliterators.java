@@ -1617,11 +1617,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> action) {
-                Spliterators.forEachRemaining(this, action);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super T> action) {
                 Objects.requireNonNull(action);
 
