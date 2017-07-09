@@ -24,8 +24,11 @@
  */
 package java9.util.stream;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Set;
 
+import java9.util.Objects;
 import java9.util.function.BiConsumer;
 import java9.util.function.BinaryOperator;
 import java9.util.function.Function;
@@ -136,7 +139,7 @@ import java9.util.function.Supplier;
  *
  * <p>In addition to the predefined implementations in {@link Collectors}, the
  * static factory methods
- * {@link java9.util.stream.Collectors#of(Supplier, BiConsumer, BinaryOperator, Collector.Characteristics...)}
+ * {@link java9.util.stream.Collector#of(Supplier, BiConsumer, BinaryOperator, Collector.Characteristics...)}
  * can be used to construct collectors.  For example, you could create a collector
  * that accumulates widgets into a {@code TreeSet} with:
  *
@@ -238,6 +241,73 @@ public interface Collector<T, A, R> {
      * @return an immutable set of collector characteristics
      */
     Set<Characteristics> characteristics();
+
+    /**
+     * Returns a new {@code Collector} described by the given {@code supplier},
+     * {@code accumulator}, and {@code combiner} functions.  The resulting
+     * {@code Collector} has the {@code Collector.Characteristics.IDENTITY_FINISH}
+     * characteristic.
+     *
+     * @param supplier The supplier function for the new collector
+     * @param accumulator The accumulator function for the new collector
+     * @param combiner The combiner function for the new collector
+     * @param characteristics The collector characteristics for the new
+     *                        collector
+     * @param <T> The type of input elements for the new collector
+     * @param <R> The type of intermediate accumulation result, and final result,
+     *           for the new collector
+     * @throws NullPointerException if any argument is null
+     * @return the new {@code Collector}
+     */
+    public static <T, R> Collector<T, R, R> of(Supplier<R> supplier,
+                                              BiConsumer<R, T> accumulator,
+                                              BinaryOperator<R> combiner,
+                                              Characteristics... characteristics) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(combiner);
+        Objects.requireNonNull(characteristics);
+        Set<Characteristics> cs = (characteristics.length == 0)
+                                  ? Collectors.CH_ID
+                                  : Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH,
+                                                                           characteristics));
+        return new Collectors.CollectorImpl<>(supplier, accumulator, combiner, cs);
+    }
+
+    /**
+     * Returns a new {@code Collector} described by the given {@code supplier},
+     * {@code accumulator}, {@code combiner}, and {@code finisher} functions.
+     *
+     * @param supplier The supplier function for the new collector
+     * @param accumulator The accumulator function for the new collector
+     * @param combiner The combiner function for the new collector
+     * @param finisher The finisher function for the new collector
+     * @param characteristics The collector characteristics for the new
+     *                        collector
+     * @param <T> The type of input elements for the new collector
+     * @param <A> The intermediate accumulation type of the new collector
+     * @param <R> The final result type of the new collector
+     * @throws NullPointerException if any argument is null
+     * @return the new {@code Collector}
+     */
+    public static <T, A, R> Collector<T, A, R> of(Supplier<A> supplier,
+                                                 BiConsumer<A, T> accumulator,
+                                                 BinaryOperator<A> combiner,
+                                                 Function<A, R> finisher,
+                                                 Characteristics... characteristics) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(accumulator);
+        Objects.requireNonNull(combiner);
+        Objects.requireNonNull(finisher);
+        Objects.requireNonNull(characteristics);
+        Set<Characteristics> cs = Collectors.CH_NOID;
+        if (characteristics.length > 0) {
+            cs = EnumSet.noneOf(Characteristics.class);
+            Collections.addAll(cs, characteristics);
+            cs = Collections.unmodifiableSet(cs);
+        }
+        return new Collectors.CollectorImpl<>(supplier, accumulator, combiner, finisher, cs);
+    }
 
     /**
      * Characteristics indicating properties of a {@code Collector}, which can
