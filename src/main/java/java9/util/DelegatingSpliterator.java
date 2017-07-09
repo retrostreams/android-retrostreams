@@ -8,7 +8,6 @@ package java9.util;
 import java.util.Comparator;
 
 import java9.util.function.Consumer;
-import java9.util.function.Consumers;
 
 /**
  * A j8.u.Spliterator implementation that delegates to a j.u.Spliterator.
@@ -96,7 +95,7 @@ final class DelegatingSpliterator<T> implements Spliterator<T> {
 
             Objects.requireNonNull(after);
 
-            return new ConsumerDelegate<T>(Consumers.andThen(delegate,
+            return new ConsumerDelegate<T>(delegate.andThen(
                     new java9.util.function.Consumer<T>() {
                         @Override
                         public void accept(T t) {
