@@ -128,11 +128,6 @@ final class RASpliterator<E> implements Spliterator<E> {
         return Spliterators.getExactSizeIfKnown(this);
     }
 
-    @Override
-    public boolean hasCharacteristics(int characteristics) {
-        return Spliterators.hasCharacteristics(this, characteristics);
-    }
-
     private static void checkAbsListModCount(AbstractList<?> alist, int expectedModCount) {
         if (alist != null && getModCount(alist) != expectedModCount) {
             throw new ConcurrentModificationException();

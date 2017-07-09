@@ -1624,11 +1624,6 @@ final class Nodes {
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
             }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
         }
 
         private abstract static class OfPrimitive<T, T_CONS, T_ARR,
@@ -1687,11 +1682,6 @@ final class Nodes {
             @Override
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
         }
 

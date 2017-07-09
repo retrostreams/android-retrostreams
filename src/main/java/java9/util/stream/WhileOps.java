@@ -746,11 +746,6 @@ final class WhileOps {
                 Spliterators.forEachRemaining(this, action);
             }
             
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
             static final class Taking<T> extends OfRef<T> {
                 Taking(Spliterator<T> s, boolean noSplitting, Predicate<? super T> p) {
                     super(s, noSplitting, p);
@@ -854,11 +849,6 @@ final class WhileOps {
             public void accept(int t) {
                 count = (count + 1) & CANCEL_CHECK_COUNT;
                 this.t = t;
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
 
             @Override
@@ -987,11 +977,6 @@ final class WhileOps {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             public void forEachRemaining(LongConsumer action) {
                 Spliterators.OfLong.forEachRemaining(this, action);
             }
@@ -1104,11 +1089,6 @@ final class WhileOps {
             public void accept(double t) {
                 count = (count + 1) & CANCEL_CHECK_COUNT;
                 this.t = t;
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
 
             @Override

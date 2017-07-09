@@ -123,11 +123,6 @@ final class PQueueSpliterator<E> implements Spliterator<E> {
         return Spliterators.getExactSizeIfKnown(this);
     }
 
-    @Override
-    public boolean hasCharacteristics(int characteristics) {
-        return Spliterators.hasCharacteristics(this, characteristics);
-    }
-
     private static <T> int getSize(PriorityQueue<T> pq) {
         return U.getInt(pq, SIZE_OFF);
     }

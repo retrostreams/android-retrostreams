@@ -139,11 +139,6 @@ final class Streams {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         public Comparator<? super Integer> getComparator() {
             return null;
         }
@@ -282,11 +277,6 @@ final class Streams {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         public Comparator<? super Long> getComparator() {
             return null;
         }
@@ -356,11 +346,6 @@ final class Streams {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         @Override
@@ -878,11 +863,6 @@ final class Streams {
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
             }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
         }
 
         private abstract static class OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
@@ -917,11 +897,6 @@ final class Streams {
             @Override
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
         }
 

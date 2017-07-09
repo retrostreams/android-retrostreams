@@ -83,9 +83,4 @@ final class PBQueueSpliterator<E> implements Spliterator<E> {
     public long getExactSizeIfKnown() {
         return Spliterators.getExactSizeIfKnown(this);
     }
-
-    @Override
-    public boolean hasCharacteristics(int characteristics) {
-        return Spliterators.hasCharacteristics(this, characteristics);
-    }
 }

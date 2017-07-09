@@ -138,11 +138,6 @@ class StreamSpliterators {
             this.isParallel = parallel;
         }
 
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
         /**
          * Called before advancing to set up spliterator, if needed.
          */
@@ -726,11 +721,6 @@ class StreamSpliterators {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         @SuppressWarnings("unchecked")
         public T_SPLITR trySplit() {
             return (T_SPLITR) get().trySplit();
@@ -970,11 +960,6 @@ class StreamSpliterators {
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
             }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
         }
 
         static abstract class OfPrimitive<T,
@@ -1057,11 +1042,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
             }
@@ -1101,11 +1081,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1142,11 +1117,6 @@ class StreamSpliterators {
             @Override
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
 
             @Override
@@ -1340,11 +1310,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             protected Spliterator<T> makeSpliterator(Spliterator<T> s) {
                 return new UnorderedSliceSpliterator.OfRef<>(s, this);
             }
@@ -1447,11 +1412,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Integer> action) {
                 return Spliterators.OfInt.tryAdvance(this, action);
             }
@@ -1502,11 +1462,6 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1554,11 +1509,6 @@ class StreamSpliterators {
             @Override
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
 
             @Override
@@ -1619,11 +1569,6 @@ class StreamSpliterators {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         @Override
@@ -1711,11 +1656,6 @@ class StreamSpliterators {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         static final class OfRef<T> extends InfiniteSupplyingSpliterator<T> {

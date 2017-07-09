@@ -138,25 +138,6 @@ public final class Spliterators {
     }
 
     /**
-     * Returns {@code true} if the {@code this_} Spliterator's {@link
-     * Spliterator#characteristics} contain all of the given characteristics.
-     *
-     * <p><b>Implementation Requirements:</b><br>
-     * The default implementation returns true if the corresponding bits
-     * of the given characteristics are set.
-     *
-     *
-     * @param <T> the type of elements returned by the passed Spliterator
-     * @param this_ the Spliterator whose characteristics should be queried
-     * @param characteristics the characteristics to check for
-     * @return {@code true} if all the specified characteristics are present,
-     * else {@code false}
-     */
-    public static <T> boolean hasCharacteristics(Spliterator<T> this_, int characteristics) {
-        return (this_.characteristics() & characteristics) == characteristics;
-    }
-
-    /**
      * Static default implementations for the Java 8 default method of {@link Spliterator.OfPrimitive}
      */
     public static final class OfPrimitive {
@@ -1557,11 +1538,6 @@ public final class Spliterators {
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
             }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
         }
 
         private static final class OfInt
@@ -1572,11 +1548,6 @@ public final class Spliterators {
             @Override
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
 
             @Override
@@ -1601,11 +1572,6 @@ public final class Spliterators {
             }
 
             @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
-            }
-
-            @Override
             public boolean tryAdvance(Consumer<? super Long> action) {
                 return Spliterators.OfLong.tryAdvance(this, action);
             }
@@ -1624,11 +1590,6 @@ public final class Spliterators {
             @Override
             public long getExactSizeIfKnown() {
                 return Spliterators.getExactSizeIfKnown(this);
-            }
-
-            @Override
-            public boolean hasCharacteristics(int characteristics) {
-                return Spliterators.hasCharacteristics(this, characteristics);
             }
 
             @Override
@@ -1692,11 +1653,6 @@ public final class Spliterators {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         @Override
@@ -1835,11 +1791,6 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         public Comparator<? super Integer> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED))
                 return null;
@@ -1936,11 +1887,6 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         public Comparator<? super Long> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED))
                 return null;
@@ -2034,11 +1980,6 @@ public final class Spliterators {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         @Override
@@ -2837,11 +2778,6 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         public Comparator<? super T> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED)) {
                 return null;
@@ -2943,11 +2879,6 @@ public final class Spliterators {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         @Override
@@ -3070,11 +3001,6 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
-        }
-
-        @Override
         public Comparator<? super Long> getComparator() {
             if (hasCharacteristics(Spliterator.SORTED)) {
                 return null;
@@ -3181,11 +3107,6 @@ public final class Spliterators {
         @Override
         public long getExactSizeIfKnown() {
             return Spliterators.getExactSizeIfKnown(this);
-        }
-
-        @Override
-        public boolean hasCharacteristics(int characteristics) {
-            return Spliterators.hasCharacteristics(this, characteristics);
         }
 
         @Override

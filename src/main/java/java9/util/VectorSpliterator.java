@@ -121,11 +121,6 @@ final class VectorSpliterator<E> implements Spliterator<E> {
         return Spliterators.getExactSizeIfKnown(this);
     }
 
-    @Override
-    public boolean hasCharacteristics(int characteristics) {
-        return Spliterators.hasCharacteristics(this, characteristics);
-    }
-
     private static <T> int getSize(Vector<T> lst) {
         return U.getInt(lst, SIZE_OFF);
     }

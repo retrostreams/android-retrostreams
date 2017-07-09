@@ -80,11 +80,6 @@ final class LBDSpliterator<E> implements Spliterator<E> {
     }
 
     @Override
-    public boolean hasCharacteristics(int characteristics) {
-        return Spliterators.hasCharacteristics(this, characteristics);
-    }
-
-    @Override
     public boolean tryAdvance(Consumer<? super E> action) {
         Objects.requireNonNull(action);
         if (!exhausted) {

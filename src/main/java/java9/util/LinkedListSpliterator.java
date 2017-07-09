@@ -109,11 +109,6 @@ final class LinkedListSpliterator<T> implements Spliterator<T> {
     }
 
     @Override
-    public boolean hasCharacteristics(int characteristics) {
-        return Spliterators.hasCharacteristics(this, characteristics);
-    }
-
-    @Override
     public boolean tryAdvance(Consumer<? super T> action) {
         Objects.requireNonNull(action);
         Object eol = endOfList;
