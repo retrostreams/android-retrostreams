@@ -70,299 +70,6 @@ final class Nodes {
     private static final Node.OfDouble EMPTY_DOUBLE_NODE = new EmptyNode.OfDouble();
 
     /**
-     * Gets the {@code StreamShape} associated with this {@code Node}.
-     *
-     * <p><b>Implementation Requirements:</b><br> The default in {@code Node} returns
-     * {@code StreamShape.REFERENCE}
-     *
-     * @return the stream shape associated with this node
-     */
-    static <T> StreamShape getShape(Node<T> node) {
-        return StreamShape.REFERENCE;
-    }
-
-    /**
-     * Returns the number of child nodes of this node.
-     *
-     * <p><b>Implementation Requirements:</b><br> The default implementation returns zero.
-     *
-     * @return the number of child nodes
-     */
-    static <T> int getChildCount(Node<T> node) {
-        return 0;
-    }
-
-    /**
-     * Retrieves the child {@code Node} at a given index.
-     *
-     * <p><b>Implementation Requirements:</b><br> The default implementation always throws
-     * {@code IndexOutOfBoundsException}.
-     *
-     * @param i the index to the child node
-     * @return the child node
-     * @throws IndexOutOfBoundsException if the index is less than 0 or greater
-     *         than or equal to the number of child nodes
-     */
-    static <T> Node<T> getChild(Node<T> node, int i) {
-        throw new IndexOutOfBoundsException();
-    }
-
-    /**
-     * Return a node describing a subsequence of the elements of this node,
-     * starting at the given inclusive start offset and ending at the given
-     * exclusive end offset.
-     *
-     * @param from The (inclusive) starting offset of elements to include, must
-     *             be in range 0..count().
-     * @param to The (exclusive) end offset of elements to include, must be
-     *           in range 0..count().
-     * @param generator A function to be used to create a new array, if needed,
-     *                  for reference nodes.
-     * @return the truncated node
-     */
-    static <T> Node<T> truncate(Node<T> node, long from, long to, IntFunction<T[]> generator) {
-        if (from == 0 && to == node.count()) {
-            return node;
-        }
-        Spliterator<T> spliterator = node.spliterator();
-        long size = to - from;
-        Node.Builder<T> nodeBuilder = Nodes.builder(size, generator);
-        nodeBuilder.begin(size);
-        for (int i = 0; i < from && spliterator.tryAdvance(e -> { }); i++) { }
-        if (to == node.count()) {
-            spliterator.forEachRemaining(nodeBuilder);
-        } else {
-            for (int i = 0; i < size && spliterator.tryAdvance(nodeBuilder); i++) { }
-        }
-        nodeBuilder.end();
-        return nodeBuilder.build();
-    }
-
-    static final class OfPrimitive {
-        static <T, T_CONS, T_ARR, T_NODE extends Node.OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE>, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>> T_NODE getChild(Node.OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE> this_, int i) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        static <T, T_CONS, T_ARR, T_NODE extends Node.OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE>, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>> T[] asArray(Node.OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE> this_, IntFunction<T[]> generator) {
-            long size = this_.count();
-            if (size >= Nodes.MAX_ARRAY_SIZE) {
-                throw new IllegalArgumentException(Nodes.BAD_SIZE);
-            }
-            T[] boxed = generator.apply((int) this_.count());
-            this_.copyInto(boxed, 0);
-            return boxed;
-        }
-
-        private OfPrimitive() {
-        }
-    }
-
-    static final class OfDouble {
-
-        static Node.OfDouble truncate(Node.OfDouble this_, long from, long to, IntFunction<Double[]> generator) {
-            if (from == 0 && to == this_.count())
-                return this_;
-            long size = to - from;
-            Spliterator.OfDouble spliterator = this_.spliterator();
-            Node.Builder.OfDouble nodeBuilder = Nodes.doubleBuilder(size);
-            nodeBuilder.begin(size);
-            for (int i = 0; i < from && spliterator.tryAdvance((DoubleConsumer) e -> { }); i++) { }
-            if (to == this_.count()) {
-                spliterator.forEachRemaining((DoubleConsumer) nodeBuilder);
-            } else {
-                for (int i = 0; i < size && spliterator.tryAdvance((DoubleConsumer) nodeBuilder); i++) { }
-            }
-            nodeBuilder.end();
-            return nodeBuilder.build();
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @param consumer A {@code Consumer} that is to be invoked with each
-         *        element in this {@code Node}.  If this is an
-         *        {@code DoubleConsumer}, it is cast to {@code DoubleConsumer}
-         *        so the elements may be processed without boxing.
-         */
-        static void forEach(Node.OfDouble this_, Consumer<? super Double> consumer) {
-            if (consumer instanceof DoubleConsumer) {
-                this_.forEach((DoubleConsumer) consumer);
-            }
-            else {
-                this_.spliterator().forEachRemaining(consumer);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * <p><b>Implementation Requirements:</b><br> the default implementation invokes {@link #asPrimitiveArray()}
-         * to obtain a double[] array then and copies the elements from that
-         * double[] array into the boxed Double[] array.  This is not efficient
-         * and it is recommended to invoke {@link #copyInto(Object, int)}.
-         */
-        static void copyInto(Node.OfDouble this_, Double[] boxed, int offset) {
-            double[] array = this_.asPrimitiveArray();
-            for (int i = 0; i < array.length; i++) {
-                boxed[offset + i] = array[i];
-            }
-        }
-
-        static double[] newArray(Node.OfDouble this_, int count) {
-            return new double[count];
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * <p><b>Implementation Requirements:</b><br> The default in {@code Node.OfDouble} returns
-         * {@code StreamShape.DOUBLE_VALUE}
-         */
-        static StreamShape getShape(Node.OfDouble this_) {
-            return StreamShape.DOUBLE_VALUE;
-        }
-
-        private OfDouble () {
-        }
-    }
-
-    static final class OfLong {
-
-        static Node.OfLong truncate(Node.OfLong this_, long from, long to, IntFunction<Long[]> generator) {
-            if (from == 0 && to == this_.count())
-                return this_;
-            long size = to - from;
-            Spliterator.OfLong spliterator = this_.spliterator();
-            Node.Builder.OfLong nodeBuilder = Nodes.longBuilder(size);
-            nodeBuilder.begin(size);
-            for (int i = 0; i < from && spliterator.tryAdvance((LongConsumer) e -> { }); i++) { }
-            if (to == this_.count()) {
-                spliterator.forEachRemaining((LongConsumer) nodeBuilder);
-            } else {
-                for (int i = 0; i < size && spliterator.tryAdvance((LongConsumer) nodeBuilder); i++) { }
-            }
-            nodeBuilder.end();
-            return nodeBuilder.build();
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @param consumer A {@code Consumer} that is to be invoked with each
-         *        element in this {@code Node}.  If this is an
-         *        {@code LongConsumer}, it is cast to {@code LongConsumer} so
-         *        the elements may be processed without boxing.
-         */
-        static void forEach(Node.OfLong this_, Consumer<? super Long> consumer) {
-            if (consumer instanceof LongConsumer) {
-                this_.forEach((LongConsumer) consumer);
-            }
-            else {
-                this_.spliterator().forEachRemaining(consumer);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * <p><b>Implementation Requirements:</b><br> the default implementation invokes {@link #asPrimitiveArray()}
-         * to obtain a long[] array then and copies the elements from that
-         * long[] array into the boxed Long[] array.  This is not efficient and
-         * it is recommended to invoke {@link #copyInto(Object, int)}.
-         */
-        static void copyInto(Node.OfLong this_, Long[] boxed, int offset) {
-            long[] array = this_.asPrimitiveArray();
-            for (int i = 0; i < array.length; i++) {
-                boxed[offset + i] = array[i];
-            }
-        }
-
-        static long[] newArray(Node.OfLong this_, int count) {
-            return new long[count];
-        }
-
-        /**
-         * {@inheritDoc}
-         * <p><b>Implementation Requirements:</b><br> The default in {@code Node.OfLong} returns
-         * {@code StreamShape.LONG_VALUE}
-         */
-        static StreamShape getShape(Node.OfLong this_) {
-            return StreamShape.LONG_VALUE;
-        }
-
-        private OfLong() {
-        }
-    }
-
-    static final class OfInt {
-
-        static Node.OfInt truncate(Node.OfInt this_, long from, long to, IntFunction<Integer[]> generator) {
-            if (from == 0 && to == this_.count())
-                return this_;
-            long size = to - from;
-            Spliterator.OfInt spliterator = this_.spliterator();
-            Node.Builder.OfInt nodeBuilder = Nodes.intBuilder(size);
-            nodeBuilder.begin(size);
-            for (int i = 0; i < from && spliterator.tryAdvance((IntConsumer) e -> { }); i++) { }
-            if (to == this_.count()) {
-                spliterator.forEachRemaining((IntConsumer) nodeBuilder);
-            } else {
-                for (int i = 0; i < size && spliterator.tryAdvance((IntConsumer) nodeBuilder); i++) { }
-            }
-            nodeBuilder.end();
-            return nodeBuilder.build();
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @param consumer a {@code Consumer} that is to be invoked with each
-         *        element in this {@code Node}.  If this is an
-         *        {@code IntConsumer}, it is cast to {@code IntConsumer} so the
-         *        elements may be processed without boxing.
-         */
-        static void forEach(Node.OfInt this_, Consumer<? super Integer> consumer) {
-            if (consumer instanceof IntConsumer) {
-                this_.forEach((IntConsumer) consumer);
-            }
-            else {
-                this_.spliterator().forEachRemaining(consumer);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * <p><b>Implementation Requirements:</b><br> the default implementation invokes {@link #asPrimitiveArray()} to
-         * obtain an int[] array then and copies the elements from that int[]
-         * array into the boxed Integer[] array.  This is not efficient and it
-         * is recommended to invoke {@link #copyInto(Object, int)}.
-         */
-        static void copyInto(Node.OfInt this_, Integer[] boxed, int offset) {
-            int[] array = this_.asPrimitiveArray();
-            for (int i = 0; i < array.length; i++) {
-                boxed[offset + i] = array[i];
-            }
-        }
-
-        static int[] newArray(Node.OfInt this_, int count) {
-            return new int[count];
-        }
-
-        /**
-         * {@inheritDoc}
-         * <p><b>Implementation Requirements:</b><br> The default in {@code Node.OfInt} returns
-         * {@code StreamShape.INT_VALUE}
-         */
-        static StreamShape getShape(Node.OfInt this_) {
-            return StreamShape.INT_VALUE;
-        }
-
-        private OfInt() {
-        }
-    }
-
-    /**
      * @return an array generator for an array whose elements are of type T.
      */
     @SuppressWarnings("unchecked")
@@ -870,26 +577,6 @@ final class Nodes {
             return 0;
         }
 
-        @Override
-        public StreamShape getShape() {
-            return Nodes.getShape(this);
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public Node<T> getChild(int i) {
-            return Nodes.getChild(this, i);
-        }
-
-        @Override
-        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
-            return Nodes.truncate(this, from, to, generator);
-        }
-
         public void forEach(T_CONS consumer) { }
 
         private static class OfRef<T> extends EmptyNode<T, T[], Consumer<? super T>> {
@@ -910,39 +597,13 @@ final class Nodes {
             OfInt() { } // Avoid creation of special accessor
 
             @Override
-            public void forEach(Consumer<? super Integer> consumer) {
-                Nodes.OfInt.forEach(this, consumer);
-            }
-
-            @Override
             public Spliterator.OfInt spliterator() {
                 return Spliterators.emptyIntSpliterator();
             }
 
             @Override
-            public Node.OfInt getChild(int i) {
-                return Nodes.OfPrimitive.getChild(this, i);
-            }
-
-            @Override
-            public Node.OfInt truncate(long from, long to,
-                    IntFunction<Integer[]> generator) {
-                return Nodes.OfInt.truncate(this, from, to, generator);
-            }
-
-            @Override
             public int[] asPrimitiveArray() {
                 return EMPTY_INT_ARRAY;
-            }
-
-            @Override
-            public void copyInto(Integer[] boxed, int offset) {
-                Nodes.OfInt.copyInto(this, boxed, offset);
-            }
-
-            @Override
-            public int[] newArray(int count) {
-                return Nodes.OfInt.newArray(this, count);
             }
         }
 
@@ -953,39 +614,13 @@ final class Nodes {
             OfLong() { } // Avoid creation of special accessor
 
             @Override
-            public void forEach(Consumer<? super Long> consumer) {
-                Nodes.OfLong.forEach(this, consumer);
-            }
-
-            @Override
             public Spliterator.OfLong spliterator() {
                 return Spliterators.emptyLongSpliterator();
             }
 
             @Override
-            public Node.OfLong getChild(int i) {
-                return Nodes.OfPrimitive.getChild(this, i);
-            }
-
-            @Override
-            public Node.OfLong truncate(long from, long to,
-                    IntFunction<Long[]> generator) {
-                return Nodes.OfLong.truncate(this, from, to, generator);
-            }
-
-            @Override
             public long[] asPrimitiveArray() {
                 return EMPTY_LONG_ARRAY;
-            }
-
-            @Override
-            public void copyInto(Long[] boxed, int offset) {
-                Nodes.OfLong.copyInto(this, boxed, offset);
-            }
-
-            @Override
-            public long[] newArray(int count) {
-                return Nodes.OfLong.newArray(this, count);
             }
         }
 
@@ -996,39 +631,13 @@ final class Nodes {
             OfDouble() { } // Avoid creation of special accessor
 
             @Override
-            public void forEach(Consumer<? super Double> consumer) {
-                Nodes.OfDouble.forEach(this, consumer);
-            }
-
-            @Override
-            public Node.OfDouble getChild(int i) {
-                return Nodes.OfPrimitive.getChild(this, i);
-            }
-
-            @Override
-            public Node.OfDouble truncate(long from, long to,
-                    IntFunction<Double[]> generator) {
-                return Nodes.OfDouble.truncate(this, from, to, generator);
-            }
-
-            @Override
             public Spliterator.OfDouble spliterator() {
                 return Spliterators.emptyDoubleSpliterator();
             }
 
             @Override
-            public void copyInto(Double[] boxed, int offset) {
-                Nodes.OfDouble.copyInto(this, boxed, offset);
-            }
-
-            @Override
             public double[] asPrimitiveArray() {
                 return EMPTY_DOUBLE_ARRAY;
-            }
-
-            @Override
-            public double[] newArray(int count) {
-                return Nodes.OfDouble.newArray(this, count);
             }
         }
     }
@@ -1055,26 +664,6 @@ final class Nodes {
         @Override
         public Spliterator<T> spliterator() {
             return java9.util.J8Arrays.spliterator(array, 0, curSize);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.getShape(this);
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public Node<T> getChild(int i) {
-            return Nodes.getChild(this, i);
-        }
-
-        @Override
-        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
-            return Nodes.truncate(this, from, to, generator);
         }
 
         @Override
@@ -1125,26 +714,6 @@ final class Nodes {
         @Override
         public Spliterator<T> spliterator() {
             return Spliterators.spliterator(c);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.getShape(this);
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public Node<T> getChild(int i) {
-            return Nodes.getChild(this, i);
-        }
-
-        @Override
-        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
-            return Nodes.truncate(this, from, to, generator);
         }
 
         @Override
@@ -1201,11 +770,6 @@ final class Nodes {
         @Override
         public int getChildCount() {
             return 2;
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.getShape(this);
         }
 
         @Override
@@ -1318,11 +882,6 @@ final class Nodes {
             }
 
             @Override
-            public E[] asArray(IntFunction<E[]> generator) {
-                return Nodes.OfPrimitive.asArray(this, generator);
-            }
-
-            @Override
             public String toString() {
                 if (count() < 32)
                     return String.format("%s[%s.%s]", this.getClass().getName(), left, right);
@@ -1340,29 +899,8 @@ final class Nodes {
             }
 
             @Override
-            public void forEach(Consumer<? super Integer> consumer) {
-                Nodes.OfInt.forEach(this, consumer);
-            }
-
-            @Override
             public Spliterator.OfInt spliterator() {
                 return new InternalNodeSpliterator.OfInt(this);
-            }
-
-            @Override
-            public Node.OfInt truncate(long from, long to,
-                    IntFunction<Integer[]> generator) {
-                return Nodes.OfInt.truncate(this, from, to, generator);
-            }
-
-            @Override
-            public void copyInto(Integer[] boxed, int offset) {
-                Nodes.OfInt.copyInto(this, boxed, offset);
-            }
-
-            @Override
-            public int[] newArray(int count) {
-                return Nodes.OfInt.newArray(this, count);
             }
         }
 
@@ -1375,29 +913,8 @@ final class Nodes {
             }
 
             @Override
-            public void forEach(Consumer<? super Long> consumer) {
-                Nodes.OfLong.forEach(this, consumer);
-            }
-
-            @Override
-            public java9.util.stream.Node.OfLong truncate(long from, long to,
-                    IntFunction<Long[]> generator) {
-                return Nodes.OfLong.truncate(this, from, to, generator);
-            }
-
-            @Override
             public Spliterator.OfLong spliterator() {
                 return new InternalNodeSpliterator.OfLong(this);
-            }
-
-            @Override
-            public void copyInto(Long[] boxed, int offset) {
-                Nodes.OfLong.copyInto(this, boxed, offset);
-            }
-
-            @Override
-            public long[] newArray(int count) {
-                return Nodes.OfLong.newArray(this, count);
             }
         }
 
@@ -1410,29 +927,8 @@ final class Nodes {
             }
 
             @Override
-            public void forEach(Consumer<? super Double> consumer) {
-                Nodes.OfDouble.forEach(this, consumer);
-            }
-
-            @Override
-            public Node.OfDouble truncate(long from, long to,
-                    IntFunction<Double[]> generator) {
-                return Nodes.OfDouble.truncate(this, from, to, generator);
-            }
-
-            @Override
             public Spliterator.OfDouble spliterator() {
                 return new InternalNodeSpliterator.OfDouble(this);
-            }
-
-            @Override
-            public void copyInto(Double[] boxed, int offset) {
-                Nodes.OfDouble.copyInto(this, boxed, offset);
-            }
-
-            @Override
-            public double[] newArray(int count) {
-                return Nodes.OfDouble.newArray(this, count);
             }
         }
     }
@@ -1793,26 +1289,6 @@ final class Nodes {
         }
 
         @Override
-        public StreamShape getShape() {
-            return Nodes.getShape(this);
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public Node<T> getChild(int i) {
-            return Nodes.getChild(this, i);
-        }
-
-        @Override
-        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
-            return Nodes.truncate(this, from, to, generator);
-        }
-
-        @Override
         public void begin(long size) {
             clear();
             ensureCapacity(size);
@@ -1889,34 +1365,8 @@ final class Nodes {
         // Node
 
         @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public void forEach(Consumer<? super Integer> consumer) {
-            Nodes.OfInt.forEach(this, consumer);
-        }
-
-        @Override
-        public OfInt getChild(int i) {
-            return Nodes.OfPrimitive.getChild(this, i);
-        }
-
-        @Override
         public Spliterator.OfInt spliterator() {
             return java9.util.J8Arrays.spliterator(array, 0, curSize);
-        }
-
-        @Override
-        public OfInt truncate(long from, long to,
-                IntFunction<Integer[]> generator) {
-            return Nodes.OfInt.truncate(this, from, to, generator);
-        }
-
-        @Override
-        public void copyInto(Integer[] boxed, int offset) {
-            Nodes.OfInt.copyInto(this, boxed, offset);
         }
 
         @Override
@@ -1926,21 +1376,6 @@ final class Nodes {
             } else {
                 return Arrays.copyOf(array, curSize);
             }
-        }
-
-        @Override
-        public Integer[] asArray(IntFunction<Integer[]> generator) {
-            return Nodes.OfPrimitive.asArray(this, generator);
-        }
-
-        @Override
-        public int[] newArray(int count) {
-            return Nodes.OfInt.newArray(this, count);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.OfInt.getShape(this);
         }
 
         @Override
@@ -1984,32 +1419,6 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super Long> consumer) {
-            Nodes.OfLong.forEach(this, consumer);
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public java9.util.stream.Node.OfLong getChild(int i) {
-            return Nodes.OfPrimitive.getChild(this, i);
-        }
-
-        @Override
-        public void copyInto(Long[] boxed, int offset) {
-            Nodes.OfLong.copyInto(this, boxed, offset);
-        }
-
-        @Override
-        public java9.util.stream.Node.OfLong truncate(long from, long to,
-                IntFunction<Long[]> generator) {
-            return Nodes.OfLong.truncate(this, from, to, generator);
-        }
-
-        @Override
         public Spliterator.OfLong spliterator() {
             return java9.util.J8Arrays.spliterator(array, 0, curSize);
         }
@@ -2021,21 +1430,6 @@ final class Nodes {
             } else {
                 return Arrays.copyOf(array, curSize);
             }
-        }
-
-        @Override
-        public Long[] asArray(IntFunction<Long[]> generator) {
-            return Nodes.OfPrimitive.asArray(this, generator);
-        }
-
-        @Override
-        public long[] newArray(int count) {
-            return Nodes.OfLong.newArray(this, count);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.OfLong.getShape(this);
         }
 
         @Override
@@ -2079,27 +1473,6 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super Double> consumer) {
-            Nodes.OfDouble.forEach(this, consumer);
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public OfDouble getChild(int i) {
-            return Nodes.OfPrimitive.getChild(this, i);
-        }
-
-        @Override
-        public OfDouble truncate(long from, long to,
-                IntFunction<Double[]> generator) {
-            return Nodes.OfDouble.truncate(this, from, to, generator);
-        }
-
-        @Override
         public Spliterator.OfDouble spliterator() {
             return java9.util.J8Arrays.spliterator(array, 0, curSize);
         }
@@ -2111,26 +1484,6 @@ final class Nodes {
             } else {
                 return Arrays.copyOf(array, curSize);
             }
-        }
-
-        @Override
-        public Double[] asArray(IntFunction<Double[]> generator) {
-            return Nodes.OfPrimitive.asArray(this, generator);
-        }
-
-        @Override
-        public double[] newArray(int count) {
-            return Nodes.OfDouble.newArray(this, count);
-        }
-
-        @Override
-        public void copyInto(Double[] boxed, int offset) {
-            Nodes.OfDouble.copyInto(this, boxed, offset);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.OfDouble.getShape(this);
         }
 
         @Override
@@ -2435,44 +1788,13 @@ final class Nodes {
         }
 
         @Override
-        public void copyInto(Integer[] boxed, int offset) {
-            Nodes.OfInt.copyInto(this, boxed, offset);
-        }
-
-        @Override
-        public Node.OfInt truncate(long from, long to,
-                IntFunction<Integer[]> generator) {
-            return Nodes.OfInt.truncate(this, from, to, generator);
-        }
-
-        @Override
         public int[] asPrimitiveArray() {
             return super.asPrimitiveArray();
         }
 
         @Override
-        public Integer[] asArray(IntFunction<Integer[]> generator) {
-            return Nodes.OfPrimitive.asArray(this, generator);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.OfInt.getShape(this);
-        }
-
-        @Override
         public Node.OfInt build() {
             return this;
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public java9.util.stream.Node.OfInt getChild(int i) {
-            return Nodes.OfPrimitive.getChild(this, i);
         }
     }
 
@@ -2481,12 +1803,6 @@ final class Nodes {
             implements Node.OfLong, Node.Builder.OfLong {
 
         LongSpinedNodeBuilder() {} // Avoid creation of special accessor
-
-        @Override
-        public java9.util.stream.Node.OfLong truncate(long from, long to,
-                IntFunction<Long[]> generator) {
-            return Nodes.OfLong.truncate(this, from, to, generator);
-        }
 
         @Override
         public Spliterator.OfLong spliterator() {
@@ -2540,38 +1856,13 @@ final class Nodes {
         }
 
         @Override
-        public void copyInto(Long[] boxed, int offset) {
-            Nodes.OfLong.copyInto(this, boxed, offset);
-        }
-
-        @Override
         public long[] asPrimitiveArray() {
             return super.asPrimitiveArray();
         }
 
         @Override
-        public Long[] asArray(IntFunction<Long[]> generator) {
-            return Nodes.OfPrimitive.asArray(this, generator);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.OfLong.getShape(this);
-        }
-
-        @Override
         public Node.OfLong build() {
             return this;
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public java9.util.stream.Node.OfLong getChild(int i) {
-            return Nodes.OfPrimitive.getChild(this, i);
         }
     }
 
@@ -2580,12 +1871,6 @@ final class Nodes {
             implements Node.OfDouble, Node.Builder.OfDouble {
 
         DoubleSpinedNodeBuilder() {} // Avoid creation of special accessor
-
-        @Override
-        public Node.OfDouble truncate(long from, long to,
-                IntFunction<Double[]> generator) {
-            return Nodes.OfDouble.truncate(this, from, to, generator);
-        }
 
         @Override
         public Spliterator.OfDouble spliterator() {
@@ -2639,38 +1924,13 @@ final class Nodes {
         }
 
         @Override
-        public void copyInto(Double[] boxed, int offset) {
-            Nodes.OfDouble.copyInto(this, boxed, offset);
-        }
-
-        @Override
         public double[] asPrimitiveArray() {
             return super.asPrimitiveArray();
         }
 
         @Override
-        public Double[] asArray(IntFunction<Double[]> generator) {
-            return Nodes.OfPrimitive.asArray(this, generator);
-        }
-
-        @Override
         public Node.OfDouble build() {
             return this;
-        }
-
-        @Override
-        public int getChildCount() {
-            return Nodes.getChildCount(this);
-        }
-
-        @Override
-        public java9.util.stream.Node.OfDouble getChild(int i) {
-            return Nodes.OfPrimitive.getChild(this, i);
-        }
-
-        @Override
-        public StreamShape getShape() {
-            return Nodes.OfDouble.getShape(this);
         }
     }
 
