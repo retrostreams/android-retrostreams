@@ -905,6 +905,7 @@ final class Nodes {
 
             @Override
             public int[] newArray(int count) {
+                // desugar bug
                 return java9.util.stream.Node.OfInt.super.newArray(count);
             }
         }
@@ -924,6 +925,7 @@ final class Nodes {
 
             @Override
             public long[] newArray(int count) {
+                // desugar bug
                 return java9.util.stream.Node.OfLong.super.newArray(count);
             }
         }
@@ -943,6 +945,7 @@ final class Nodes {
 
             @Override
             public double[] newArray(int count) {
+                // desugar bug
                 return java9.util.stream.Node.OfDouble.super.newArray(count);
             }
         }
