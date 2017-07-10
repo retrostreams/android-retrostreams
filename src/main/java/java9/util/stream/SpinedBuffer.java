@@ -94,7 +94,7 @@ class SpinedBuffer<E>
      *         is negative
      */
     @SuppressWarnings("unchecked")
-	SpinedBuffer(int initialCapacity) {
+    SpinedBuffer(int initialCapacity) {
         super(initialCapacity);
         curChunk = (E[]) new Object[1 << initialChunkPower];
     }
@@ -103,7 +103,7 @@ class SpinedBuffer<E>
      * Constructs an empty list with an initial capacity of sixteen.
      */
     @SuppressWarnings("unchecked")
-	SpinedBuffer() {
+    SpinedBuffer() {
         super();
         curChunk = (E[]) new Object[1 << initialChunkPower];
     }
@@ -118,7 +118,7 @@ class SpinedBuffer<E>
     }
 
     @SuppressWarnings("unchecked")
-	private void inflateSpine() {
+    private void inflateSpine() {
         if (spine == null) {
             spine = (E[][]) new Object[MIN_SPINE_SIZE][];
             priorElementCount = new long[MIN_SPINE_SIZE];
@@ -130,7 +130,7 @@ class SpinedBuffer<E>
      * Ensure that the buffer has at least capacity to hold the target size
      */
     @SuppressWarnings("unchecked")
-	protected final void ensureCapacity(long targetSize) {
+    protected final void ensureCapacity(long targetSize) {
         long capacity = capacity();
         if (targetSize > capacity) {
             inflateSpine();

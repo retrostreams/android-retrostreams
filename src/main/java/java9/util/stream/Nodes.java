@@ -967,7 +967,7 @@ final class Nodes {
          * covered by this spliterator
          */
         @SuppressWarnings("unchecked")
-		protected final Deque<N> initStack() {
+        protected final Deque<N> initStack() {
             // Bias size to the case where leaf nodes are close to this node
             // 8 is the minimum initial capacity for the ArrayDeque implementation
             Deque<N> stack = new ArrayDeque<>(8);
@@ -981,7 +981,7 @@ final class Nodes {
          * an explicit stack, to find the next non-empty leaf node.
          */
         @SuppressWarnings("unchecked")
-		protected final N findNextLeafNode(Deque<N> stack) {
+        protected final N findNextLeafNode(Deque<N> stack) {
             N n = null;
             while ((n = stack.pollFirst()) != null) {
                 if (n.getChildCount() == 0) {
@@ -997,7 +997,7 @@ final class Nodes {
         }
 
         @SuppressWarnings("unchecked")
-		protected final boolean initTryAdvance() {
+        protected final boolean initTryAdvance() {
             if (curNode == null)
                 return false;
 
@@ -1994,7 +1994,7 @@ final class Nodes {
 
 
             @SuppressWarnings("unchecked")
-			T_SINK sink = (T_SINK) task;
+            T_SINK sink = (T_SINK) task;
             task.helper.wrapAndCopyInto(sink, rightSplit);
             task.propagateCompletion();
         }
@@ -2326,7 +2326,7 @@ final class Nodes {
             return new CollectorTask<>(this, spliterator);
         }
 
-		@Override
+        @Override
         @SuppressWarnings("unchecked")
         protected T_NODE doLeaf() {
             T_BUILDER builder = builderFactory.apply(helper.exactOutputSizeIfKnown(spliterator));

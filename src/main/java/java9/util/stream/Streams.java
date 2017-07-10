@@ -32,7 +32,6 @@ import java9.util.function.Consumer;
 import java9.util.function.DoubleConsumer;
 import java9.util.function.IntConsumer;
 import java9.util.function.LongConsumer;
-import java9.util.stream.IntStream.Builder;
 
 /**
  * Utility methods for operating on and creating streams.
