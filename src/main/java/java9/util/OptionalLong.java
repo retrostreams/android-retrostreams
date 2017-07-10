@@ -31,7 +31,6 @@ import java9.util.function.LongConsumer;
 import java9.util.function.LongSupplier;
 import java9.util.function.Supplier;
 import java9.util.stream.LongStream;
-import java9.util.stream.LongStreams;
 
 /**
  * A container object which may or may not contain a {@code long} value.  If a
@@ -215,9 +214,9 @@ public final class OptionalLong {
      */
     public LongStream stream() {
         if (isPresent) {
-            return LongStreams.of(value);
+            return LongStream.of(value);
         } else {
-            return LongStreams.empty();
+            return LongStream.empty();
         }
     }
 

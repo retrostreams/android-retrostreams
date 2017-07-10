@@ -368,12 +368,6 @@ final class Streams {
         }
 
         @Override
-        public Stream.Builder<T> add(T t) {
-            accept(t);
-            return this;
-        }
-
-        @Override
         public Stream<T> build() {
             int c = count;
             if (c >= 0) {
@@ -462,12 +456,6 @@ final class Streams {
             else {
                 throw new IllegalStateException();
             }
-        }
-
-        @Override
-        public Builder add(int t) {
-            accept(t);
-            return this;
         }
 
         @Override
@@ -656,12 +644,6 @@ final class Streams {
             else {
                 throw new IllegalStateException();
             }
-        }
-
-        @Override
-        public java9.util.stream.DoubleStream.Builder add(double t) {
-            accept(t);
-            return this;
         }
 
         @Override

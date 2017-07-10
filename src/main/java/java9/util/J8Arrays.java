@@ -38,7 +38,6 @@ import java9.util.function.IntUnaryOperator;
 import java9.util.function.LongBinaryOperator;
 import java9.util.stream.DoubleStream;
 import java9.util.stream.IntStream;
-import java9.util.stream.IntStreams;
 import java9.util.stream.LongStream;
 import java9.util.stream.Stream;
 import java9.util.stream.StreamSupport;
@@ -1153,7 +1152,7 @@ public final class J8Arrays {
      */
     public static <T> void parallelSetAll(T[] array, IntFunction<? extends T> generator) {
         Objects.requireNonNull(generator);
-        IntStreams.range(0, array.length).parallel().forEach(i -> { array[i] = generator.apply(i); });
+        IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.apply(i); });
     }
 
     /**
@@ -1209,7 +1208,7 @@ public final class J8Arrays {
      */
     public static void parallelSetAll(int[] array, IntUnaryOperator generator) {
         Objects.requireNonNull(generator);
-        IntStreams.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsInt(i); });
+        IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsInt(i); });
     }
 
     /**
@@ -1265,7 +1264,7 @@ public final class J8Arrays {
      */
     public static void parallelSetAll(long[] array, IntToLongFunction generator) {
         Objects.requireNonNull(generator);
-        IntStreams.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsLong(i); });
+        IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsLong(i); });
     }
 
     /**
@@ -1321,7 +1320,7 @@ public final class J8Arrays {
      */
     public static void parallelSetAll(double[] array, IntToDoubleFunction generator) {
         Objects.requireNonNull(generator);
-        IntStreams.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsDouble(i); });
+        IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsDouble(i); });
     }
 
     // Parallel prefix

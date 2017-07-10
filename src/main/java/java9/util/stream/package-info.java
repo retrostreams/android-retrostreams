@@ -79,9 +79,9 @@
  *     {@code parallelStream()} methods;</li>
  *     <li>From an array via {@link java9.util.J8Arrays#stream(Object[])};</li>
  *     <li>From static factory methods on the stream classes, such as
- *     {@link java9.util.stream.RefStreams#of(Object[])},
- *     {@link java9.util.stream.IntStreams#range(int, int)}
- *     or {@link java9.util.stream.RefStreams#iterate(Object, java9.util.function.UnaryOperator)};</li>
+ *     {@link java9.util.stream.Stream#of(Object[])},
+ *     {@link java9.util.stream.IntStream#range(int, int)}
+ *     or {@link java9.util.stream.Stream#iterate(Object, java9.util.function.UnaryOperator)};</li>
  *     <li>The lines of a file can be obtained from {@link java.io.BufferedReader#lines()};</li>
  *     <li>Streams of file paths can be obtained from methods in {@link java.nio.file.Files};</li>
  *     <li>Streams of random numbers can be obtained from {@link java.util.Random#ints()};</li>
@@ -169,7 +169,7 @@
  * explicitly requested.  For example, {@code Collection} has methods
  * {@link java.util.Collection#stream} and {@link java.util.Collection#parallelStream},
  * which produce sequential and parallel streams respectively; other
- * stream-bearing methods such as {@link java9.util.stream.IntStreams#range(int, int)}
+ * stream-bearing methods such as {@link java9.util.stream.IntStream#range(int, int)}
  * produce sequential streams but these streams can be efficiently parallelized by
  * invoking their {@link java9.util.stream.BaseStream#parallel()} method.
  * To execute the prior "sum of weights of widgets" query in parallel, we would

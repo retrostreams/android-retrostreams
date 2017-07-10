@@ -31,7 +31,6 @@ import java9.util.function.Consumer;
 import java9.util.function.Function;
 import java9.util.function.Predicate;
 import java9.util.function.Supplier;
-import java9.util.stream.RefStreams;
 import java9.util.stream.Stream;
 
 /**
@@ -334,9 +333,9 @@ public final class Optional<T> {
      */
     public Stream<T> stream() {
         if (!isPresent()) {
-            return RefStreams.empty();
+            return Stream.empty();
         } else {
-            return RefStreams.of(value);
+            return Stream.of(value);
         }
     }
 

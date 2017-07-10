@@ -25,9 +25,11 @@
 package java9.util.stream;
 
 import java9.util.DoubleSummaryStatistics;
+import java9.util.Objects;
 import java9.util.OptionalDouble;
 import java9.util.PrimitiveIterator;
 import java9.util.Spliterator;
+import java9.util.Spliterators;
 import java9.util.function.BiConsumer;
 import java9.util.function.DoubleBinaryOperator;
 import java9.util.function.DoubleConsumer;
@@ -233,7 +235,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * especially for large values of {@code maxSize}, since {@code limit(n)}
      * is constrained to return not just any <em>n</em> elements, but the
      * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link DoubleStreams#generate(DoubleSupplier)}) or removing the
+     * stream source (such as {@link DoubleStream#generate(DoubleSupplier)}) or removing the
      * ordering constraint with {@link #unordered()} may result in significant
      * speedups of {@code limit()} in parallel pipelines, if the semantics of
      * your situation permit.  If consistency with encounter order is required,
@@ -262,7 +264,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * especially for large values of {@code n}, since {@code skip(n)}
      * is constrained to skip not just any <em>n</em> elements, but the
      * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link DoubleStreams#generate(DoubleSupplier)}) or removing the
+     * stream source (such as {@link DoubleStream#generate(DoubleSupplier)}) or removing the
      * ordering constraint with {@link #unordered()} may result in significant
      * speedups of {@code skip()} in parallel pipelines, if the semantics of
      * your situation permit.  If consistency with encounter order is required,
@@ -318,7 +320,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * pipelines, since the operation is constrained to return not just any
      * valid prefix, but the longest prefix of elements in the encounter order.
      * Using an unordered stream source (such as
-     * {@link DoubleStreams#generate(DoubleSupplier)}) or removing the ordering constraint
+     * {@link DoubleStream#generate(DoubleSupplier)}) or removing the ordering constraint
      * with {@link #unordered()} may result in significant speedups of
      * {@code takeWhile()} in parallel pipelines, if the semantics of your
      * situation permit.  If consistency with encounter order is required, and
@@ -333,7 +335,14 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return the new stream
      * @since 9
      */
-    DoubleStream takeWhile(DoublePredicate predicate);
+    default DoubleStream takeWhile(DoublePredicate predicate) {
+        Objects.requireNonNull(predicate);
+        // Reuses the unordered spliterator, which, when encounter is present,
+        // is safe to use as long as it configured not to split
+        return StreamSupport.doubleStream(
+                new WhileOps.UnorderedWhileSpliterator.OfDouble.Taking(spliterator(), true, predicate),
+                isParallel()).onClose(StreamSupport.closeHandler(this));
+    }
 
     /**
      * Returns, if this stream is ordered, a stream consisting of the remaining
@@ -378,7 +387,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * pipelines, since the operation is constrained to return not just any
      * valid prefix, but the longest prefix of elements in the encounter order.
      * Using an unordered stream source (such as
-     * {@link DoubleStreams#generate(DoubleSupplier)}) or removing the ordering constraint
+     * {@link DoubleStream#generate(DoubleSupplier)}) or removing the ordering constraint
      * with {@link #unordered()} may result in significant speedups of
      * {@code dropWhile()} in parallel pipelines, if the semantics of your
      * situation permit.  If consistency with encounter order is required, and
@@ -393,7 +402,14 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return the new stream
      * @since 9
      */
-    DoubleStream dropWhile(DoublePredicate predicate);
+    default DoubleStream dropWhile(DoublePredicate predicate) {
+        Objects.requireNonNull(predicate);
+        // Reuses the unordered spliterator, which, when encounter is present,
+        // is safe to use as long as it configured not to split
+        return StreamSupport.doubleStream(
+                new WhileOps.UnorderedWhileSpliterator.OfDouble.Dropping(spliterator(), true, predicate),
+                isParallel()).onClose(StreamSupport.closeHandler(this));
+    }
 
     /**
      * Performs an action for each element of this stream.
@@ -883,6 +899,217 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
     @Override
     Spliterator.OfDouble spliterator();
 
+    // Static factories
+
+    /**
+     * Returns a builder for a {@code DoubleStream}.
+     *
+     * @return a stream builder
+     */
+    public static Builder builder() {
+        return new Streams.DoubleStreamBuilderImpl();
+    }
+
+    /**
+     * Returns an empty sequential {@code DoubleStream}.
+     *
+     * @return an empty sequential stream
+     */
+    public static DoubleStream empty() {
+        return StreamSupport.doubleStream(Spliterators.emptyDoubleSpliterator(), false);
+    }
+
+    /**
+     * Returns a sequential {@code DoubleStream} containing a single element.
+     *
+     * @param t the single element
+     * @return a singleton sequential stream
+     */
+    public static DoubleStream of(double t) {
+        return StreamSupport.doubleStream(new Streams.DoubleStreamBuilderImpl(t), false);
+    }
+
+    /**
+     * Returns a sequential ordered stream whose elements are the specified values.
+     *
+     * @param values the elements of the new stream
+     * @return the new stream
+     */
+    public static DoubleStream of(double... values) {
+        return java9.util.J8Arrays.stream(values);
+    }
+
+    /**
+     * Returns an infinite sequential ordered {@code DoubleStream} produced by iterative
+     * application of a function {@code f} to an initial element {@code seed},
+     * producing a {@code Stream} consisting of {@code seed}, {@code f(seed)},
+     * {@code f(f(seed))}, etc.
+     *
+     * <p>The first element (position {@code 0}) in the {@code DoubleStream}
+     * will be the provided {@code seed}.  For {@code n > 0}, the element at
+     * position {@code n}, will be the result of applying the function {@code f}
+     * to the element at position {@code n - 1}.
+     *
+     * <p>The action of applying {@code f} for one element
+     * <a href="../concurrent/package-summary.html#MemoryVisibility"><i>happens-before</i></a>
+     * the action of applying {@code f} for subsequent elements.  For any given
+     * element the action may be performed in whatever thread the library
+     * chooses.
+     *
+     * @param seed the initial element
+     * @param f a function to be applied to the previous element to produce
+     *          a new element
+     * @return a new sequential {@code DoubleStream}
+     */
+    public static DoubleStream iterate(double seed, DoubleUnaryOperator f) {
+        Objects.requireNonNull(f);
+        Spliterator.OfDouble spliterator = new Spliterators.AbstractDoubleSpliterator(Long.MAX_VALUE, 
+               Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL) {
+            double prev;
+            boolean started;
+
+            @Override
+            public boolean tryAdvance(DoubleConsumer action) {
+                Objects.requireNonNull(action);
+                double t;
+                if (started) {
+                    t = f.applyAsDouble(prev);
+                } else {
+                    t = seed;
+                    started = true;
+                }
+                action.accept(prev = t);
+                return true;
+            }
+        };
+        return StreamSupport.doubleStream(spliterator, false);
+    }
+
+    /**
+     * Returns a sequential ordered {@code DoubleStream} produced by iterative
+     * application of the given {@code next} function to an initial element,
+     * conditioned on satisfying the given {@code hasNext} predicate.  The
+     * stream terminates as soon as the {@code hasNext} predicate returns false.
+     *
+     * <p>{@code DoubleStreams.iterate} should produce the same sequence of
+     * elements as produced by the corresponding for-loop:
+     * <pre>{@code
+     *     for (double index=seed; hasNext.test(index); index = next.applyAsDouble(index)) {
+     *         ... 
+     *     }
+     * }</pre>
+     *
+     * <p>The resulting sequence may be empty if the {@code hasNext} predicate
+     * does not hold on the seed value.  Otherwise the first element will be the
+     * supplied {@code seed} value, the next element (if present) will be the
+     * result of applying the {@code next} function to the {@code seed} value,
+     * and so on iteratively until the {@code hasNext} predicate indicates that
+     * the stream should terminate.
+     *
+     * <p>The action of applying the {@code hasNext} predicate to an element
+     * <a href="../concurrent/package-summary.html#MemoryVisibility"><i>happens-before</i></a>
+     * the action of applying the {@code next} function to that element.  The
+     * action of applying the {@code next} function for one element
+     * <i>happens-before</i> the action of applying the {@code hasNext}
+     * predicate for subsequent elements.  For any given element an action may
+     * be performed in whatever thread the library chooses.
+     *
+     * @param seed the initial element
+     * @param hasNext a predicate to apply to elements to determine when the 
+     *                stream must terminate
+     * @param next a function to be applied to the previous element to produce
+     *             a new element
+     * @return a new sequential {@code DoubleStream}
+     * @since 9
+     */
+    public static DoubleStream iterate(double seed, DoublePredicate hasNext, DoubleUnaryOperator next) {
+        Objects.requireNonNull(next);
+        Objects.requireNonNull(hasNext);
+        Spliterator.OfDouble spliterator = new Spliterators.AbstractDoubleSpliterator(Long.MAX_VALUE, 
+               Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL) {
+            double prev;
+            boolean started, finished;
+
+            @Override
+            public boolean tryAdvance(DoubleConsumer action) {
+                Objects.requireNonNull(action);
+                if (finished) {
+                    return false;
+                }
+                double t;
+                if (started) {
+                    t = next.applyAsDouble(prev);
+                } else {
+                    t = seed;
+                    started = true;
+                }
+                if (!hasNext.test(t)) {
+                    finished = true;
+                    return false;
+                }
+                action.accept(prev = t);
+                return true;
+            }
+
+            @Override
+            public void forEachRemaining(DoubleConsumer action) {
+                Objects.requireNonNull(action);
+                if (finished) {
+                    return;
+                }
+                finished = true;
+                double t = started ? next.applyAsDouble(prev) : seed;
+                while (hasNext.test(t)) {
+                    action.accept(t);
+                    t = next.applyAsDouble(t);
+                }
+            }
+        };
+        return StreamSupport.doubleStream(spliterator, false);
+    }
+
+    /**
+     * Returns an infinite sequential unordered stream where each element is
+     * generated by the provided {@code DoubleSupplier}.  This is suitable for
+     * generating constant streams, streams of random elements, etc.
+     *
+     * @param s the {@code DoubleSupplier} for generated elements
+     * @return a new infinite sequential unordered {@code DoubleStream}
+     */
+    public static DoubleStream generate(DoubleSupplier s) {
+        Objects.requireNonNull(s);
+        return StreamSupport.doubleStream(
+                new StreamSpliterators.InfiniteSupplyingSpliterator.OfDouble(Long.MAX_VALUE, s), false);
+    }
+
+    /**
+     * Creates a lazily concatenated stream whose elements are all the
+     * elements of the first stream followed by all the elements of the
+     * second stream.  The resulting stream is ordered if both
+     * of the input streams are ordered, and parallel if either of the input
+     * streams is parallel.  When the resulting stream is closed, the close
+     * handlers for both input streams are invoked.
+     *
+     * <p><b>Implementation Note:</b><br>
+     * Use caution when constructing streams from repeated concatenation.
+     * Accessing an element of a deeply concatenated stream can result in deep
+     * call chains, or even {@code StackOverflowError}.
+     * <p>Subsequent changes to the sequential/parallel execution mode of the
+     * returned stream are not guaranteed to be propagated to the input streams.
+     *
+     * @param a the first stream
+     * @param b the second stream
+     * @return the concatenation of the two input streams
+     */
+    public static DoubleStream concat(DoubleStream a, DoubleStream b) {
+        Objects.requireNonNull(a);
+        Objects.requireNonNull(b);
+
+        Spliterator.OfDouble split = new Streams.ConcatSpliterator.OfDouble(
+                a.spliterator(), b.spliterator());
+        DoubleStream stream = StreamSupport.doubleStream(split, a.isParallel() || b.isParallel());
+        return stream.onClose(Streams.composedClose(a, b));
+    }
 
     /**
      * A mutable builder for a {@code DoubleStream}.
@@ -894,7 +1121,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * ordered stream whose elements are the elements that were added to the
      * stream builder, in the order they were added.
      *
-     * @see DoubleStreams#builder()
+     * @see DoubleStream#builder()
      * @since 1.8
      */
     public interface Builder extends DoubleConsumer {
@@ -923,7 +1150,10 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
          * @throws IllegalStateException if the builder has already transitioned
          * to the built state
          */
-        Builder add(double t);
+        default Builder add(double t) {
+            accept(t);
+            return this;
+        }
 
         /**
          * Builds the stream, transitioning this builder to the built state.

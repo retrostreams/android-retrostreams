@@ -31,7 +31,6 @@ import java9.util.function.DoubleConsumer;
 import java9.util.function.DoubleSupplier;
 import java9.util.function.Supplier;
 import java9.util.stream.DoubleStream;
-import java9.util.stream.DoubleStreams;
 
 /**
  * A container object which may or may not contain a {@code double} value.  If a
@@ -200,9 +199,9 @@ public final class OptionalDouble {
      */
     public DoubleStream stream() {
         if (isPresent) {
-            return DoubleStreams.of(value);
+            return DoubleStream.of(value);
         } else {
-            return DoubleStreams.empty();
+            return DoubleStream.empty();
         }
     }
 

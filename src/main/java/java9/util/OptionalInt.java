@@ -30,7 +30,6 @@ import java9.util.function.IntConsumer;
 import java9.util.function.IntSupplier;
 import java9.util.function.Supplier;
 import java9.util.stream.IntStream;
-import java9.util.stream.IntStreams;
 
 /**
  * A container object which may or may not contain an {@code int} value.  If a
@@ -214,9 +213,9 @@ public final class OptionalInt {
      */
     public IntStream stream() {
         if (isPresent) {
-            return IntStreams.of(value);
+            return IntStream.of(value);
         } else {
-            return IntStreams.empty();
+            return IntStream.empty();
         }
     }
 
