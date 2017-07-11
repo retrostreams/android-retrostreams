@@ -1041,6 +1041,18 @@ public final class Spliterators {
             }
 
             @Override
+            public Integer next() {
+                // desugar bug
+                return nextInt();
+            }
+
+            @Override
+            public void forEachRemaining(IntConsumer action) {
+                // desugar bug
+                PrimitiveIterator.OfInt.super.forEachRemaining(action);
+            }
+
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
@@ -1091,6 +1103,18 @@ public final class Spliterators {
             }
 
             @Override
+            public Long next() {
+                // desugar bug
+                return nextLong();
+            }
+
+            @Override
+            public void forEachRemaining(LongConsumer action) {
+                // desugar bug
+                PrimitiveIterator.OfLong.super.forEachRemaining(action);
+            }
+
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
@@ -1138,6 +1162,18 @@ public final class Spliterators {
                     valueReady = false;
                     return nextElement;
                 }
+            }
+
+            @Override
+            public Double next() {
+                // desugar bug
+                return nextDouble();
+            }
+
+            @Override
+            public void forEachRemaining(DoubleConsumer action) {
+                // desugar bug
+                PrimitiveIterator.OfDouble.super.forEachRemaining(action);
             }
 
             @Override
