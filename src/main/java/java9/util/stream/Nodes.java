@@ -50,6 +50,9 @@ import java9.util.function.LongFunction;
  * @since 1.8
  */
 final class Nodes {
+    // desugar bug: use old streamsupport version because desugar (Canary 6)
+    // doesn't treat the default methods correctly (a Java 8 implementation
+    // leads to AbstractMethodError / ClassCastException and what not)
 
     private Nodes() {
         throw new Error("no instances");

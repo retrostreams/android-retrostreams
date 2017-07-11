@@ -58,6 +58,9 @@ import java9.util.function.LongConsumer;
  * @since 1.8
  */
 interface Node<T> {
+    // desugar bug: use old streamsupport version because desugar (Canary 6)
+    // doesn't treat the default methods correctly (a Java 8 implementation
+    // leads to AbstractMethodError / ClassCastException and what not)
 
     /**
      * Returns a {@link Spliterator} describing the elements contained in this
