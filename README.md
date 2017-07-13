@@ -24,7 +24,7 @@ picture of the API changes.
 
 The desugar toolchain is still in development and, of course, has some issues. Therefore it's currently
 not advisable to rely on its features for production use. That's the main reason for there being no
-production-quality release of android-retrostreams as of now. 
+production-ready release of android-retrostreams as of now. 
 
 Please give feedback [here](https://github.com/retrostreams/android-retrostreams/issues) if you experience
 any problems.
