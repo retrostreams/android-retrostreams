@@ -1,8 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.streamsupport</groupId>
 	<artifactId>android-retrostreams</artifactId>
 	<version>beta-1</version>
+	<name>net.sourceforge.streamsupport:android-retrostreams</name>
+	<description>Backport of Java 9 java.util.stream API for Android Studio 3.0 desugar toolchain,
+ forked from http://sourceforge.net/projects/streamsupport</description>
+	<url>http://github.com/retrostreams/android-retrostreams/</url>
+	<licenses>
+		<license>
+			<name>GNU General Public License, version 2, with the Classpath Exception</name>
+			<url>http://openjdk.java.net/legal/gplv2+ce.html</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Stefan Zobel</name>
+			<email>Spliterator@gmail.com</email>
+			<organization>net.sourceforge.streamsupport</organization>
+			<organizationUrl>http://github.com/retrostreams/</organizationUrl>
+		</developer>
+	</developers>
+	<scm>
+		<url>https://github.com/retrostreams/android-retrostreams</url>
+		<connection>scm:git:git@github.com:retrostreams/android-retrostreams.git</connection>
+		<developerConnection>scm:git:git@github.com:retrostreams/android-retrostreams.git</developerConnection>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
