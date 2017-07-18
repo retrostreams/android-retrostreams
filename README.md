@@ -3,10 +3,10 @@
 ![](art/streamsupport-sf.png)
 
 android-retrostreams is a fork of the [streamsupport library](https://sourceforge.net/projects/streamsupport/)
-targeted at Android developers who want to take advantage of Android 3.0 desugar toolchain's
+targeted at Android developers who want to take advantage of Android Studio 3.0 desugar toolchain's
 capability to use interface default & static methods across Jar file boundaries.
 
-Utilizing this feature of desugar the streamsupport API can be even more aligned with the original
+Utilizing this feature of desugar, the streamsupport API can be even more aligned with the original
 Java 8 / 9 API exposed in the java.util.function and java.util.stream packages. That allows for Android
 app's code to be much more in accordance with the standard Java 8 / 9 usage than it is now possible with the
 original streamsupport API (which is bound by the restrictions of supporting Java 6).
