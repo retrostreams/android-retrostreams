@@ -58,9 +58,6 @@ import java9.util.function.LongConsumer;
  * @since 1.8
  */
 interface Node<T> {
-    // desugar bug: use old streamsupport version because desugar (Canary 6)
-    // doesn't treat the default methods correctly (a Java 8 implementation
-    // leads to AbstractMethodError / ClassCastException and what not)
 
     /**
      * Returns a {@link Spliterator} describing the elements contained in this
@@ -82,23 +79,15 @@ interface Node<T> {
     void forEach(Consumer<? super T> consumer);
 
     /**
-     * Gets the {@code StreamShape} associated with this {@code Node}.
-     *
-     * <p><b>Implementation Requirements:</b><br> The default in {@code Node} returns
-     * {@code StreamShape.REFERENCE}
-     *
-     * @return the stream shape associated with this node
-     */
-    StreamShape getShape();
-
-    /**
      * Returns the number of child nodes of this node.
      *
      * <p><b>Implementation Requirements:</b><br> The default implementation returns zero.
      *
      * @return the number of child nodes
      */
-    int getChildCount();
+    default int getChildCount() {
+        return 0;
+    }
 
     /**
      * Retrieves the child {@code Node} at a given index.
@@ -111,7 +100,9 @@ interface Node<T> {
      * @throws IndexOutOfBoundsException if the index is less than 0 or greater
      *         than or equal to the number of child nodes
      */
-    Node<T> getChild(int i);
+    default Node<T> getChild(int i) {
+        throw new IndexOutOfBoundsException();
+    }
 
     /**
      * Return a node describing a subsequence of the elements of this node,
@@ -126,7 +117,22 @@ interface Node<T> {
      *                  for reference nodes.
      * @return the truncated node
      */
-    Node<T> truncate(long from, long to, IntFunction<T[]> generator);
+    default Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
+        if (from == 0 && to == count())
+            return this;
+        Spliterator<T> spliterator = spliterator();
+        long size = to - from;
+        Node.Builder<T> nodeBuilder = Nodes.builder(size, generator);
+        nodeBuilder.begin(size);
+        for (int i = 0; i < from && spliterator.tryAdvance(e -> { }); i++) { }
+        if (to == count()) {
+            spliterator.forEachRemaining(nodeBuilder);
+        } else {
+            for (int i = 0; i < size && spliterator.tryAdvance(nodeBuilder); i++) { }
+        }
+        nodeBuilder.end();
+        return nodeBuilder.build();
+    }
 
     /**
      * Provides an array view of the contents of this node.
@@ -159,6 +165,18 @@ interface Node<T> {
      * @throws NullPointerException if {@code array} is {@code null}
      */
     void copyInto(T[] array, int offset);
+
+    /**
+     * Gets the {@code StreamShape} associated with this {@code Node}.
+     *
+     * <p><b>Implementation Requirements:</b><br> The default in {@code Node} returns
+     * {@code StreamShape.REFERENCE}
+     *
+     * @return the stream shape associated with this node
+     */
+    default StreamShape getShape() {
+        return StreamShape.REFERENCE;
+    }
 
     /**
      * Returns the number of elements contained in this node.
@@ -230,7 +248,9 @@ interface Node<T> {
         void forEach(T_CONS action);
 
         @Override
-        T_NODE getChild(int i);
+        default T_NODE getChild(int i) {
+            throw new IndexOutOfBoundsException();
+        }
 
         T_NODE truncate(long from, long to, IntFunction<T[]> generator);
 
@@ -243,7 +263,14 @@ interface Node<T> {
          * that array at an offset of 0.
          */
         @Override
-        T[] asArray(IntFunction<T[]> generator);
+        default T[] asArray(IntFunction<T[]> generator) {
+            long size = count();
+            if (size >= Nodes.MAX_ARRAY_SIZE)
+                throw new IllegalArgumentException(Nodes.BAD_SIZE);
+            T[] boxed = generator.apply((int) count());
+            copyInto(boxed, 0);
+            return boxed;
+        }
 
         /**
          * Views this node as a primitive array.
@@ -294,7 +321,14 @@ interface Node<T> {
          *        elements may be processed without boxing.
          */
         @Override
-        void forEach(Consumer<? super Integer> consumer);
+        default void forEach(Consumer<? super Integer> consumer) {
+            if (consumer instanceof IntConsumer) {
+                forEach((IntConsumer) consumer);
+            }
+            else {
+                spliterator().forEachRemaining(consumer);
+            }
+        }
 
         /**
          * {@inheritDoc}
@@ -305,20 +339,44 @@ interface Node<T> {
          * is recommended to invoke {@link #copyInto(Object, int)}.
          */
         @Override
-        void copyInto(Integer[] boxed, int offset);
+        default void copyInto(Integer[] boxed, int offset) {
+            int[] array = asPrimitiveArray();
+            for (int i = 0; i < array.length; i++) {
+                boxed[offset + i] = array[i];
+            }
+        }
 
         @Override
-        Node.OfInt truncate(long from, long to, IntFunction<Integer[]> generator);
+        default Node.OfInt truncate(long from, long to, IntFunction<Integer[]> generator) {
+            if (from == 0 && to == count())
+                return this;
+            long size = to - from;
+            Spliterator.OfInt spliterator = spliterator();
+            Node.Builder.OfInt nodeBuilder = Nodes.intBuilder(size);
+            nodeBuilder.begin(size);
+            for (int i = 0; i < from && spliterator.tryAdvance((IntConsumer) e -> { }); i++) { }
+            if (to == count()) {
+                spliterator.forEachRemaining((IntConsumer) nodeBuilder);
+            } else {
+                for (int i = 0; i < size && spliterator.tryAdvance((IntConsumer) nodeBuilder); i++) { }
+            }
+            nodeBuilder.end();
+            return nodeBuilder.build();
+        }
 
         @Override
-        int[] newArray(int count);
+        default int[] newArray(int count) {
+            return new int[count];
+        }
 
         /**
          * {@inheritDoc}
          * <p><b>Implementation Requirements:</b><br> The default in {@code Node.OfInt} returns
          * {@code StreamShape.INT_VALUE}
          */
-        StreamShape getShape();
+        default StreamShape getShape() {
+            return StreamShape.INT_VALUE;
+        }
     }
 
     /**
@@ -335,7 +393,14 @@ interface Node<T> {
          *        the elements may be processed without boxing.
          */
         @Override
-        void forEach(Consumer<? super Long> consumer);
+        default void forEach(Consumer<? super Long> consumer) {
+            if (consumer instanceof LongConsumer) {
+                forEach((LongConsumer) consumer);
+            }
+            else {
+                spliterator().forEachRemaining(consumer);
+            }
+        }
 
         /**
          * {@inheritDoc}
@@ -346,20 +411,44 @@ interface Node<T> {
          * it is recommended to invoke {@link #copyInto(Object, int)}.
          */
         @Override
-        void copyInto(Long[] boxed, int offset);
+        default void copyInto(Long[] boxed, int offset) {
+            long[] array = asPrimitiveArray();
+            for (int i = 0; i < array.length; i++) {
+                boxed[offset + i] = array[i];
+            }
+        }
 
         @Override
-        Node.OfLong truncate(long from, long to, IntFunction<Long[]> generator);
+        default Node.OfLong truncate(long from, long to, IntFunction<Long[]> generator) {
+            if (from == 0 && to == count())
+                return this;
+            long size = to - from;
+            Spliterator.OfLong spliterator = spliterator();
+            Node.Builder.OfLong nodeBuilder = Nodes.longBuilder(size);
+            nodeBuilder.begin(size);
+            for (int i = 0; i < from && spliterator.tryAdvance((LongConsumer) e -> { }); i++) { }
+            if (to == count()) {
+                spliterator.forEachRemaining((LongConsumer) nodeBuilder);
+            } else {
+                for (int i = 0; i < size && spliterator.tryAdvance((LongConsumer) nodeBuilder); i++) { }
+            }
+            nodeBuilder.end();
+            return nodeBuilder.build();
+        }
 
         @Override
-        long[] newArray(int count);
+        default long[] newArray(int count) {
+            return new long[count];
+        }
 
         /**
          * {@inheritDoc}
          * <p><b>Implementation Requirements:</b><br> The default in {@code Node.OfLong} returns
          * {@code StreamShape.LONG_VALUE}
          */
-        StreamShape getShape();
+        default StreamShape getShape() {
+            return StreamShape.LONG_VALUE;
+        }
     }
 
     /**
@@ -376,7 +465,14 @@ interface Node<T> {
          *        so the elements may be processed without boxing.
          */
         @Override
-        void forEach(Consumer<? super Double> consumer);
+        default void forEach(Consumer<? super Double> consumer) {
+            if (consumer instanceof DoubleConsumer) {
+                forEach((DoubleConsumer) consumer);
+            }
+            else {
+                spliterator().forEachRemaining(consumer);
+            }
+        }
 
         //
 
@@ -389,13 +485,35 @@ interface Node<T> {
          * and it is recommended to invoke {@link #copyInto(Object, int)}.
          */
         @Override
-        void copyInto(Double[] boxed, int offset);
+        default void copyInto(Double[] boxed, int offset) {
+            double[] array = asPrimitiveArray();
+            for (int i = 0; i < array.length; i++) {
+                boxed[offset + i] = array[i];
+            }
+        }
 
         @Override
-        Node.OfDouble truncate(long from, long to, IntFunction<Double[]> generator);
+        default Node.OfDouble truncate(long from, long to, IntFunction<Double[]> generator) {
+            if (from == 0 && to == count())
+                return this;
+            long size = to - from;
+            Spliterator.OfDouble spliterator = spliterator();
+            Node.Builder.OfDouble nodeBuilder = Nodes.doubleBuilder(size);
+            nodeBuilder.begin(size);
+            for (int i = 0; i < from && spliterator.tryAdvance((DoubleConsumer) e -> { }); i++) { }
+            if (to == count()) {
+                spliterator.forEachRemaining((DoubleConsumer) nodeBuilder);
+            } else {
+                for (int i = 0; i < size && spliterator.tryAdvance((DoubleConsumer) nodeBuilder); i++) { }
+            }
+            nodeBuilder.end();
+            return nodeBuilder.build();
+        }
 
         @Override
-        double[] newArray(int count);
+        default double[] newArray(int count) {
+            return new double[count];
+        }
 
         /**
          * {@inheritDoc}
@@ -403,6 +521,8 @@ interface Node<T> {
          * <p><b>Implementation Requirements:</b><br> The default in {@code Node.OfDouble} returns
          * {@code StreamShape.DOUBLE_VALUE}
          */
-        StreamShape getShape();
+        default StreamShape getShape() {
+            return StreamShape.DOUBLE_VALUE;
+        }
     }
 }
