@@ -902,12 +902,6 @@ final class Nodes {
             public Spliterator.OfInt spliterator() {
                 return new InternalNodeSpliterator.OfInt(this);
             }
-
-//            @Override
-//            public int[] newArray(int count) {
-//                // desugar bug
-//                return java9.util.stream.Node.OfInt.super.newArray(count);
-//            }
         }
 
         static final class OfLong
@@ -922,12 +916,6 @@ final class Nodes {
             public Spliterator.OfLong spliterator() {
                 return new InternalNodeSpliterator.OfLong(this);
             }
-
-//            @Override
-//            public long[] newArray(int count) {
-//                // desugar bug
-//                return java9.util.stream.Node.OfLong.super.newArray(count);
-//            }
         }
 
         static final class OfDouble
@@ -942,12 +930,6 @@ final class Nodes {
             public Spliterator.OfDouble spliterator() {
                 return new InternalNodeSpliterator.OfDouble(this);
             }
-
-//            @Override
-//            public double[] newArray(int count) {
-//                // desugar bug
-//                return java9.util.stream.Node.OfDouble.super.newArray(count);
-//            }
         }
     }
 
