@@ -17,7 +17,7 @@ introduced in Java 8).
 
 Supplemental helper classes, public static methods and so on that served as a replacement for the
 default / static interfaces methods in the original streamsupport API are now mostly gone.
-E.g., no j8.u.s.RefStreams class anymore - all these methods are now in the j9.u.s.Stream interface.
+E.g., no `j8.u.s.RefStreams` class anymore - all these methods are now in the `j9.u.s.Stream` interface.
 
 The [online Javadoc](https://retrostreams.github.io/android-retrostreams/apidocs/index.html) gives a
 picture of the API changes.
