@@ -108,22 +108,6 @@ abstract class PipelineHelper<P_OUT> {
     abstract<P_IN, S extends Sink<P_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator);
 
     /**
-     * Applies the pipeline stages described by this {@code PipelineHelper} to
-     * the provided {@code Spliterator} and send the results to the provided
-     * {@code Consumer}.
-     *
-     * <p><b>Implementation Requirements:</b><br>
-     * The implementation behaves as if:
-     * <pre>{@code
-     *     copyInto(wrapSink(sink), spliterator);
-     * }</pre>
-     *
-     * @param sink the {@code Consumer} to receive the results
-     * @param spliterator the spliterator describing the source input to process
-     */
-    abstract<P_IN, S extends Consumer<P_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator);
-
-    /**
      * Pushes elements obtained from the {@code Spliterator} into the provided
      * {@code Sink}.  If the stream pipeline is known to have short-circuiting
      * stages in it (see {@link StreamOpFlag#SHORT_CIRCUIT}), the
@@ -169,19 +153,6 @@ abstract class PipelineHelper<P_OUT> {
      *         results to the provided {@code Sink}
      */
     abstract<P_IN> Sink<P_IN> wrapSink(Sink<P_OUT> sink);
-
-    /**
-     * Takes a {@code Consumer} that accepts elements of the output type of the
-     * {@code PipelineHelper}, and wrap it with a {@code Sink} that accepts
-     * elements of the input type and implements all the intermediate operations
-     * described by this {@code PipelineHelper}, delivering the result into the
-     * provided {@code Consumer}.
-     *
-     * @param sink the {@code Consumer} to receive the results
-     * @return a {@code Sink} that implements the pipeline stages and sends
-     *         results to the provided {@code Consumer}
-     */
-    abstract<P_IN> Sink<P_IN> wrapSink(Consumer<P_OUT> sink);
 
     /**
      *
