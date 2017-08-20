@@ -50,7 +50,7 @@ interface TerminalOp<E_IN, R> {
      *
      * @return StreamShape of the input type of this operation
      */
-    StreamShape inputShape();
+    default StreamShape inputShape() { return StreamShape.REFERENCE; }
 
     /**
      * Gets the stream flags of the operation.  Terminal operations may set a
@@ -63,7 +63,7 @@ interface TerminalOp<E_IN, R> {
      * @return the stream flags for this operation
      * @see StreamOpFlag
      */
-    int getOpFlags();
+    default int getOpFlags() { return 0; }
 
     /**
      * Performs a parallel evaluation of the operation using the specified
@@ -77,8 +77,10 @@ interface TerminalOp<E_IN, R> {
      * @param spliterator the source spliterator
      * @return the result of the evaluation
      */
-    <P_IN> R evaluateParallel(PipelineHelper<E_IN> helper,
-            Spliterator<P_IN> spliterator);
+    default <P_IN> R evaluateParallel(PipelineHelper<E_IN> helper,
+                                      Spliterator<P_IN> spliterator) {
+        return evaluateSequential(helper, spliterator);
+    }
 
     /**
      * Performs a sequential evaluation of the operation using the specified
