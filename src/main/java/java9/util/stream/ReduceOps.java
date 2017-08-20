@@ -298,11 +298,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void accept(Integer t) {
-                SinkDefaults.OfInt.accept(this, t);
-            }
-
-            @Override
             public Integer get() {
                 return state;
             }
@@ -352,11 +347,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void accept(Integer t) {
-                SinkDefaults.OfInt.accept(this, t);
-            }
-
-            @Override
             public OptionalInt get() {
                 return empty ? OptionalInt.empty() : OptionalInt.of(state);
             }
@@ -403,11 +393,6 @@ final class ReduceOps {
             @Override
             public void accept(int t) {
                 accumulator.accept(state, t);
-            }
-
-            @Override
-            public void accept(Integer t) {
-                SinkDefaults.OfInt.accept(this, t);
             }
 
             @Override
@@ -487,11 +472,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void accept(Long t) {
-                SinkDefaults.OfLong.accept(this, t);
-            }
-
-            @Override
             public Long get() {
                 return state;
             }
@@ -541,11 +521,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void accept(Long t) {
-                SinkDefaults.OfLong.accept(this, t);
-            }
-
-            @Override
             public OptionalLong get() {
                 return empty ? OptionalLong.empty() : OptionalLong.of(state);
             }
@@ -592,11 +567,6 @@ final class ReduceOps {
             @Override
             public void accept(long t) {
                 accumulator.accept(state, t);
-            }
-
-            @Override
-            public void accept(Long t) {
-                SinkDefaults.OfLong.accept(this, t);
             }
 
             @Override
@@ -676,11 +646,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void accept(Double i) {
-                SinkDefaults.OfDouble.accept(this, i);
-            }
-
-            @Override
             public Double get() {
                 return state;
             }
@@ -730,11 +695,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void accept(Double i) {
-                SinkDefaults.OfDouble.accept(this, i);
-            }
-
-            @Override
             public OptionalDouble get() {
                 return empty ? OptionalDouble.empty() : OptionalDouble.of(state);
             }
@@ -781,11 +741,6 @@ final class ReduceOps {
             @Override
             public void accept(double t) {
                 accumulator.accept(state, t);
-            }
-
-            @Override
-            public void accept(Double i) {
-                SinkDefaults.OfDouble.accept(this, i);
             }
 
             @Override
@@ -874,11 +829,6 @@ final class ReduceOps {
             public void accept(int t) {
                 count++;
             }
-
-            @Override
-            public void accept(Integer i) {
-                SinkDefaults.OfInt.accept(this, i);
-            }
         }
 
         static final class OfLong extends CountingSink<Long> implements Sink.OfLong {
@@ -886,22 +836,12 @@ final class ReduceOps {
             public void accept(long t) {
                 count++;
             }
-
-            @Override
-            public void accept(Long l) {
-                SinkDefaults.OfLong.accept(this, l);
-            }
         }
 
         static final class OfDouble extends CountingSink<Double> implements Sink.OfDouble {
             @Override
             public void accept(double t) {
                 count++;
-            }
-
-            @Override
-            public void accept(Double d) {
-                SinkDefaults.OfDouble.accept(this, d);
             }
         }
     }

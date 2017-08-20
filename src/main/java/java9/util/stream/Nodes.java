@@ -1509,11 +1509,6 @@ final class Nodes {
         }
 
         @Override
-        public void accept(Integer t) {
-            SinkDefaults.OfInt.accept(this, t);
-        }
-
-        @Override
         public void end() {
             if (curSize < array.length) {
                 throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
@@ -1564,11 +1559,6 @@ final class Nodes {
                 throw new IllegalStateException(String.format("Accept exceeded fixed size of %d",
                                                               array.length));
             }
-        }
-
-        @Override
-        public void accept(Long t) {
-            SinkDefaults.OfLong.accept(this, t);
         }
 
         @Override
@@ -1625,11 +1615,6 @@ final class Nodes {
         }
 
         @Override
-        public void accept(Double i) {
-            SinkDefaults.OfDouble.accept(this, i);
-        }
-
-        @Override
         public void end() {
             if (curSize < array.length) {
                 throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
@@ -1670,11 +1655,6 @@ final class Nodes {
         @Override
         public void accept(int i) {
             super.accept(i);
-        }
-
-        @Override
-        public void accept(Integer t) {
-            SinkDefaults.OfInt.accept(this, t);
         }
 
         @Override
@@ -1726,11 +1706,6 @@ final class Nodes {
         }
 
         @Override
-        public void accept(Long t) {
-            SinkDefaults.OfLong.accept(this, t);
-        }
-
-        @Override
         public void end() {
             // @@@ check begin(size) and size
         }
@@ -1776,11 +1751,6 @@ final class Nodes {
         @Override
         public void accept(double i) {
             super.accept(i);
-        }
-
-        @Override
-        public void accept(Double i) {
-            SinkDefaults.OfDouble.accept(this, i);
         }
 
         @Override
@@ -1942,11 +1912,6 @@ final class Nodes {
                 }
                 array[index++] = value;
             }
-
-            @Override
-            public void accept(Integer i) {
-                SinkDefaults.OfInt.accept(this, i);
-            }
         }
 
         static final class OfLong<P_IN>
@@ -1978,11 +1943,6 @@ final class Nodes {
                 }
                 array[index++] = value;
             }
-
-            @Override
-            public void accept(Long i) {
-                SinkDefaults.OfLong.accept(this, i);
-            }
         }
 
         static final class OfDouble<P_IN>
@@ -2013,11 +1973,6 @@ final class Nodes {
                     throw new IndexOutOfBoundsException(Integer.toString(index));
                 }
                 array[index++] = value;
-            }
-
-            @Override
-            public void accept(Double i) {
-                SinkDefaults.OfDouble.accept(this, i);
             }
         }
     }

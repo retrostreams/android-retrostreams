@@ -207,11 +207,6 @@ final class ForEachOps {
             public void accept(int t) {
                 consumer.accept(t);
             }
-
-            @Override
-            public void accept(Integer i) {
-                SinkDefaults.OfInt.accept(this, i);
-            }
         }
 
         /** Implementation class for {@code LongStream} */
@@ -233,11 +228,6 @@ final class ForEachOps {
             public void accept(long t) {
                 consumer.accept(t);
             }
-
-            @Override
-            public void accept(Long i) {
-                SinkDefaults.OfLong.accept(this, i);
-            }
         }
 
         /** Implementation class for {@code DoubleStream} */
@@ -258,11 +248,6 @@ final class ForEachOps {
             @Override
             public void accept(double t) {
                 consumer.accept(t);
-            }
-
-            @Override
-            public void accept(Double i) {
-                SinkDefaults.OfDouble.accept(this, i);
             }
         }
     }

@@ -121,11 +121,6 @@ final class MatchOps {
                     value = matchKind.shortCircuitResult;
                 }
             }
-
-            @Override
-            public void accept(Integer i) {
-                SinkDefaults.OfInt.accept(this, i);
-            }
         }
 
         return new MatchOp<>(StreamShape.INT_VALUE, matchKind, MatchSink::new);
@@ -156,11 +151,6 @@ final class MatchOps {
                     value = matchKind.shortCircuitResult;
                 }
             }
-
-            @Override
-            public void accept(Long i) {
-                SinkDefaults.OfLong.accept(this, i);
-            }
         }
 
         return new MatchOp<>(StreamShape.LONG_VALUE, matchKind, MatchSink::new);
@@ -190,11 +180,6 @@ final class MatchOps {
                     stop = true;
                     value = matchKind.shortCircuitResult;
                 }
-            }
-
-            @Override
-            public void accept(Double i) {
-                SinkDefaults.OfDouble.accept(this, i);
             }
         }
 
