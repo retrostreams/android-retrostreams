@@ -171,11 +171,6 @@ final class ForEachOps {
         }
 
         @Override
-        public StreamShape inputShape() {
-            return StreamShape.REFERENCE;
-        }
-
-        @Override
         public int getOpFlags() {
             return ordered ? 0 : StreamOpFlag.NOT_ORDERED;
         }

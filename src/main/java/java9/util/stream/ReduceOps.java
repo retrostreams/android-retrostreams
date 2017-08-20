@@ -1259,11 +1259,6 @@ final class ReduceOps {
         }
 
         @Override
-        public int getOpFlags() {
-            return 0;
-        }
-
-        @Override
         public <P_IN> R evaluateSequential(PipelineHelper<T> helper,
                                            Spliterator<P_IN> spliterator) {
             return helper.wrapAndCopyInto(makeSink(), spliterator).get();
