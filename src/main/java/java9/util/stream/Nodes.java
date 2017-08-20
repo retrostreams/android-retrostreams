@@ -1243,26 +1243,6 @@ final class Nodes {
         }
 
         @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
         public String toString() {
             return String.format("FixedNodeBuilder[%d][%s]",
                                  array.length - curSize, Arrays.toString(array));
@@ -1297,26 +1277,6 @@ final class Nodes {
         @Override
         public void accept(T t) {
             super.accept(t);
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
         }
 
         @Override
@@ -1562,21 +1522,6 @@ final class Nodes {
         }
 
         @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
         public String toString() {
             return String.format("IntFixedNodeBuilder[%d][%s]",
                                  array.length - curSize, Arrays.toString(array));
@@ -1632,21 +1577,6 @@ final class Nodes {
                 throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
                                                               curSize, array.length));
             }
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
         }
 
         @Override
@@ -1708,21 +1638,6 @@ final class Nodes {
         }
 
         @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
         public String toString() {
             return String.format("DoubleFixedNodeBuilder[%d][%s]",
                                  array.length - curSize, Arrays.toString(array));
@@ -1765,21 +1680,6 @@ final class Nodes {
         @Override
         public void end() {
             // @@@ check begin(size) and size
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
         }
 
         @Override
@@ -1836,21 +1736,6 @@ final class Nodes {
         }
 
         @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
         public void copyInto(long[] array, int offset) {
             super.copyInto(array, offset);
         }
@@ -1901,21 +1786,6 @@ final class Nodes {
         @Override
         public void end() {
             // @@@ check begin(size) and size
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
         }
 
         @Override
@@ -2010,30 +1880,6 @@ final class Nodes {
             // with the shared array
             index = (int) offset;
             fence = index + (int) length;
-        }
-
-        @Override
-        public void end() {
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
         }
 
         static final class OfRef<P_IN, P_OUT>

@@ -63,9 +63,9 @@ final class SinkDefaults {
      *
      * @throws IllegalStateException if this sink does not accept int values
      */
-    static <T> void accept(Sink<T> this_, int value) {
-        throw new IllegalStateException("called wrong accept method");
-    }
+//    static <T> void accept(Sink<T> this_, int value) {
+//        throw new IllegalStateException("called wrong accept method");
+//    }
 
     /**
      * Accepts a long value.
@@ -74,9 +74,9 @@ final class SinkDefaults {
      *
      * @throws IllegalStateException if this sink does not accept long values
      */
-    static <T> void accept(Sink<T> this_, long value) {
-        throw new IllegalStateException("called wrong accept method");
-    }
+//    static <T> void accept(Sink<T> this_, long value) {
+//        throw new IllegalStateException("called wrong accept method");
+//    }
 
     /**
      * Accepts a double value.
@@ -85,9 +85,9 @@ final class SinkDefaults {
      *
      * @throws IllegalStateException if this sink does not accept double values
      */
-    static <T> void accept(Sink<T> this_, double value) {
-        throw new IllegalStateException("called wrong accept method");
-    }
+//    static <T> void accept(Sink<T> this_, double value) {
+//        throw new IllegalStateException("called wrong accept method");
+//    }
 
     private SinkDefaults() {
     }

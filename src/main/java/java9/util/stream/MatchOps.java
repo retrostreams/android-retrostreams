@@ -280,29 +280,6 @@ final class MatchOps {
         public boolean cancellationRequested() {
             return stop;
         }
-
-        @Override
-        public void begin(long size) {
-        }
-
-        @Override
-        public void end() {
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
-        }
     }
 
     /**

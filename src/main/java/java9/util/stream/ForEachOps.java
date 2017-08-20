@@ -143,34 +143,6 @@ final class ForEachOps {
         // TerminalOp
 
         @Override
-        public void begin(long size) {
-        }
-
-        @Override
-        public void end() {
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
         public int getOpFlags() {
             return ordered ? 0 : StreamOpFlag.NOT_ORDERED;
         }

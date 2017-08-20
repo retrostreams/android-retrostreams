@@ -81,30 +81,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
             public void combine(ReducingSink other) {
                 state = combiner.apply(state, other.state);
             }
@@ -146,30 +122,6 @@ final class ReduceOps {
                 } else {
                     state = operator.apply(state, t);
                 }
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
             }
 
             @Override
@@ -215,30 +167,6 @@ final class ReduceOps {
             @Override
             public void accept(T t) {
                 accumulator.accept(state, t);
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
             }
 
             @Override
@@ -290,30 +218,6 @@ final class ReduceOps {
             @Override
             public void accept(T t) {
                 accumulator.accept(state, t);
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
             }
 
             @Override
@@ -399,25 +303,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
             public Integer get() {
                 return state;
             }
@@ -472,25 +357,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
             public OptionalInt get() {
                 return empty ? OptionalInt.empty() : OptionalInt.of(state);
             }
@@ -542,25 +408,6 @@ final class ReduceOps {
             @Override
             public void accept(Integer t) {
                 SinkDefaults.OfInt.accept(this, t);
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
             }
 
             @Override
@@ -645,25 +492,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
             public Long get() {
                 return state;
             }
@@ -718,25 +546,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
             public OptionalLong get() {
                 return empty ? OptionalLong.empty() : OptionalLong.of(state);
             }
@@ -788,25 +597,6 @@ final class ReduceOps {
             @Override
             public void accept(Long t) {
                 SinkDefaults.OfLong.accept(this, t);
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(double value) {
-                SinkDefaults.accept(this, value);
             }
 
             @Override
@@ -891,25 +681,6 @@ final class ReduceOps {
             }
 
             @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
             public Double get() {
                 return state;
             }
@@ -961,25 +732,6 @@ final class ReduceOps {
             @Override
             public void accept(Double i) {
                 SinkDefaults.OfDouble.accept(this, i);
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
             }
 
             @Override
@@ -1039,25 +791,6 @@ final class ReduceOps {
             @Override
             public void combine(ReducingSink other) {
                 state = combiner.apply(state, other.state);
-            }
-
-            @Override
-            public void end() {
-            }
-
-            @Override
-            public boolean cancellationRequested() {
-                return false;
-            }
-
-            @Override
-            public void accept(int value) {
-                SinkDefaults.accept(this, value);
-            }
-
-            @Override
-            public void accept(long value) {
-                SinkDefaults.accept(this, value);
             }
         }
         return new ReduceOp<Double, R, ReducingSink>(StreamShape.DOUBLE_VALUE) {
@@ -1127,30 +860,6 @@ final class ReduceOps {
         @Override
         public void combine(CountingSink<T> other) {
             count += other.count;
-        }
-
-        @Override
-        public void end() {
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return false;
-        }
-
-        @Override
-        public void accept(int value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(long value) {
-            SinkDefaults.accept(this, value);
-        }
-
-        @Override
-        public void accept(double value) {
-            SinkDefaults.accept(this, value);
         }
 
         static final class OfRef<T> extends CountingSink<T> {
