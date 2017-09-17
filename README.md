@@ -28,6 +28,14 @@ Please give feedback [here](https://github.com/retrostreams/android-retrostreams
 any problems.
 
 
+### build.gradle:
+
+```gradle
+dependencies {
+    compile 'net.sourceforge.streamsupport:android-retrostreams:1.5.6'
+}
+```
+
 ## LICENSE
 
 GNU General Public License, version 2, with the Classpath Exception
