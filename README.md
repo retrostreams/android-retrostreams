@@ -22,8 +22,7 @@ E.g., no `j8.u.s.RefStreams` class anymore - all these methods are now in the `j
 The [online Javadoc](https://retrostreams.github.io/android-retrostreams/apidocs/index.html) gives a
 picture of the API changes.
 
-As the desugar toolchain in Android Studio 3 beta 6 appears pretty mature now, an official stable release
-of `android-retrostreams` may not be far away.
+The current stable release is `android-retrostreams-1.5.6`.
 
 Please give feedback [here](https://github.com/retrostreams/android-retrostreams/issues) if you experience
 any problems.
