@@ -36,6 +36,16 @@ dependencies {
 }
 ```
 
+
+### Sibling projects
+
+You might also have a use for one of `retrostreams'` sibling projects:
+
+* [android-retrofuture](https://github.com/retrostreams/android-retrofuture)
+* [android-retroflow](https://github.com/retrostreams/android-retroflow)
+* [android-retroatomic](https://github.com/retrostreams/android-retroatomic)
+
+
 ## LICENSE
 
 GNU General Public License, version 2, with the Classpath Exception
