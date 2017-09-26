@@ -184,7 +184,7 @@ import java9.util.Objects;
  * @author Doug Lea
  */
 public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
-// CVS rev. 1.116
+// CVS rev. 1.117
 
     /*
      * See the internal documentation of class ForkJoinPool for a
@@ -1371,10 +1371,10 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
         public final void setRawResult(Void v) { }
         public final boolean exec() { runnable.run(); return true; }
         public final void run() { invoke(); }
+        private static final long serialVersionUID = 5232453952276885070L;
         public String toString() {
             return super.toString() + "[Wrapped task = " + runnable + "]";
         }
-        private static final long serialVersionUID = 5232453952276885070L;
     }
 
     /**
