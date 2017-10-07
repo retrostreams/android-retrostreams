@@ -76,7 +76,7 @@ final class Streams {
         public boolean tryAdvance(IntConsumer consumer) {
             Objects.requireNonNull(consumer);
 
-            final int i = from;
+            int i = from;
             if (i < upTo) {
                 from++;
                 consumer.accept(i);
@@ -95,7 +95,7 @@ final class Streams {
             Objects.requireNonNull(consumer);
 
             int i = from;
-            final int hUpTo = upTo;
+            int hUpTo = upTo;
             int hLast = last;
             from = upTo;
             last = 0;
@@ -200,7 +200,7 @@ final class Streams {
         public boolean tryAdvance(LongConsumer consumer) {
             Objects.requireNonNull(consumer);
 
-            final long i = from;
+            long i = from;
             if (i < upTo) {
                 from++;
                 consumer.accept(i);
@@ -219,7 +219,7 @@ final class Streams {
             Objects.requireNonNull(consumer);
 
             long i = from;
-            final long hUpTo = upTo;
+            long hUpTo = upTo;
             int hLast = last;
             from = upTo;
             last = 0;

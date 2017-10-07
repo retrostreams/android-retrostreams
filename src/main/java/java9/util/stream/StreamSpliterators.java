@@ -344,7 +344,7 @@ class StreamSpliterators {
 
         @Override
         void initPartialTraversalState() {
-            final SpinedBuffer.OfInt b = new SpinedBuffer.OfInt();
+            SpinedBuffer.OfInt b = new SpinedBuffer.OfInt();
             buffer = b;
             bufferSink = ph.wrapSink((Sink.OfInt) b::accept);
             pusher = () -> spliterator.tryAdvance(bufferSink);
@@ -402,7 +402,7 @@ class StreamSpliterators {
 
         @Override
         void initPartialTraversalState() {
-            final SpinedBuffer.OfLong b = new SpinedBuffer.OfLong();
+            SpinedBuffer.OfLong b = new SpinedBuffer.OfLong();
             buffer = b;
             bufferSink = ph.wrapSink((Sink.OfLong) b::accept);
             pusher = () -> spliterator.tryAdvance(bufferSink);
@@ -460,7 +460,7 @@ class StreamSpliterators {
 
         @Override
         void initPartialTraversalState() {
-            final SpinedBuffer.OfDouble b = new SpinedBuffer.OfDouble();
+            SpinedBuffer.OfDouble b = new SpinedBuffer.OfDouble();
             buffer = b;
             bufferSink = ph.wrapSink((Sink.OfDouble) b::accept);
             pusher = () -> spliterator.tryAdvance(bufferSink);
