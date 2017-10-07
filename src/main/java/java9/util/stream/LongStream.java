@@ -1031,7 +1031,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return a sequential {@code LongStream} for the range of {@code long}
      *         elements
      */
-    public static LongStream range(long startInclusive, final long endExclusive) {
+    public static LongStream range(long startInclusive, long endExclusive) {
         if (startInclusive >= endExclusive) {
             return empty();
         } else if (endExclusive - startInclusive < 0) {
@@ -1064,7 +1064,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return a sequential {@code LongStream} for the range of {@code long}
      *         elements
      */
-    public static LongStream rangeClosed(long startInclusive, final long endInclusive) {
+    public static LongStream rangeClosed(long startInclusive, long endInclusive) {
         if (startInclusive > endInclusive) {
             return empty();
         } else if (endInclusive - startInclusive + 1 <= 0) {

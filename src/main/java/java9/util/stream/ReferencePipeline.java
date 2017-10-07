@@ -160,7 +160,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final Stream<P_OUT> filter(final Predicate<? super P_OUT> predicate) {
+    public final Stream<P_OUT> filter(Predicate<? super P_OUT> predicate) {
         Objects.requireNonNull(predicate);
         return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
                                      StreamOpFlag.NOT_SIZED) {
@@ -183,7 +183,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final <R> Stream<R> map(final Function<? super P_OUT, ? extends R> mapper) {
+    public final <R> Stream<R> map(Function<? super P_OUT, ? extends R> mapper) {
         Objects.requireNonNull(mapper);
         return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
                                      StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
@@ -200,7 +200,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final IntStream mapToInt(final ToIntFunction<? super P_OUT> mapper) {
+    public final IntStream mapToInt(ToIntFunction<? super P_OUT> mapper) {
         Objects.requireNonNull(mapper);
         return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
                                               StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
@@ -217,7 +217,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final LongStream mapToLong(final ToLongFunction<? super P_OUT> mapper) {
+    public final LongStream mapToLong(ToLongFunction<? super P_OUT> mapper) {
         Objects.requireNonNull(mapper);
         return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
                                       StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
@@ -234,7 +234,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final DoubleStream mapToDouble(final ToDoubleFunction<? super P_OUT> mapper) {
+    public final DoubleStream mapToDouble(ToDoubleFunction<? super P_OUT> mapper) {
         Objects.requireNonNull(mapper);
         return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
                                         StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
@@ -251,7 +251,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final <R> Stream<R> flatMap(final Function<? super P_OUT, ? extends Stream<? extends R>> mapper) {
+    public final <R> Stream<R> flatMap(Function<? super P_OUT, ? extends Stream<? extends R>> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
@@ -285,7 +285,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final IntStream flatMapToInt(final Function<? super P_OUT, ? extends IntStream> mapper) {
+    public final IntStream flatMapToInt(Function<? super P_OUT, ? extends IntStream> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
@@ -320,7 +320,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final DoubleStream flatMapToDouble(final Function<? super P_OUT, ? extends DoubleStream> mapper) {
+    public final DoubleStream flatMapToDouble(Function<? super P_OUT, ? extends DoubleStream> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
@@ -355,7 +355,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final LongStream flatMapToLong(final Function<? super P_OUT, ? extends LongStream> mapper) {
+    public final LongStream flatMapToLong(Function<? super P_OUT, ? extends LongStream> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
@@ -390,7 +390,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final Stream<P_OUT> peek(final Consumer<? super P_OUT> action) {
+    public final Stream<P_OUT> peek(Consumer<? super P_OUT> action) {
         Objects.requireNonNull(action);
         return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
                                      0) {
@@ -510,7 +510,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final P_OUT reduce(final P_OUT identity, final BinaryOperator<P_OUT> accumulator) {
+    public final P_OUT reduce(P_OUT identity, BinaryOperator<P_OUT> accumulator) {
         return evaluate(ReduceOps.makeRef(identity, accumulator, accumulator));
     }
 
