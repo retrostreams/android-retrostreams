@@ -125,8 +125,8 @@ class ArrayPrefixHelpers {
 
         @SuppressWarnings("unchecked")
         public final void compute() {
-            final BinaryOperator<T> fn;
-            final T[] a;
+            BinaryOperator<T> fn;
+            T[] a;
             if ((fn = this.function) == null || (a = this.array) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
@@ -275,8 +275,8 @@ class ArrayPrefixHelpers {
         }
 
         public final void compute() {
-            final LongBinaryOperator fn;
-            final long[] a;
+            LongBinaryOperator fn;
+            long[] a;
             if ((fn = this.function) == null || (a = this.array) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
@@ -425,8 +425,8 @@ class ArrayPrefixHelpers {
         }
 
         public final void compute() {
-            final DoubleBinaryOperator fn;
-            final double[] a;
+            DoubleBinaryOperator fn;
+            double[] a;
             if ((fn = this.function) == null || (a = this.array) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
@@ -575,8 +575,8 @@ class ArrayPrefixHelpers {
         }
 
         public final void compute() {
-            final IntBinaryOperator fn;
-            final int[] a;
+            IntBinaryOperator fn;
+            int[] a;
             if ((fn = this.function) == null || (a = this.array) == null)
                 throw new NullPointerException();    // hoist checks
             int th = threshold, org = origin, fnc = fence, l, h;
