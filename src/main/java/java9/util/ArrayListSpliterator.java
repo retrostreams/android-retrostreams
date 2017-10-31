@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -26,7 +26,6 @@ package java9.util;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 
 import java9.util.Spliterator;
@@ -37,7 +36,7 @@ import java9.util.function.Consumer;
  * Index-based split-by-two, lazily initialized Spliterator for ArrayLists.
  */
 final class ArrayListSpliterator<E> implements Spliterator<E> {
-// CVS rev. 1.53
+// CVS rev. 1.54
     /*
      * If ArrayLists were immutable, or structurally immutable (no
      * adds, removes, etc), we could implement their spliterators
