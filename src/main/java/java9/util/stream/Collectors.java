@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -44,6 +44,7 @@ import java.util.concurrent.ConcurrentMap;
 import java9.util.DoubleSummaryStatistics;
 import java9.util.IntSummaryStatistics;
 import java9.util.LongSummaryStatistics;
+import java9.util.Lists;
 import java9.util.Maps;
 import java9.util.Objects;
 import java9.util.Optional;
@@ -119,15 +120,25 @@ public final class Collectors {
             = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.UNORDERED,
                                                      Collector.Characteristics.IDENTITY_FINISH));
     static final Set<Collector.Characteristics> CH_NOID = Collections.emptySet();
+    static final Set<Collector.Characteristics> CH_UNORDERED_NOID
+            = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.UNORDERED));
 
     private Collectors() { }
 
-    private static <K, V> Supplier<Map<K, V>> hashMapFactory() {
+    private static <K, V> Supplier<Map<K, V>> hashMapNew() {
         return HashMap::new;
     }
 
-    private static <K, V> Supplier<ConcurrentMap<K, V>> concurrentHashMapFactory() {
+    private static <K, V> Supplier<ConcurrentMap<K, V>> concHashMapNew() {
         return ConcurrentHashMap::new;
+    }
+
+    private static <K, V> Supplier<Map<K, V>> concHashMapNew2() {
+        return (Supplier<Map<K, V>>) (Supplier<?>) concHashMapNew();
+    }
+
+    private static <T> Supplier<List<T>> arrayListNew() {
+        return ArrayList::new;
     }
 
     /**
@@ -294,9 +305,29 @@ public final class Collectors {
      */
     public static <T>
     Collector<T, ?, List<T>> toList() {
-        return new CollectorImpl<>((Supplier<List<T>>) ArrayList::new, List::add,
+        return new CollectorImpl<>(Collectors.<T>arrayListNew(), List::add,
                                    (left, right) -> { left.addAll(right); return left; },
                                    CH_ID);
+    }
+
+    /**
+     * Returns a {@code Collector} that accumulates the input elements into an
+     * <a href="../Lists.html#unmodifiable">unmodifiable List</a> in encounter
+     * order. The returned Collector disallows null values and will throw
+     * {@code NullPointerException} if it is presented with a null value.
+     *
+     * @param <T> the type of the input elements
+     * @return a {@code Collector} which collects all the input elements into a
+     * {@code List}, in encounter order
+     * @since 10
+     */
+    @SuppressWarnings("unchecked")
+    public static <T>
+    Collector<T, ?, List<T>> toUnmodifiableList() {
+        return new CollectorImpl<>(Collectors.<T>arrayListNew(), List::add,
+                                   (left, right) -> { left.addAll(right); return left; },
+                                   list -> (List<T>) Lists.of(list.toArray()),
+                                   CH_NOID);
     }
 
     /**
@@ -1044,7 +1075,7 @@ public final class Collectors {
     public static <T, K, A, D>
     Collector<T, ?, Map<K, D>> groupingBy(Function<? super T, ? extends K> classifier,
                                           Collector<? super T, A, D> downstream) {
-        return groupingBy(classifier, hashMapFactory(), downstream);
+        return groupingBy(classifier, hashMapNew(), downstream);
     }
 
     /**
@@ -1158,7 +1189,7 @@ public final class Collectors {
     public static <T, K>
     Collector<T, ?, ConcurrentMap<K, List<T>>>
     groupingByConcurrent(Function<? super T, ? extends K> classifier) {
-        return groupingByConcurrent(classifier, concurrentHashMapFactory(), toList());
+        return groupingByConcurrent(classifier, concHashMapNew(), toList());
     }
 
     /**
@@ -1202,7 +1233,7 @@ public final class Collectors {
     public static <T, K, A, D>
     Collector<T, ?, ConcurrentMap<K, D>> groupingByConcurrent(Function<? super T, ? extends K> classifier,
                                                               Collector<? super T, A, D> downstream) {
-        return groupingByConcurrent(classifier, concurrentHashMapFactory(), downstream);
+        return groupingByConcurrent(classifier, concHashMapNew(), downstream);
     }
 
     /**
@@ -1375,7 +1406,7 @@ public final class Collectors {
      * <p>If the mapped keys contain duplicates (according to
      * {@link Object#equals(Object)}), an {@code IllegalStateException} is
      * thrown when the collection operation is performed.  If the mapped keys
-     * may have duplicates, use {@link #toMap(Function, Function, BinaryOperator)}
+     * might have duplicates, use {@link #toMap(Function, Function, BinaryOperator)}
      * instead.
      * 
      * <p>There are no guarantees on the type, mutability, serializability,
@@ -1424,7 +1455,7 @@ public final class Collectors {
     public static <T, K, U>
     Collector<T, ?, Map<K,U>> toMap(Function<? super T, ? extends K> keyMapper,
                                     Function<? super T, ? extends U> valueMapper) {
-        return new CollectorImpl<>(hashMapFactory(),
+        return new CollectorImpl<>(hashMapNew(),
                 uniqKeysMapAccumulator((Function<T, K>) keyMapper, (Function<T, U>) valueMapper),
                 uniqKeysMapMerger(),
                 CH_ID);
@@ -1488,7 +1519,7 @@ public final class Collectors {
     Collector<T, ?, Map<K,U>> toMap(Function<? super T, ? extends K> keyMapper,
                                     Function<? super T, ? extends U> valueMapper,
                                     BinaryOperator<U> mergeFunction) {
-        return toMap(keyMapper, valueMapper, mergeFunction, hashMapFactory());
+        return toMap(keyMapper, valueMapper, mergeFunction, hashMapNew());
     }
 
     /**
@@ -1593,7 +1624,7 @@ public final class Collectors {
     public static <T, K, U>
     Collector<T, ?, ConcurrentMap<K,U>> toConcurrentMap(Function<? super T, ? extends K> keyMapper,
                                                         Function<? super T, ? extends U> valueMapper) {
-        return new CollectorImpl<>(ConcurrentHashMap::new,
+        return new CollectorImpl<>(concHashMapNew2(),
                 uniqKeysMapAccumulator((Function<T, K>) keyMapper, (Function<T, U>) valueMapper),
                 uniqKeysMapMerger(),
                 CH_CONCURRENT_ID);
@@ -1653,7 +1684,7 @@ public final class Collectors {
     toConcurrentMap(Function<? super T, ? extends K> keyMapper,
                     Function<? super T, ? extends U> valueMapper,
                     BinaryOperator<U> mergeFunction) {
-        return toConcurrentMap(keyMapper, valueMapper, mergeFunction, concurrentHashMapFactory());
+        return toConcurrentMap(keyMapper, valueMapper, mergeFunction, concHashMapNew());
     }
 
     /**
