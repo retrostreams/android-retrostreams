@@ -160,6 +160,19 @@ public final class Collectors {
         return (Function<Map<K, U>, Map<K, U>>) (Function<?, ?>) UNMOD_MAP_FINISHER;
     }
 
+    private static final BiConsumer<List<Object>, ?> LIST_ADD = List::add;
+    private static final BiConsumer<Set<Object>, ?> SET_ADD = Set::add;
+
+    @SuppressWarnings("unchecked")
+    private static final <T> BiConsumer<List<T>, T> listAdd() {
+        return (BiConsumer<List<T>, T>) (BiConsumer<?, ?>) LIST_ADD;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static final <T> BiConsumer<Set<T>, T> setAdd() {
+        return (BiConsumer<Set<T>, T>) (BiConsumer<?, ?>) SET_ADD;
+    }
+
     /**
      * Construct an {@code IllegalStateException} with appropriate message.
      *
@@ -324,7 +337,7 @@ public final class Collectors {
      */
     public static <T>
     Collector<T, ?, List<T>> toList() {
-        return new CollectorImpl<>(arrayListNew(), List::add,
+        return new CollectorImpl<>(arrayListNew(), listAdd(),
                                    (left, right) -> { left.addAll(right); return left; },
                                    CH_ID);
     }
@@ -343,7 +356,7 @@ public final class Collectors {
     @SuppressWarnings("unchecked")
     public static <T>
     Collector<T, ?, List<T>> toUnmodifiableList() {
-        return new CollectorImpl<>(arrayListNew(), List::add,
+        return new CollectorImpl<>(arrayListNew(), listAdd(),
                                    (left, right) -> { left.addAll(right); return left; },
                                    list -> (List<T>) Lists.of(list.toArray()),
                                    CH_NOID);
@@ -365,7 +378,7 @@ public final class Collectors {
      */
     public static <T>
     Collector<T, ?, Set<T>> toSet() {
-        return new CollectorImpl<>(hashSetNew(), Set::add,
+        return new CollectorImpl<>(hashSetNew(), setAdd(),
                                    (left, right) -> {
                                         if (left.size() < right.size()) {
                                            right.addAll(left); return right;
@@ -394,7 +407,7 @@ public final class Collectors {
     @SuppressWarnings("unchecked")
     public static <T>
     Collector<T, ?, Set<T>> toUnmodifiableSet() {
-        return new CollectorImpl<>(hashSetNew(), Set::add,
+        return new CollectorImpl<>(hashSetNew(), setAdd(),
                                    (left, right) -> {
                                        if (left.size() < right.size()) {
                                            right.addAll(left); return right;
