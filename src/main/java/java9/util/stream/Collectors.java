@@ -126,6 +126,10 @@ public final class Collectors {
 
     private Collectors() { }
 
+    static final Supplier<DoubleSummaryStatistics> DBL_SUM_STATS = DoubleSummaryStatistics::new;
+    static final Supplier<IntSummaryStatistics> INT_SUM_STATS = IntSummaryStatistics::new;
+    static final Supplier<LongSummaryStatistics> LNG_SUM_STATS = LongSummaryStatistics::new;
+
     private static <K, V> Supplier<Map<K, V>> hashMapNew() {
         return HashMap::new;
     }
@@ -1874,7 +1878,7 @@ public final class Collectors {
     public static <T>
     Collector<T, ?, IntSummaryStatistics> summarizingInt(ToIntFunction<? super T> mapper) {
         return new CollectorImpl<T, IntSummaryStatistics, IntSummaryStatistics>(
-                IntSummaryStatistics::new,
+                INT_SUM_STATS,
                 (r, t) -> r.accept(mapper.applyAsInt(t)),
                 (l, r) -> { l.combine(r); return l; }, CH_ID);
     }
@@ -1894,7 +1898,7 @@ public final class Collectors {
     public static <T>
     Collector<T, ?, LongSummaryStatistics> summarizingLong(ToLongFunction<? super T> mapper) {
         return new CollectorImpl<T, LongSummaryStatistics, LongSummaryStatistics>(
-                LongSummaryStatistics::new,
+                LNG_SUM_STATS,
                 (r, t) -> r.accept(mapper.applyAsLong(t)),
                 (l, r) -> { l.combine(r); return l; }, CH_ID);
     }
@@ -1914,7 +1918,7 @@ public final class Collectors {
     public static <T>
     Collector<T, ?, DoubleSummaryStatistics> summarizingDouble(ToDoubleFunction<? super T> mapper) {
         return new CollectorImpl<T, DoubleSummaryStatistics, DoubleSummaryStatistics>(
-                DoubleSummaryStatistics::new,
+                DBL_SUM_STATS,
                 (r, t) -> r.accept(mapper.applyAsDouble(t)),
                 (l, r) -> { l.combine(r); return l; }, CH_ID);
     }
