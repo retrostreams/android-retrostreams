@@ -33,9 +33,10 @@ import java9.util.function.Supplier;
 import java9.util.stream.LongStream;
 
 /**
- * A container object which may or may not contain a {@code long} value.  If a
- * value is present, {@code isPresent()} returns {@code true} and
- * {@code getAsLong()} returns the value.
+ * A container object which may or may not contain a {@code long} value.
+ * If a value is present, {@code isPresent()} returns {@code true}. If no
+ * value is present, the object is considered <i>empty</i> and
+ * {@code isPresent()} returns {@code false}.
  *
  * <p>Additional methods that depend on the presence or absence of a contained
  * value are provided, such as {@link #orElse(long) orElse()}
@@ -136,21 +137,13 @@ public final class OptionalLong {
      * {@code NoSuchElementException}.
      *
      * <p><b>API Note:</b><br>
-     * The methods {@link #orElse(long) orElse} and
-     * {@link #orElseGet(LongSupplier) orElseGet}
-     * are generally preferable to this method, as they return a substitute
-     * value if the value is absent, instead of throwing an exception.
+     * The preferred alternative to this method is {@link #orElseThrow()}.
      *
      * @return the value described by this {@code OptionalLong}
      * @throws NoSuchElementException if no value is present
-     *
-     * @see OptionalLong#isPresent()
      */
     public long getAsLong() {
-        if (!isPresent) {
-            throw new NoSuchElementException("No value present");
-        }
-        return value;
+        return orElseThrow();
     }
 
     /**
@@ -243,6 +236,21 @@ public final class OptionalLong {
      */
     public long orElseGet(LongSupplier supplier) {
         return isPresent ? value : supplier.getAsLong();
+    }
+
+    /**
+     * If a value is present, returns the value, otherwise throws
+     * {@code NoSuchElementException}.
+     *
+     * @return the value described by this {@code OptionalLong}
+     * @throws NoSuchElementException if no value is present
+     * @since 10
+     */
+    public long orElseThrow() {
+        if (!isPresent) {
+            throw new NoSuchElementException("No value present");
+        }
+        return value;
     }
 
     /**
