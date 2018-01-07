@@ -5,7 +5,6 @@
  */
 package java9.util;
 
-import java.util.Comparator;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import java9.util.Spliterator;
@@ -16,7 +15,7 @@ import java9.util.function.Consumer;
  * Immutable snapshot spliterator that binds to elements "late".
  */
 final class PBQueueSpliterator<E> implements Spliterator<E> {
-// CVS rev. 1.128
+// CVS rev. 1.129
     private final PriorityBlockingQueue<E> queue;
     private Object[] array;        // null until late-bound-initialized
     private int index;
