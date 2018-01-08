@@ -25,7 +25,6 @@
 package java9.util;
 
 import java.util.AbstractList;
-import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Vector;
 
@@ -34,7 +33,7 @@ import java9.util.function.Consumer;
 
 /** Similar to ArrayListSpliterator */
 final class VectorSpliterator<E> implements Spliterator<E> {
-// CVS rev. 1.46
+// CVS rev. 1.47
     private final Vector<E> list;
     private Object[] array;
     private int index; // current index, modified on advance/split

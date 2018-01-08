@@ -5,7 +5,6 @@
  */
 package java9.util;
 
-import java.util.Comparator;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -27,7 +26,7 @@ import java9.util.function.Consumer;
  * @param <E> the type of elements held in the LinkedBlockingQueue
  */
 final class LBQSpliterator<E> implements Spliterator<E> {
-// CVS rev. 1.111
+// CVS rev. 1.112
     private static final int MAX_BATCH = 1 << 25; // max batch array size
     private final LinkedBlockingQueue<E> queue;
     private final ReentrantLock putLock;
