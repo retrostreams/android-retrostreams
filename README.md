@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/net.sourceforge.streamsupport/android-retrostreams.svg)](http://mvnrepository.com/artifact/net.sourceforge.streamsupport/android-retrostreams)
+
 # android-retrostreams
 
 ![](art/streamsupport-sf.png)
