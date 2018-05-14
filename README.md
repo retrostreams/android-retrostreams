@@ -26,7 +26,7 @@ E.g., no `j8.u.s.RefStreams` class anymore - all these methods are now in the `j
 The [online Javadoc](https://retrostreams.github.io/android-retrostreams/apidocs/index.html) gives a
 picture of the API changes.
 
-The current stable release is `android-retrostreams-1.6.2`.
+The current stable release is `android-retrostreams-1.6.3`.
 
 Please give feedback [here](https://github.com/retrostreams/android-retrostreams/issues) if you experience
 any problems.
@@ -36,7 +36,7 @@ any problems.
 
 ```gradle
 dependencies {
-    compile 'net.sourceforge.streamsupport:android-retrostreams:1.6.2'
+    compile 'net.sourceforge.streamsupport:android-retrostreams:1.6.3'
 }
 ```
 
