@@ -25,18 +25,16 @@
 package java9.util;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import java9.util.function.Consumer;
 
 final class HMSpliterators {
-// CVS rev. 1.5
+// CVS rev. 1.6
 
     private HMSpliterators() {
     }
