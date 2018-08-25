@@ -52,4 +52,4 @@ You might also have a use for one of `retrostreams'` sibling projects:
 
 ## LICENSE
 
-GNU General Public License, version 2, with the Classpath Exception
+GNU General Public License, version 2, [with the Classpath Exception](https://github.com/retrostreams/android-retrostreams/blob/master/GPL_ClasspathException)
