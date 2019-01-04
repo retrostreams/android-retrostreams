@@ -365,7 +365,7 @@ final class ImmutableCollections {
                     (T[]) Array
                             .newInstance(a.getClass().getComponentType(), size);
             for (int i = 0; i < size; i++) {
-                array[i] = (T)get(i);
+                array[i] = (T) get(i);
             }
             if (array.length > size) {
                 array[size] = null; // null-terminate
@@ -628,7 +628,7 @@ final class ImmutableCollections {
             T[] array = a.length >= size ? a :
                     (T[]) Array.newInstance(a.getClass().getComponentType(), size);
             if (size == 1) {
-                array[0] = (T)e0;
+                array[0] = (T) e0;
             } else if (SALT >= 0) {
                 array[0] = (T) e1;
                 array[1] = (T) e0;
@@ -796,7 +796,7 @@ final class ImmutableCollections {
                     (T[]) Array.newInstance(a.getClass().getComponentType(), size);
             Iterator<E> it = iterator();
             for (int i = 0; i < size; i++) {
-                array[i] = (T)it.next();
+                array[i] = (T) it.next();
             }
             if (array.length > size) {
                 array[size] = null; // null-terminate
