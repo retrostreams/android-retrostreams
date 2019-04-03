@@ -7,7 +7,7 @@
 ![](art/streamsupport-sf.png)
 
 android-retrostreams is a fork of the [streamsupport library](https://github.com/stefan-zobel/streamsupport)
-targeted at Android developers who want to take advantage of Android Studio 3.0 desugar toolchain's
+targeted at Android developers who want to take advantage of Android Studio 3.x D8 / desugar toolchain's
 capability to use interface default & static methods across Jar file boundaries.
 
 Utilizing this feature of desugar, the streamsupport API can be even more aligned with the original
