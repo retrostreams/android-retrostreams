@@ -28,7 +28,9 @@ to simply import the `java.util.stream` package in your code - you'd rather have
 While that is fine as long as you have full control over your source code there is the other common scenario of using
 a binary 3rd party dependency that has been compiled against the standard Java 8 `java.util.stream` API. In the latter
 case bytecode rewriting via [ProGuard](https://github.com/Guardsquare/proguard) might be an option.  ProGuard supports
-most Java 8 language features and the latest release can also replace the standard Java 8 stream API by the [streamsupport](https://github.com/stefan-zobel/streamsupport) backport (cf. the Proguard [documentation](https://www.guardsquare.com/en/products/proguard/manual/gradleplugin), especially the section titled "Java 8 stream API support"), i.e., in this case, switching to the older [streamsupport](https://github.com/stefan-zobel/streamsupport) backport instead
+most Java 8 language features and the latest release can also replace the standard Java 8 stream API by the
+[streamsupport](https://github.com/stefan-zobel/streamsupport) backport (cf. the Proguard [documentation](https://www.guardsquare.com/en/products/proguard/manual/gradleplugin), especially the section titled "Java 8 stream API support"),
+i.e., in this case, switching to the older [streamsupport](https://github.com/stefan-zobel/streamsupport) backport instead
 of using android-retrostreams might be the more promising approach.
 
 The [online Javadoc](https://retrostreams.github.io/android-retrostreams/apidocs/index.html) gives a
