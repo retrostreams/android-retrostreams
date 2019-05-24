@@ -23,10 +23,18 @@ Supplemental helper classes, public static methods and so on that served as a re
 default / static interfaces methods in the original streamsupport API are now mostly gone.
 E.g., no `j8.u.s.RefStreams` class anymore - all these methods are now in the `j9.u.s.Stream` interface.
 
+The retrostreams API lives in the packages `java9.util.*` and `java9.lang` respectively. So, it's not possible
+to simply import the `java.util.stream` package in your code - you'd rather have to use `java9.util.stream` instead.
+While that is fine as long as you have full control over your source code there is the other common scenario of using
+a binary 3rd party dependency that has been compiled against the standard Java 8 `java.util.stream` API. In the latter
+case bytecode rewriting via [ProGuard](https://github.com/Guardsquare/proguard) might be an option.  ProGuard supports
+most Java 8 language features and the latest release can also replace the standard Java 8 stream API by the [streamsupport](https://github.com/stefan-zobel/streamsupport) backport (cf. the Proguard [documentation](https://www.guardsquare.com/en/products/proguard/manual/gradleplugin), especially the section titled "Java 8 stream API support"), i.e., in this case, switching to the older [streamsupport](https://github.com/stefan-zobel/streamsupport) backport instead
+of using android-retrostreams might be the more promising approach.
+
 The [online Javadoc](https://retrostreams.github.io/android-retrostreams/apidocs/index.html) gives a
 picture of the API changes.
 
-The current stable release is `android-retrostreams-1.7.0`.
+The current stable release of retrostreams is `android-retrostreams-1.7.0`.
 
 Please give feedback [here](https://github.com/retrostreams/android-retrostreams/issues) if you experience
 any problems.
