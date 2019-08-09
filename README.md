@@ -50,6 +50,19 @@ dependencies {
 }
 ```
 
+### Example usage
+
+```java
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+
+List<Integer> of = Stream.of(1, 2, 3, 4).collect(Collectors.toList());
+
+List<Integer> incremented = StreamSupport.stream(ftpServers)
+        .map(i -> i + 1)
+        .collect(Collectors.toList());
+```
 
 ### Sibling projects
 
