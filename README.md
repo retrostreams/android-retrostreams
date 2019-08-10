@@ -53,15 +53,16 @@ dependencies {
 ### Example usage
 
 ```java
+import java.util.List;
 import java9.util.stream.Stream;
 import java9.util.stream.StreamSupport;
-import java9.util.stream.Collectors;
+import static java9.util.stream.Collectors.toList;
 
-List<Integer> of = Stream.of(1, 2, 3, 4).collect(Collectors.toList());
+List<Integer> list = Stream.of(1, 2, 3, 4).collect(toList());
 
-List<Integer> incremented = StreamSupport.stream(ftpServers)
+List<Integer> incremented = StreamSupport.stream(list)
         .map(i -> i + 1)
-        .collect(Collectors.toList());
+        .collect(toList());
 ```
 
 ### Sibling projects
