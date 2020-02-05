@@ -38,7 +38,8 @@ import java9.util.function.LongBinaryOperator;
  * @since 1.8
  */
 class ArrayPrefixHelpers {
-    private ArrayPrefixHelpers() {}; // non-instantiable
+// CVS rev. 1.1
+    private ArrayPrefixHelpers() {} // non-instantiable
 
     /*
      * Parallel prefix (aka cumulate, scan) task classes
