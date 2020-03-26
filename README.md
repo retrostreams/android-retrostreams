@@ -36,7 +36,7 @@ of using android-retrostreams might be the more promising approach.
 The [online Javadoc](https://retrostreams.github.io/android-retrostreams/apidocs/index.html) gives a
 picture of the API changes.
 
-The current stable release of retrostreams is `android-retrostreams-1.7.1`.
+The current stable release of retrostreams is `android-retrostreams-1.7.2`.
 
 Please give feedback [here](https://github.com/retrostreams/android-retrostreams/issues) if you experience
 any problems.
@@ -46,7 +46,7 @@ any problems.
 
 ```gradle
 dependencies {
-    compile 'net.sourceforge.streamsupport:android-retrostreams:1.7.1'
+    compile 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
 }
 ```
 
