@@ -25,11 +25,9 @@
 package java9.util;
 
 import java.util.ArrayDeque;
-import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 
 import java9.util.Spliterator;
-import java9.util.Spliterators;
 import java9.util.function.Consumer;
 
 

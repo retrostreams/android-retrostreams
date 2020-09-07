@@ -25,7 +25,6 @@
 package java9.util;
 
 import java.util.AbstractList;
-import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
