@@ -580,7 +580,7 @@ final class Nodes {
         public void forEach(T_CONS consumer) { }
 
         private static class OfRef<T> extends EmptyNode<T, T[], Consumer<? super T>> {
-            private OfRef() {
+            OfRef() {
                 super();
             }
 
@@ -1302,9 +1302,9 @@ final class Nodes {
 
     //
 
-    private static final int[] EMPTY_INT_ARRAY = new int[0];
-    private static final long[] EMPTY_LONG_ARRAY = new long[0];
-    private static final double[] EMPTY_DOUBLE_ARRAY = new double[0];
+    static final int[] EMPTY_INT_ARRAY = new int[0];
+    static final long[] EMPTY_LONG_ARRAY = new long[0];
+    static final double[] EMPTY_DOUBLE_ARRAY = new double[0];
 
     private static class IntArrayNode implements Node.OfInt {
         final int[] array;
@@ -2027,7 +2027,7 @@ final class Nodes {
                 extends ToArrayTask<T, Node<T>, OfRef<T>> {
             private final T[] array;
 
-            private OfRef(Node<T> node, T[] array, int offset) {
+            OfRef(Node<T> node, T[] array, int offset) {
                 super(node, offset);
                 this.array = array;
             }
@@ -2054,7 +2054,7 @@ final class Nodes {
                 extends ToArrayTask<T, T_NODE, OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE>> {
             private final T_ARR array;
 
-            private OfPrimitive(T_NODE node, T_ARR array, int offset) {
+            OfPrimitive(T_NODE node, T_ARR array, int offset) {
                 super(node, offset);
                 this.array = array;
             }
@@ -2077,21 +2077,21 @@ final class Nodes {
 
         private static final class OfInt
                 extends OfPrimitive<Integer, IntConsumer, int[], Spliterator.OfInt, Node.OfInt> {
-            private OfInt(Node.OfInt node, int[] array, int offset) {
+            OfInt(Node.OfInt node, int[] array, int offset) {
                 super(node, array, offset);
             }
         }
 
         private static final class OfLong
                 extends OfPrimitive<Long, LongConsumer, long[], Spliterator.OfLong, Node.OfLong> {
-            private OfLong(Node.OfLong node, long[] array, int offset) {
+            OfLong(Node.OfLong node, long[] array, int offset) {
                 super(node, array, offset);
             }
         }
 
         private static final class OfDouble
                 extends OfPrimitive<Double, DoubleConsumer, double[], Spliterator.OfDouble, Node.OfDouble> {
-            private OfDouble(Node.OfDouble node, double[] array, int offset) {
+            OfDouble(Node.OfDouble node, double[] array, int offset) {
                 super(node, array, offset);
             }
         }

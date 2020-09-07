@@ -26,7 +26,6 @@ package java9.util.stream;
 
 import java9.util.Objects;
 import java9.util.Spliterator;
-import java9.util.function.Consumer;
 import java9.util.function.IntFunction;
 import java9.util.function.Supplier;
 
