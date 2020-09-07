@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -445,6 +445,100 @@ abstract class ReferencePipeline<P_IN, P_OUT>
                     public boolean cancellationRequested() {
                         cancellationRequested = true;
                         return downstream.cancellationRequested();
+                    }
+                };
+            }
+        };
+    }
+
+    @Override
+    public final <R> Stream<R> mapMulti(BiConsumer<? super P_OUT, ? super Consumer<R>> mapper) {
+        Objects.requireNonNull(mapper);
+        return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
+                StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+            @Override
+            Sink<P_OUT> opWrapSink(int flags, Sink<R> sink) {
+                return new Sink.ChainedReference<P_OUT, R>(sink) {
+
+                    @Override
+                    public void begin(long size) {
+                        downstream.begin(-1);
+                    }
+
+                    @Override
+                    @SuppressWarnings("unchecked")
+                    public void accept(P_OUT u) {
+                        mapper.accept(u, (Consumer<R>) downstream);
+                    }
+                };
+            }
+        };
+    }
+
+    @Override
+    public final IntStream mapMultiToInt(BiConsumer<? super P_OUT, ? super IntConsumer> mapper) {
+        Objects.requireNonNull(mapper);
+        return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
+                StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+            @Override
+            Sink<P_OUT> opWrapSink(int flags, Sink<Integer> sink) {
+                return new Sink.ChainedReference<P_OUT, Integer>(sink) {
+
+                    @Override
+                    public void begin(long size) {
+                        downstream.begin(-1);
+                    }
+
+                    @Override
+                    public void accept(P_OUT u) {
+                        mapper.accept(u, (IntConsumer)downstream);
+                    }
+                };
+            }
+        };
+    }
+
+    @Override
+    public final LongStream mapMultiToLong(BiConsumer<? super P_OUT, ? super LongConsumer> mapper) {
+        Objects.requireNonNull(mapper);
+        return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
+                StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+            @Override
+            Sink<P_OUT> opWrapSink(int flags, Sink<Long> sink) {
+                return new Sink.ChainedReference<P_OUT, Long>(sink) {
+
+                    @Override
+                    public void begin(long size) {
+                        downstream.begin(-1);
+                    }
+
+                    @Override
+                    public void accept(P_OUT u) {
+                        mapper.accept(u, (LongConsumer) downstream);
+                    }
+                };
+            }
+        };
+    }
+
+
+    @Override
+    public final DoubleStream mapMultiToDouble(BiConsumer<? super P_OUT, ? super DoubleConsumer> mapper) {
+        Objects.requireNonNull(mapper);
+        return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
+                StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+            @Override
+            Sink<P_OUT> opWrapSink(int flags, Sink<Double> sink) {
+                return new Sink.ChainedReference<P_OUT, Double>(sink) {
+
+                    @Override
+                    public void begin(long size) {
+                        downstream.begin(-1);
+                    }
+
+                    @Override
+                    public void accept(P_OUT u) {
+                        mapper.accept(u, (DoubleConsumer) downstream);
                     }
                 };
             }
