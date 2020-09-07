@@ -112,6 +112,7 @@ import java.util.concurrent.atomic.AtomicLong;
         long threadSeed;
         int threadProbe;
         int threadSecondarySeed;
+        SeedsHolder() {}
     }
 
     // package-private for access from ThreadLocalRandom
