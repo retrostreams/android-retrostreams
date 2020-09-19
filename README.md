@@ -46,7 +46,7 @@ any problems.
 
 ```gradle
 dependencies {
-    compile 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
+    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
 }
 ```
 
