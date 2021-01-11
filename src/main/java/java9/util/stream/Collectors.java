@@ -192,7 +192,7 @@ public final class Collectors {
     @SuppressWarnings("unchecked")
     static <T> List<T> listFromTrustedArray(Object[] array) {
         try {
-            return (List<T>) LIST_FROM_TRUSTED_ARRAY.invoke(null, array);
+            return (List<T>) LIST_FROM_TRUSTED_ARRAY.invoke(null, (Object) array);
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -201,7 +201,7 @@ public final class Collectors {
     @SuppressWarnings("unchecked")
     static <T> List<T> listFromTrustedArrayNullsAllowed(Object[] array) {
         try {
-            return (List<T>) LIST_FROM_TRUSTED_ARRAY_NULLS_ALLOWED.invoke(null, array);
+            return (List<T>) LIST_FROM_TRUSTED_ARRAY_NULLS_ALLOWED.invoke(null, (Object) array);
         } catch (Exception e) {
             throw new Error(e);
         }
