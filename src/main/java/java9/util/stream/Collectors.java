@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,6 +24,7 @@
  */
 package java9.util.stream;
 
+import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.ArrayList;
@@ -171,6 +172,39 @@ public final class Collectors {
     @SuppressWarnings("unchecked")
     private static final <T> BiConsumer<Set<T>, T> setAdd() {
         return (BiConsumer<Set<T>, T>) (BiConsumer<?, ?>) SET_ADD;
+    }
+
+    private static final Method LIST_FROM_TRUSTED_ARRAY;
+    private static final Method LIST_FROM_TRUSTED_ARRAY_NULLS_ALLOWED;
+    static {
+        try {
+            Class<?> clazz = Class.forName("java9.util.ImmutableCollections");
+            LIST_FROM_TRUSTED_ARRAY = clazz.getDeclaredMethod("listFromTrustedArray", Object[].class);
+            LIST_FROM_TRUSTED_ARRAY_NULLS_ALLOWED = clazz.getDeclaredMethod("listFromTrustedArrayNullsAllowed",
+                    Object[].class);
+            LIST_FROM_TRUSTED_ARRAY.setAccessible(true);
+            LIST_FROM_TRUSTED_ARRAY_NULLS_ALLOWED.setAccessible(true);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> List<T> listFromTrustedArray(Object[] array) {
+        try {
+            return (List<T>) LIST_FROM_TRUSTED_ARRAY.invoke(null, array);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> List<T> listFromTrustedArrayNullsAllowed(Object[] array) {
+        try {
+            return (List<T>) LIST_FROM_TRUSTED_ARRAY_NULLS_ALLOWED.invoke(null, array);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 
     /**
@@ -353,12 +387,17 @@ public final class Collectors {
      * <a href="../Lists.html#unmodifiable">unmodifiable List</a>, in encounter order
      * @since 10
      */
-    @SuppressWarnings("unchecked")
     public static <T>
     Collector<T, ?, List<T>> toUnmodifiableList() {
         return new CollectorImpl<>(arrayListNew(), listAdd(),
                                    (left, right) -> { left.addAll(right); return left; },
-                                   list -> (List<T>) Lists.of(list.toArray()),
+                                   list -> {
+                                       if (list.getClass() == ArrayList.class) { // ensure it's trusted
+                                           return listFromTrustedArray(list.toArray());
+                                       } else {
+                                           throw new IllegalArgumentException();
+                                       }
+                                   },
                                    CH_NOID);
     }
 
