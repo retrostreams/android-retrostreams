@@ -26,6 +26,7 @@ package java9.util.stream;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 import java9.util.Objects;
 import java9.util.Optional;
@@ -638,6 +639,11 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     @Override
     public final Object[] toArray() {
         return toArray(Object[]::new);
+    }
+
+    @Override
+    public List<P_OUT> toList() {
+        return Collectors.listFromTrustedArrayNullsAllowed(this.toArray());
     }
 
     @Override
