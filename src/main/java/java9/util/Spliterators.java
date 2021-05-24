@@ -1045,6 +1045,16 @@ public final class Spliterators {
             }
 
             @Override
+            public void forEachRemaining(IntConsumer action) {
+                Objects.requireNonNull(action);
+                if (valueReady) {
+                    valueReady = false;
+                    action.accept(nextElement);
+                }
+                spliterator.forEachRemaining(action);
+            }
+
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
@@ -1095,6 +1105,16 @@ public final class Spliterators {
             }
 
             @Override
+            public void forEachRemaining(LongConsumer action) {
+                Objects.requireNonNull(action);
+                if (valueReady) {
+                    valueReady = false;
+                    action.accept(nextElement);
+                }
+                spliterator.forEachRemaining(action);
+            }
+
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
@@ -1142,6 +1162,16 @@ public final class Spliterators {
                     valueReady = false;
                     return nextElement;
                 }
+            }
+
+            @Override
+            public void forEachRemaining(DoubleConsumer action) {
+                Objects.requireNonNull(action);
+                if (valueReady) {
+                    valueReady = false;
+                    action.accept(nextElement);
+                }
+                spliterator.forEachRemaining(action);
             }
 
             @Override
