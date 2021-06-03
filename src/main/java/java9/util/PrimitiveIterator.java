@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -66,16 +66,15 @@ import java9.util.function.LongConsumer;
 public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
 
     /**
-     * Performs the given action for each remaining element, in the order
-     * elements occur when iterating, until all elements have been processed
-     * or the action throws an exception.  Errors or runtime exceptions
-     * thrown by the action are relayed to the caller.
-     *
+     * Performs the given action for each remaining element until all elements
+     * have been processed or the action throws an exception.  Actions are
+     * performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
      * <p>
-     * The behavior of an iterator is unspecified if the action modifies the underlying
-     * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-     * method or other mutator methods of {@code Iterator} subtypes), unless an overriding
-     * class has specified a concurrent modification policy.
+     * The behavior of an iterator is unspecified if the action modifies the
+     * source of elements in any way (even by calling the {@link #remove remove}
+     * method or other mutator methods of {@code Iterator} subtypes),
+     * unless an overriding class has specified a concurrent modification policy.
      * <p>
      * Subsequent behavior of an iterator is unspecified if the action throws an
      * exception.
@@ -100,29 +99,13 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         int nextInt();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
-         *
-         * <p>
-         * The behavior of an iterator is unspecified if the action modifies the underlying
-         * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-         * method or other mutator methods of {@code Iterator} subtypes), unless an overriding
-         * class has specified a concurrent modification policy.
-         * <p>
-         * Subsequent behavior of an iterator is unspecified if the action throws an
-         * exception.
-         *
+         * {@inheritDoc}
          * <p><b>Implementation Requirements:</b><br>
          * <p>The default implementation behaves as if:
          * <pre>{@code
          *     while (hasNext())
          *         action.accept(nextInt());
          * }</pre>
-         *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
          */
         default void forEachRemaining(IntConsumer action) {
             Objects.requireNonNull(action);
@@ -131,10 +114,14 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         }
 
         /**
-         * {@inheritDoc}
+         * Returns the next element in the iteration.
+         * 
          * <p><b>Implementation Requirements:</b><br>
          * The default implementation boxes the result of calling
          * {@link #nextInt()}, and returns that boxed result.
+         * 
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
          */
         @Override
         default Integer next() {
@@ -146,14 +133,22 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * have been processed or the action throws an exception.  Actions are
          * performed in the order of iteration, if that order is specified.
          * Exceptions thrown by the action are relayed to the caller.
-         *
+         * <p>
+         * The behavior of an iterator is unspecified if the action modifies the
+         * source of elements in any way (even by calling the {@link #remove remove}
+         * method or other mutator methods of {@code Iterator} subtypes),
+         * unless an overriding class has specified a concurrent modification policy.
+         * <p>
+         * Subsequent behavior of an iterator is unspecified if the action throws an
+         * exception.
+         * 
          * <p><b>Implementation Requirements:</b><br>
          * If the action is an instance of {@code IntConsumer} then it is cast
          * to {@code IntConsumer} and passed to {@link #forEachRemaining};
          * otherwise the action is adapted to an instance of
          * {@code IntConsumer}, by boxing the argument of {@code IntConsumer},
          * and then passed to {@link #forEachRemaining}.
-         *
+         * 
          * @param action The action to be performed for each element
          * @throws NullPointerException if the specified action is null
          */
@@ -184,29 +179,13 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         long nextLong();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
-         *
-         * <p>
-         * The behavior of an iterator is unspecified if the action modifies the underlying
-         * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-         * method or other mutator methods of {@code Iterator} subtypes), unless an overriding
-         * class has specified a concurrent modification policy.
-         * <p>
-         * Subsequent behavior of an iterator is unspecified if the action throws an
-         * exception.
-         *
+         * {@inheritDoc}
          * <p><b>Implementation Requirements:</b><br>
          * <p>The default implementation behaves as if:
          * <pre>{@code
          *     while (hasNext())
          *         action.accept(nextLong());
          * }</pre>
-         *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
          */
         default void forEachRemaining(LongConsumer action) {
             Objects.requireNonNull(action);
@@ -215,10 +194,14 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         }
 
         /**
-         * {@inheritDoc}
+         * Returns the next element in the iteration.
+         * 
          * <p><b>Implementation Requirements:</b><br>
          * The default implementation boxes the result of calling
          * {@link #nextLong()}, and returns that boxed result.
+         * 
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
          */
         @Override
         default Long next() {
@@ -230,6 +213,14 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * have been processed or the action throws an exception.  Actions are
          * performed in the order of iteration, if that order is specified.
          * Exceptions thrown by the action are relayed to the caller.
+         * <p>
+         * The behavior of an iterator is unspecified if the action modifies the
+         * source of elements in any way (even by calling the {@link #remove remove}
+         * method or other mutator methods of {@code Iterator} subtypes),
+         * unless an overriding class has specified a concurrent modification policy.
+         * <p>
+         * Subsequent behavior of an iterator is unspecified if the action throws an
+         * exception.
          * 
          * <p><b>Implementation Requirements:</b><br>
          * If the action is an instance of {@code LongConsumer} then it is cast
@@ -237,7 +228,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * otherwise the action is adapted to an instance of
          * {@code LongConsumer}, by boxing the argument of {@code LongConsumer},
          * and then passed to {@link #forEachRemaining}.
-         *
+         * 
          * @param action The action to be performed for each element
          * @throws NullPointerException if the specified action is null
          */
@@ -268,29 +259,13 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         double nextDouble();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
-         *
-         * <p>
-         * The behavior of an iterator is unspecified if the action modifies the underlying
-         * source of elements in any way (even by calling the {@link Iterator#remove() remove}
-         * method or other mutator methods of {@code Iterator} subtypes), unless an overriding
-         * class has specified a concurrent modification policy.
-         * <p>
-         * Subsequent behavior of an iterator is unspecified if the action throws an
-         * exception.
-         *
+         * {@inheritDoc}
          * <p><b>Implementation Requirements:</b><br>
          * <p>The default implementation behaves as if:
          * <pre>{@code
          *     while (hasNext())
          *         action.accept(nextDouble());
          * }</pre>
-         *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
          */
         default void forEachRemaining(DoubleConsumer action) {
             Objects.requireNonNull(action);
@@ -299,10 +274,14 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
         }
 
         /**
-         * {@inheritDoc}
+         * Returns the next element in the iteration.
+         * 
          * <p><b>Implementation Requirements:</b><br>
          * The default implementation boxes the result of calling
          * {@link #nextDouble()}, and returns that boxed result.
+         * 
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
          */
         @Override
         default Double next() {
@@ -314,7 +293,15 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * have been processed or the action throws an exception.  Actions are
          * performed in the order of iteration, if that order is specified.
          * Exceptions thrown by the action are relayed to the caller.
-         *
+         * <p>
+         * The behavior of an iterator is unspecified if the action modifies the
+         * source of elements in any way (even by calling the {@link #remove remove}
+         * method or other mutator methods of {@code Iterator} subtypes),
+         * unless an overriding class has specified a concurrent modification policy.
+         * <p>
+         * Subsequent behavior of an iterator is unspecified if the action throws an
+         * exception.
+         * 
          * <p><b>Implementation Requirements:</b><br>
          * If the action is an instance of {@code DoubleConsumer} then it is
          * cast to {@code DoubleConsumer} and passed to
@@ -322,7 +309,7 @@ public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
          * an instance of {@code DoubleConsumer}, by boxing the argument of
          * {@code DoubleConsumer}, and then passed to
          * {@link #forEachRemaining}.
-         *
+         * 
          * @param action The action to be performed for each element
          * @throws NullPointerException if the specified action is null
          */
