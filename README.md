@@ -49,6 +49,17 @@ dependencies {
 }
 ```
 
+
+### All-in-One JAR:
+Contains android-retrostreams core + retroatomic + retroflow + retrofuture
+
+```gradle
+dependencies {
+    implementation 'net.sourceforge.streamsupport:android-retrostreams_all:1.7.3.2'
+}
+```
+
+
 ### Example usage
 
 ```java
