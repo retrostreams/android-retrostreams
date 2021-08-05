@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.streamsupport</groupId>
     <artifactId>android-retrostreams</artifactId>
-    <version>1.7.4-SNAPSHOT</version>
+    <version>1.7.4</version>
     <name>net.sourceforge.streamsupport:android-retrostreams</name>
-    <description>Backport of Java 9 java.util.stream API for Android Studio 3.0 desugar toolchain,
+    <description>Backport of Java 9 java.util.stream API for Android Studio 3+ desugar toolchain,
  forked from http://sourceforge.net/projects/streamsupport</description>
     <url>http://github.com/retrostreams/android-retrostreams/</url>
     <licenses>
