@@ -730,6 +730,22 @@ public class ThreadLocalRandom extends Random {
     }
 
     /**
+     * Returns a nonnegative {@code double} value pseudorandomly chosen from
+     * an exponential distribution whose mean is 1.
+     *
+     * @return a nonnegative {@code double} value pseudorandomly chosen from an
+     *         exponential distribution
+     * @since 17
+     */
+    public double nextExponential() {
+        double u;
+        do {
+            u = nextDouble();
+        } while (u == 0.0 || u == 1.0);
+        return -Math.log(u);
+    }
+
+    /**
      * Return true if the implementation of RandomGenerator (algorithm) has been
      * marked for deprecation.
      *
@@ -742,7 +758,6 @@ public class ThreadLocalRandom extends Random {
      *
      * @return true if the implementation of RandomGenerator (algorithm) has been
      *         marked for deprecation
-     *
      * @since 17
      */
     public boolean isDeprecated() {
